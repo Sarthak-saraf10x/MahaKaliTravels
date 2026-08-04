@@ -546,50 +546,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Contact Form Submission Validation
-  const contactForm = document.getElementById('contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('contact-name')?.value;
-      const email = document.getElementById('contact-email')?.value;
-      const msg = document.getElementById('contact-msg')?.value;
-
-      if (!name || !email || !msg) {
-        showToast("Please fill in your name, email and message.", "error");
-        return;
-      }
-
-      showToast(`Thank you ${name}! Your message has been sent to Mahakali Tours team.`, "success");
-      contactForm.reset();
-    });
-  }
-
-  // Newsletter Subscription Form (Store in LocalStorage simulation)
-  const newsletterForm = document.getElementById('newsletter-form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const emailInput = document.getElementById('newsletter-email');
-      const email = emailInput?.value;
-
-      if (!email || !email.includes('@')) {
-        showToast("Please enter a valid email address.", "error");
-        return;
-      }
-
-      // Save to localStorage simulation for MongoDB persistence UI feedback
-      const subscribers = JSON.parse(localStorage.getItem('mahakali_subscribers') || '[]');
-      subscribers.push({ email: email, subscribedAt: new Date().toISOString() });
-      localStorage.setItem('mahakali_subscribers', JSON.stringify(subscribers));
-
-      showToast("✨ Subscribed successfully! Exclusive tour offers sent to " + email, "success");
-      newsletterForm.reset();
-    });
-  }
-
   // ------------------------------------------------------------------
-  // 11. Custom Toast System
+  // Custom Toast System
   // ------------------------------------------------------------------
   function showToast(message, type = "success") {
     let container = document.querySelector('.toast-container-custom');
@@ -616,11 +574,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => toast.remove(), 400);
     }, 4500);
   }
+  window.showToast = showToast;
 
-  // ------------------------------------------------------------------
-  // 11b. Corporate Travel Solutions Section Logic
-  // ------------------------------------------------------------------
-  
   // Corporate Modal Handler
   const corporateModalElem = document.getElementById('corporateModal');
   let corporateModalInstance;
@@ -634,34 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
       corporateModalInstance.show();
     }
   };
-
-  // Corporate Booking Form Handler
-  const corpBookingForm = document.getElementById('corp-booking-form');
-  if (corpBookingForm) {
-    corpBookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const company = document.getElementById('corpCompanyName')?.value;
-      const contact = document.getElementById('corpContactName')?.value;
-      const email = document.getElementById('corpEmail')?.value;
-      const phone = document.getElementById('corpPhone')?.value;
-      const service = document.getElementById('corpServiceType')?.value;
-      const message = document.getElementById('corpMsg')?.value;
-
-      if (!company || !contact || !email || !phone || !message) {
-        showToast("Please fill in all required fields.", "error");
-        return;
-      }
-
-      // Hide Modal
-      if (corporateModalInstance) {
-        corporateModalInstance.hide();
-      }
-
-      // Success Notification
-      showToast(`💼 Thank you ${contact}! Your RFP for ${company} has been received. Our B2B Account Manager will reach out to you within 2 hours.`, "success");
-      corpBookingForm.reset();
-    });
-  }
 
   // Corporate Statistics Counter Animation
   const corpCounters = document.querySelectorAll('.corp-stat-number');

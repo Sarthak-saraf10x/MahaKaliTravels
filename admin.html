@@ -1047,35 +1047,20 @@
             <div class="mb-3">
               <label class="form-label small">Bus Image File / URL</label>
               <input type="file" id="tourImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
-              <small class="text-warning d-block mt-1">
-                <i class="fa-solid fa-circle-info me-1"></i> Recommended Frame Size: <strong>800 × 500 px</strong> (Aspect Ratio 16:10 / 16:9, Max: <strong>2 MB</strong>)
-              </small>
-              <input type="text" id="tourImageUrl" class="form-control bg-dark text-white border-secondary mt-1" placeholder="Or enter Image URL">
-
-              <!-- Warning container when image is out of size -->
-              <div id="tourImageWarning" class="alert alert-danger mt-2 mb-0 d-none">
-                <div class="d-flex align-items-start gap-2">
-                  <i class="fa-solid fa-triangle-exclamation text-danger fs-5 mt-1"></i>
-                  <div class="w-100">
-                    <strong class="d-block text-danger mb-1">Image is bigger than the frame size!</strong>
-                    <span class="small d-block text-light mb-2" id="tourImageWarningText">The uploaded image exceeds the 800x500 px recommended dimensions or 2MB limit.</span>
-                    
-                    <div class="bg-dark p-2 rounded border border-secondary mb-2">
-                      <span class="small text-muted d-block fw-bold mb-1">Prompt for ChatGPT:</span>
-                      <code class="small text-warning d-block" id="chatGptPromptText">Please resize and crop this bus image to exactly 800x500 pixels (16:10 aspect ratio), keeping the bus centered and optimizing the file size under 2MB.</code>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                      <button type="button" class="btn btn-outline-warning btn-sm py-1 px-2" onclick="copyChatGptPrompt(true)">
-                        <i class="fa-solid fa-copy me-1"></i> Copy Prompt
-                      </button>
-                      <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm py-1 px-2" onclick="openChatGPTWithPrompt(event)">
-                        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open ChatGPT
-                      </a>
-                    </div>
-                  </div>
-                </div>
+              
+              <div class="p-3 rounded bg-dark border border-secondary mt-2">
+                <p class="small text-light mb-1">
+                  <i class="fa-solid fa-circle-info text-warning me-1"></i> For better quality, add images with size: <strong>800 × 500 px</strong> (Aspect Ratio 16:10 / 16:9, max 2MB).
+                </p>
+                <p class="small text-muted mb-2">
+                  If you don't have one, you can generate or resize it using ChatGPT.
+                </p>
+                <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning btn-sm fw-bold d-inline-flex align-items-center gap-1" onclick="openChatGPTWithPrompt(event)">
+                  <i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Generate / Resize with ChatGPT
+                </a>
               </div>
+
+              <input type="text" id="tourImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
             </div>
           </div>
           <div class="modal-footer border-secondary">
@@ -1570,8 +1555,6 @@
     function openTourModal(id = null) {
       document.getElementById('tourId').value = id || '';
       document.getElementById('tourModalTitle').innerText = id ? 'Edit Route Bus Service' : 'Add Route Bus Service';
-      const warningDiv = document.getElementById('tourImageWarning');
-      if (warningDiv) warningDiv.classList.add('d-none');
 
       if (!id) {
         document.getElementById('tourForm').reset();
@@ -1586,61 +1569,11 @@
       tourModal.show();
     }
 
-    // Bus Image size check & ChatGPT prompt handler
-    document.addEventListener('DOMContentLoaded', () => {
-      const imgInput = document.getElementById('tourImageFile');
-      if (imgInput) {
-        imgInput.addEventListener('change', function(e) {
-          const file = e.target.files[0];
-          const warningDiv = document.getElementById('tourImageWarning');
-          const warningText = document.getElementById('tourImageWarningText');
-
-          if (!file) {
-            warningDiv.classList.add('d-none');
-            return;
-          }
-
-          const maxBytes = 2 * 1024 * 1024; // 2MB
-          let isBig = false;
-          let reason = '';
-
-          if (file.size > maxBytes) {
-            isBig = true;
-            reason = `File size is ${(file.size / (1024 * 1024)).toFixed(2)} MB (Max allowed is 2 MB).`;
-          }
-
-          const img = new Image();
-          img.onload = function() {
-            if (img.width > 1200 || img.height > 800) {
-              isBig = true;
-              reason += (reason ? ' Also, image' : 'Image') + ` resolution is ${img.width}×${img.height} px (Recommended frame size is 800×500 px).`;
-            }
-
-            if (isBig) {
-              warningText.innerText = reason + ' It is bigger than the recommended frame size.';
-              warningDiv.classList.remove('d-none');
-            } else {
-              warningDiv.classList.add('d-none');
-            }
-          };
-          img.src = URL.createObjectURL(file);
-        });
-      }
-    });
-
-    function copyChatGptPrompt(showAlert = true) {
-      const promptText = document.getElementById('chatGptPromptText').innerText;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(promptText).then(() => {
-          if (showAlert) alert('ChatGPT prompt copied to clipboard! Open ChatGPT and paste it with your image to quickly resize it.');
-        }).catch(err => {
-          if (showAlert) alert('Prompt: ' + promptText);
-        });
-      }
-    }
-
     function openChatGPTWithPrompt(e) {
-      copyChatGptPrompt(false);
+      const promptText = "Please generate or crop/resize a high quality luxury travel bus image to exactly 800x500 pixels (16:10 aspect ratio), keeping the bus centered and optimizing file size under 2MB.";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promptText);
+      }
     }
 
     async function editTour(id) {

@@ -151,44 +151,132 @@ function initDynamicGalleryLightbox() {
   });
 }
 
-// 3. Fetch & Render Upcoming Group Tours
-async function fetchUpcomingTours() {
+// 3. Fetch & Render Daily Bus Routes (Bookings Redirect to WhatsApp)
+async function fetchBusRoutes() {
   try {
     const toursList = document.getElementById('group-tours-list');
     if (!toursList) return;
 
-    const res = await fetch(`${API_BASE}/tours`);
-    const data = await res.json();
+    let routes = [];
+    try {
+      const res = await fetch(`${API_BASE}/bus-routes`);
+      const data = await res.json();
+      if (data.success && data.data && data.data.length > 0) {
+        routes = data.data;
+      }
+    } catch (e) {
+      console.warn("Falling back to /tours endpoint");
+      const res = await fetch(`${API_BASE}/tours`);
+      const data = await res.json();
+      if (data.success && data.data && data.data.length > 0) {
+        routes = data.data;
+      }
+    }
 
-    if (data.success && data.data && data.data.length > 0) {
-      toursList.innerHTML = '';
-      data.data.forEach(t => {
-        const tourHTML = `
-          <div class="col-lg-6" data-aos="fade-up">
-            <div class="group-tour-card p-4 rounded-4 bg-dark-glass border border-secondary d-flex flex-column flex-md-row gap-3">
-              <img src="${t.image}" alt="${t.name}" class="rounded-3 object-fit-cover" style="width: 140px; height: 140px;">
-              <div class="flex-grow-1">
-                <div class="d-flex justify-content-between align-items-start">
-                  <span class="badge bg-warning text-dark mb-2">${t.status}</span>
-                  <span class="text-orange fw-bold fs-5">₹${t.price.toLocaleString()}</span>
-                </div>
-                <h5 class="fw-bold text-white mb-1">${t.name}</h5>
-                <p class="small text-muted mb-2"><i class="fa-solid fa-calendar-days text-gold me-1"></i> ${t.startDate} - ${t.endDate}</p>
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                  <span class="small text-light"><i class="fa-solid fa-chair text-warning me-1"></i> ${t.seatsAvailable} Seats Left</span>
-                  <button class="btn btn-sm btn-gold rounded-pill" onclick="openBookingModal('${t.name}', ${t.price})">Reserve Seat</button>
-                </div>
+    // Default Fallback Bus Routes if DB has 0 records
+    if (routes.length === 0) {
+      routes = [
+        {
+          source: 'Nagpur',
+          destination: 'Pune',
+          busType: 'AC Sleeper (2+1)',
+          departureTime: '09:00 PM',
+          arrivalTime: '07:30 AM',
+          price: 950,
+          seatsAvailable: 24,
+          frequency: 'Daily Service',
+          image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+          whatsappNumber: '919876543210'
+        },
+        {
+          source: 'Nagpur',
+          destination: 'Hyderabad',
+          busType: 'Volvo Multi-Axle AC',
+          departureTime: '08:30 PM',
+          arrivalTime: '06:00 AM',
+          price: 1100,
+          seatsAvailable: 18,
+          frequency: 'Daily Service',
+          image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
+          whatsappNumber: '919876543210'
+        },
+        {
+          source: 'Nagpur',
+          destination: 'Indore',
+          busType: 'Non-AC Sleeper Coach',
+          departureTime: '10:00 PM',
+          arrivalTime: '08:00 AM',
+          price: 750,
+          seatsAvailable: 32,
+          frequency: 'Daily Service',
+          image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+          whatsappNumber: '919876543210'
+        },
+        {
+          source: 'Nagpur',
+          destination: 'Pachmarhi',
+          busType: 'Tourist Express AC',
+          departureTime: '06:00 AM',
+          arrivalTime: '12:30 PM',
+          price: 650,
+          seatsAvailable: 15,
+          frequency: 'Mon, Wed, Fri',
+          image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+          whatsappNumber: '919876543210'
+        }
+      ];
+    }
+
+    toursList.innerHTML = '';
+    routes.forEach(b => {
+      const src = b.source || 'Nagpur';
+      const dest = b.destination || b.name || 'Destination';
+      const busType = b.busType || 'AC Sleeper';
+      const dep = b.departureTime || b.startDate || '09:00 PM';
+      const arr = b.arrivalTime || b.endDate || '06:00 AM';
+      const price = b.price ? Number(b.price) : 850;
+      const seats = b.seatsAvailable || 30;
+      const freq = b.frequency || 'Daily Service';
+      const phone = b.whatsappNumber || '919876543210';
+      const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+
+      const waMsg = encodeURIComponent(`Hi Mahakali Travels, I want to book a seat for the bus route from ${src} to ${dest} (${busType}, Departure: ${dep}, Price: ₹${price}). Please provide seat availability details.`);
+      const waUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
+
+      const cardHTML = `
+        <div class="col-lg-6" data-aos="fade-up">
+          <div class="bus-route-card p-4 rounded-4 bg-dark text-white border border-secondary shadow-lg d-flex flex-column flex-sm-row gap-3 align-items-center">
+            <img src="${img}" alt="${src} to ${dest}" class="rounded-3 object-fit-cover flex-shrink-0" style="width: 140px; height: 140px;">
+            <div class="flex-grow-1 w-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-warning text-dark fw-bold px-2 py-1">${freq}</span>
+                <span class="text-warning fw-bold fs-5">₹${price.toLocaleString()}</span>
+              </div>
+              <h5 class="fw-bold text-white mb-1">
+                ${src} <i class="fa-solid fa-arrow-right text-warning mx-2"></i> ${dest}
+              </h5>
+              <p class="small text-light mb-1"><i class="fa-solid fa-bus text-warning me-1"></i> ${busType}</p>
+              <p class="small text-muted mb-2"><i class="fa-solid fa-clock text-warning me-1"></i> Departs: ${dep} | Arrives: ${arr}</p>
+              <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top border-secondary">
+                <span class="small text-success fw-semibold"><i class="fa-solid fa-chair me-1"></i> ${seats} Seats Left</span>
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1">
+                  <i class="fa-brands fa-whatsapp fs-6"></i> Book Now
+                </a>
               </div>
             </div>
           </div>
-        `;
-        toursList.innerHTML += tourHTML;
-      });
-    }
+        </div>
+      `;
+      toursList.innerHTML += cardHTML;
+    });
+
   } catch (err) {
-    console.warn('Tours API warning:', err.message);
+    console.warn('Bus Routes API warning:', err.message);
   }
 }
+
+// Alias for backwards compatibility
+const fetchUpcomingTours = fetchBusRoutes;
 
 // 4. Form Submission Listeners
 function initFormListeners() {

@@ -709,9 +709,9 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
+            <div class="stat-icon"><i class="fa-solid fa-bus"></i></div>
             <div class="stat-info">
-              <h3>Group Tours</h3>
+              <h3>Route Buses</h3>
               <div id="statTours" class="stat-num">0</div>
             </div>
           </div>
@@ -796,20 +796,20 @@
         </div>
       </div>
 
-      <!-- ================= TAB 4: UPCOMING TOURS ================= -->
+      <!-- ================= TAB 4: ROUTE BUSES ================= -->
       <div id="tab-tours" class="tab-panel">
         <div class="data-card">
           <div class="card-header-custom">
-            <h2>Upcoming Group Departure Tours</h2>
-            <button class="btn btn-gold btn-sm" onclick="openTourModal()"><i class="fa-solid fa-plus me-1"></i> Add Group Tour</button>
+            <h2>Route Bus Services Management</h2>
+            <button class="btn btn-gold btn-sm" onclick="openTourModal()"><i class="fa-solid fa-plus me-1"></i> Add Route Bus</button>
           </div>
           <div class="table-responsive">
             <table class="table-dark-custom">
               <thead>
                 <tr>
-                  <th>Tour Name</th>
-                  <th>Destination</th>
-                  <th>Dates</th>
+                  <th>Bus Route</th>
+                  <th>Bus Type</th>
+                  <th>Dep / Arr Time</th>
                   <th>Price</th>
                   <th>Seats</th>
                   <th>Status</th>
@@ -989,54 +989,70 @@
     </div>
   </div>
 
-  <!-- Upcoming Tour Modal -->
+  <!-- Route Bus Modal -->
   <div class="modal fade" id="tourModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary">
-          <h5 class="modal-title fw-bold" id="tourModalTitle">Add Upcoming Group Tour</h5>
+          <h5 class="modal-title fw-bold" id="tourModalTitle">Add Route Bus Service</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <form id="tourForm" onsubmit="saveTour(event)">
           <div class="modal-body">
             <input type="hidden" id="tourId">
-            <div class="mb-3">
-              <label class="form-label small">Tour Name *</label>
-              <input type="text" id="tourName" class="form-control bg-dark text-white border-secondary" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small">Destination *</label>
-              <input type="text" id="tourDestination" class="form-control bg-dark text-white border-secondary" required>
-            </div>
             <div class="row g-2 mb-3">
               <div class="col-6">
-                <label class="form-label small">Start Date *</label>
-                <input type="date" id="tourStartDate" class="form-control bg-dark text-white border-secondary" required>
+                <label class="form-label small">Source (From) *</label>
+                <input type="text" id="tourSource" class="form-control bg-dark text-white border-secondary" value="Nagpur" required>
               </div>
               <div class="col-6">
-                <label class="form-label small">End Date *</label>
-                <input type="date" id="tourEndDate" class="form-control bg-dark text-white border-secondary" required>
+                <label class="form-label small">Destination (To) *</label>
+                <input type="text" id="tourDestination" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Pune" required>
               </div>
             </div>
             <div class="row g-2 mb-3">
               <div class="col-6">
-                <label class="form-label small">Price (₹) *</label>
-                <input type="number" id="tourPrice" class="form-control bg-dark text-white border-secondary" required>
+                <label class="form-label small">Bus Type *</label>
+                <input type="text" id="tourBusType" class="form-control bg-dark text-white border-secondary" placeholder="e.g. AC Sleeper (2+1)" value="AC Sleeper (2+1)" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Service Frequency</label>
+                <input type="text" id="tourFrequency" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Daily Service" value="Daily Service">
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small">Departure Time *</label>
+                <input type="text" id="tourDepTime" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 09:00 PM" value="09:00 PM" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Arrival Time *</label>
+                <input type="text" id="tourArrTime" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 06:00 AM" value="06:00 AM" required>
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small">Ticket Price (₹) *</label>
+                <input type="number" id="tourPrice" class="form-control bg-dark text-white border-secondary" placeholder="850" required>
               </div>
               <div class="col-6">
                 <label class="form-label small">Seats Available *</label>
-                <input type="number" id="tourSeats" class="form-control bg-dark text-white border-secondary" required>
+                <input type="number" id="tourSeats" class="form-control bg-dark text-white border-secondary" value="30" required>
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label small">Image File / URL</label>
+              <label class="form-label small">WhatsApp Booking Phone</label>
+              <input type="text" id="tourWhatsApp" class="form-control bg-dark text-white border-secondary" value="919876543210" placeholder="919876543210">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small">Bus Image File / URL</label>
               <input type="file" id="tourImageFile" class="form-control bg-dark text-white border-secondary">
               <input type="text" id="tourImageUrl" class="form-control bg-dark text-white border-secondary mt-1" placeholder="Or enter Image URL">
             </div>
           </div>
           <div class="modal-footer border-secondary">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-gold">Save Tour</button>
+            <button type="submit" class="btn btn-gold">Save Bus Route</button>
           </div>
         </form>
       </div>
@@ -1249,22 +1265,22 @@
         const [pkgRes, galRes, tourRes, msgRes, corpRes] = await Promise.all([
           fetch(`${API_BASE}/packages`),
           fetch(`${API_BASE}/gallery`),
-          fetch(`${API_BASE}/tours`),
+          fetch(`${API_BASE}/bus-routes`).catch(() => fetch(`${API_BASE}/tours`)),
           fetch(`${API_BASE}/contact`, { headers: authHeaders }),
           fetch(`${API_BASE}/corporate`, { headers: authHeaders })
         ]);
 
         const pkgs = pkgRes.ok ? (await pkgRes.json()).data || [] : [];
         const gal = galRes.ok ? (await galRes.json()).data || [] : [];
-        const tours = tourRes.ok ? (await tourRes.json()).data || [] : [];
+        const tours = tourRes && tourRes.ok ? (await tourRes.json()).data || [] : [];
         const msgs = msgRes.ok ? (await msgRes.json()).data || [] : [];
         const corps = corpRes.ok ? (await corpRes.json()).data || [] : [];
 
         document.getElementById('statPackages').innerText = pkgs.length;
         document.getElementById('statGallery').innerText = gal.length;
         document.getElementById('statTours').innerText = tours.length;
-        document.getElementById('statContacts').innerText = msgs.length;
-        document.getElementById('statCorporate').innerText = corps.length;
+        document.getElementById('statMessages').innerText = msgs.length;
+        if (document.getElementById('statCorporate')) document.getElementById('statCorporate').innerText = corps.length;
 
         // Render Recent Overview Messages
         const overviewBody = document.getElementById('overviewContactsBody');
@@ -1476,75 +1492,146 @@
       }
     }
 
-    // Group Tours Management
+    // Route Bus Services Management
     async function loadTours() {
       try {
-        const res = await fetch(`${API_BASE}/tours`);
-        const data = await res.json();
-        const tours = data.data || [];
+        let routes = [];
+        try {
+          const res = await fetch(`${API_BASE}/bus-routes`);
+          const data = await res.json();
+          routes = data.data || [];
+        } catch (e) {
+          const res = await fetch(`${API_BASE}/tours`);
+          const data = await res.json();
+          routes = data.data || [];
+        }
         const tbody = document.getElementById('tourTableBody');
 
-        tbody.innerHTML = tours.map(t => `
-          <tr>
-            <td class="fw-bold">${t.name}</td>
-            <td>${t.destination}</td>
-            <td>${new Date(t.startDate).toLocaleDateString()} - ${new Date(t.endDate).toLocaleDateString()}</td>
-            <td class="text-warning fw-bold">₹${t.price}</td>
-            <td>${t.seatsAvailable || 30} seats</td>
-            <td><span class="badge bg-${t.status === 'Open' ? 'success' : 'danger'}">${t.status || 'Open'}</span></td>
-            <td>
-              <div class="d-flex gap-1">
-                <button class="btn-icon delete" onclick="deleteTour('${t._id}')"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-        `).join('') || '<tr><td colspan="7" class="text-center text-muted">No group tours scheduled.</td></tr>';
+        tbody.innerHTML = routes.map(b => {
+          const src = b.source || 'Nagpur';
+          const dest = b.destination || b.name || 'Destination';
+          const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+          const busType = b.busType || 'AC Sleeper';
+          const dep = b.departureTime || '09:00 PM';
+          const arr = b.arrivalTime || '06:00 AM';
+          const price = b.price ? Number(b.price) : 850;
+          const seats = b.seatsAvailable || 30;
+
+          return `
+            <tr>
+              <td><img src="${img}" class="table-img" alt="${src} to ${dest}"></td>
+              <td class="fw-bold text-white">${src} <i class="fa-solid fa-arrow-right text-warning mx-1"></i> ${dest}</td>
+              <td>${busType}</td>
+              <td>${dep} - ${arr}</td>
+              <td class="text-warning fw-bold">₹${price.toLocaleString()}</td>
+              <td><span class="badge bg-success">${seats} Seats</span></td>
+              <td>
+                <div class="d-flex gap-1">
+                  <button class="btn-icon edit" onclick="editTour('${b._id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button class="btn-icon delete" onclick="deleteTour('${b._id}')"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('') || '<tr><td colspan="7" class="text-center text-muted">No route buses added yet.</td></tr>';
       } catch (err) {
-        console.error("Error loading tours:", err);
+        console.error("Error loading bus routes:", err);
       }
     }
 
-    function openTourModal() {
-      document.getElementById('tourForm').reset();
+    function openTourModal(id = null) {
+      document.getElementById('tourId').value = id || '';
+      document.getElementById('tourModalTitle').innerText = id ? 'Edit Route Bus Service' : 'Add Route Bus Service';
+      if (!id) {
+        document.getElementById('tourForm').reset();
+        document.getElementById('tourSource').value = 'Nagpur';
+        document.getElementById('tourBusType').value = 'AC Sleeper (2+1)';
+        document.getElementById('tourDepTime').value = '09:00 PM';
+        document.getElementById('tourArrTime').value = '06:00 AM';
+        document.getElementById('tourSeats').value = '30';
+        document.getElementById('tourFrequency').value = 'Daily Service';
+        document.getElementById('tourWhatsApp').value = '919876543210';
+      }
       tourModal.show();
+    }
+
+    async function editTour(id) {
+      try {
+        let b = null;
+        try {
+          const res = await fetch(`${API_BASE}/bus-routes/${id}`);
+          const data = await res.json();
+          b = data.data;
+        } catch (e) {
+          const res = await fetch(`${API_BASE}/tours/${id}`);
+          const data = await res.json();
+          b = data.data;
+        }
+
+        if (b) {
+          document.getElementById('tourId').value = b._id;
+          document.getElementById('tourSource').value = b.source || 'Nagpur';
+          document.getElementById('tourDestination').value = b.destination || b.name || '';
+          document.getElementById('tourBusType').value = b.busType || 'AC Sleeper (2+1)';
+          document.getElementById('tourFrequency').value = b.frequency || 'Daily Service';
+          document.getElementById('tourDepTime').value = b.departureTime || '09:00 PM';
+          document.getElementById('tourArrTime').value = b.arrivalTime || '06:00 AM';
+          document.getElementById('tourPrice').value = b.price || 850;
+          document.getElementById('tourSeats').value = b.seatsAvailable || 30;
+          document.getElementById('tourWhatsApp').value = b.whatsappNumber || '919876543210';
+          document.getElementById('tourImageUrl').value = b.image || '';
+          document.getElementById('tourModalTitle').innerText = 'Edit Route Bus Service';
+          tourModal.show();
+        }
+      } catch (err) {
+        console.error("Error loading bus route for edit:", err);
+      }
     }
 
     async function saveTour(e) {
       e.preventDefault();
-      const payload = {
-        name: document.getElementById('tourName').value,
-        destination: document.getElementById('tourDestination').value,
-        startDate: document.getElementById('tourStartDate').value,
-        endDate: document.getElementById('tourEndDate').value,
-        price: document.getElementById('tourPrice').value,
-        seatsAvailable: document.getElementById('tourSeats').value,
-        image: document.getElementById('tourImageUrl').value || 'images/corporate-travel.png'
-      };
+      const id = document.getElementById('tourId').value;
+      const formData = new FormData();
+      formData.append('source', document.getElementById('tourSource').value);
+      formData.append('destination', document.getElementById('tourDestination').value);
+      formData.append('busType', document.getElementById('tourBusType').value);
+      formData.append('frequency', document.getElementById('tourFrequency').value);
+      formData.append('departureTime', document.getElementById('tourDepTime').value);
+      formData.append('arrivalTime', document.getElementById('tourArrTime').value);
+      formData.append('price', document.getElementById('tourPrice').value);
+      formData.append('seatsAvailable', document.getElementById('tourSeats').value);
+      formData.append('whatsappNumber', document.getElementById('tourWhatsApp').value);
+
+      const fileInput = document.getElementById('tourImageFile');
+      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (document.getElementById('tourImageUrl').value) formData.append('imageUrl', document.getElementById('tourImageUrl').value);
+
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `${API_BASE}/bus-routes/${id}` : `${API_BASE}/bus-routes`;
 
       try {
-        const res = await fetch(`${API_BASE}/tours`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(payload)
+        const res = await fetch(url, {
+          method,
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
         });
         const data = await res.json();
         if (data.success) {
           tourModal.hide();
           loadTours();
           loadOverviewData();
+        } else {
+          alert('Error: ' + data.message);
         }
       } catch (err) {
-        alert('Save Tour error: ' + err.message);
+        alert('Save Bus Route error: ' + err.message);
       }
     }
 
     async function deleteTour(id) {
-      if (!confirm('Are you sure you want to delete this group tour?')) return;
+      if (!confirm('Are you sure you want to delete this bus route?')) return;
       try {
-        const res = await fetch(`${API_BASE}/tours/${id}`, {
+        const res = await fetch(`${API_BASE}/bus-routes/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -1554,7 +1641,7 @@
           loadOverviewData();
         }
       } catch (err) {
-        alert('Delete Tour error: ' + err.message);
+        alert('Delete Bus Route error: ' + err.message);
       }
     }
 

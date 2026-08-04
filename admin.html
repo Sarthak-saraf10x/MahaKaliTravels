@@ -924,10 +924,23 @@
                   <option value="Pilgrimage">Pilgrimage</option>
                 </select>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <label class="form-label small">Package Image File / URL</label>
-                <input type="file" id="pkgImageFile" class="form-control bg-dark text-white border-secondary">
-                <input type="text" id="pkgImageUrl" class="form-control bg-dark text-white border-secondary mt-1" placeholder="Or enter Image URL">
+                <input type="file" id="pkgImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
+                
+                <div class="p-3 rounded bg-dark border border-secondary mt-2">
+                  <p class="small text-light mb-1">
+                    <i class="fa-solid fa-circle-info text-warning me-1"></i> For better quality, add images with size: <strong>800 × 500 px</strong> (Aspect Ratio 16:10 / 16:9, max 2MB).
+                  </p>
+                  <p class="small text-muted mb-2">
+                    If you don't have one, you can generate or resize it using ChatGPT.
+                  </p>
+                  <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning btn-sm fw-bold d-inline-flex align-items-center gap-1" onclick="openChatGPTWithPrompt(event)">
+                    <i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Generate / Resize with ChatGPT
+                  </a>
+                </div>
+
+                <input type="text" id="pkgImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
               </div>
               <div class="col-12">
                 <label class="form-label small">Description *</label>

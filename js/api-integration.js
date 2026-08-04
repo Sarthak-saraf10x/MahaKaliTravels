@@ -227,13 +227,13 @@ async function fetchBusRoutes() {
       const dep = b.departureTime || b.startDate || '08:00 AM, 01:00 PM, 05:00 PM';
       const seats = b.seatsAvailable || 30;
       const freq = b.frequency || 'Daily Service';
-      const phone = b.whatsappNumber || '917517685951';
+      const phone = '917517685951';
       const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
 
       const timingPills = dep.split(',').map(t => `<span class="badge bg-secondary text-light px-2 py-1 me-1 mb-1 border border-secondary"><i class="fa-solid fa-clock text-warning me-1"></i>${t.trim()}</span>`).join('');
 
       const waMsg = encodeURIComponent(`Hi Mahakali Travels, I want to book a seat for the bus route from ${src} to ${dest} (${busType}, Departure Timings: ${dep}). Please provide seat availability details.`);
-      const waUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
+      const waUrl = `https://wa.me/${phone}?text=${waMsg}`;
 
       const cardHTML = `
         <div class="col-lg-4 col-md-6" data-aos="fade-up">

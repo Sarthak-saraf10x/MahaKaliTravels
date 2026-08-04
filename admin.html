@@ -1245,19 +1245,20 @@
     // Overview Statistics
     async function loadOverviewData() {
       try {
+        const authHeaders = token ? { 'Authorization': `Bearer ${token}` } : {};
         const [pkgRes, galRes, tourRes, msgRes, corpRes] = await Promise.all([
           fetch(`${API_BASE}/packages`),
           fetch(`${API_BASE}/gallery`),
           fetch(`${API_BASE}/tours`),
-          fetch(`${API_BASE}/contact`),
-          fetch(`${API_BASE}/corporate/quotes`)
+          fetch(`${API_BASE}/contact`, { headers: authHeaders }),
+          fetch(`${API_BASE}/corporate`, { headers: authHeaders })
         ]);
 
-        const pkgs = (await pkgRes.json()).data || [];
-        const gal = (await galRes.json()).data || [];
-        const tours = (await tourRes.json()).data || [];
-        const msgs = (await msgRes.json()).data || [];
-        const corps = (await corpRes.json()).data || [];
+        const pkgs = pkgRes.ok ? (await pkgRes.json()).data || [] : [];
+        const gal = galRes.ok ? (await galRes.json()).data || [] : [];
+        const tours = tourRes.ok ? (await tourRes.json()).data || [] : [];
+        const msgs = msgRes.ok ? (await msgRes.json()).data || [] : [];
+        const corps = corpRes.ok ? (await corpRes.json()).data || [] : [];
 
         document.getElementById('statPackages').innerText = pkgs.length;
         document.getElementById('statGallery').innerText = gal.length;
@@ -1536,7 +1537,13 @@
     // Contact Messages Management
     async function loadContacts() {
       try {
-        const res = await fetch(`${API_BASE}/contact`);
+        const res = await fetch(`${API_BASE}/contact`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) {
+          console.warn("Contact load failed with status", res.status);
+          return;
+        }
         const data = await res.json();
         let msgs = data.data || [];
         const search = document.getElementById('contactSearch').value.toLowerCase();
@@ -1574,7 +1581,7 @@
 
     async function updateContactStatus(id, status) {
       try {
-        await fetch(`${API_BASE}/contact/${id}/status`, {
+        await fetch(`${API_BASE}/contact/${id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -1607,7 +1614,13 @@
     // Corporate Quotes Management
     async function loadCorporateQuotes() {
       try {
-        const res = await fetch(`${API_BASE}/corporate/quotes`);
+        const res = await fetch(`${API_BASE}/corporate`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) {
+          console.warn("Corporate load failed with status", res.status);
+          return;
+        }
         const data = await res.json();
         let quotes = data.data || [];
         const search = document.getElementById('corpSearch').value.toLowerCase();
@@ -1646,7 +1659,7 @@
 
     async function updateCorpStatus(id, status) {
       try {
-        await fetch(`${API_BASE}/corporate/quotes/${id}/status`, {
+        await fetch(`${API_BASE}/corporate/${id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -1662,7 +1675,7 @@
     async function deleteCorpQuote(id) {
       if (!confirm('Are you sure you want to delete this corporate quote request?')) return;
       try {
-        const res = await fetch(`${API_BASE}/corporate/quotes/${id}`, {
+        const res = await fetch(`${API_BASE}/corporate/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

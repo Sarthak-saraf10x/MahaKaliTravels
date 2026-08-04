@@ -1553,7 +1553,7 @@
     }
 
     function openChatGPTWithPrompt(e) {
-      const promptText = "Please generate or crop/resize a high quality luxury travel bus image to exactly 800x500 pixels (16:10 aspect ratio), keeping the bus centered and optimizing file size under 2MB.";
+      const promptText = "Please crop or resize this image to exactly 800x500 pixels (16:10 aspect ratio). Do NOT alter, modify, or regenerate any details in the image—only crop/resize it to 800x500 pixels while keeping file size under 2MB.";
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(promptText);
       }

@@ -1,233 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Mahakali Tours & Travels</title>
-  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome Icons & Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- Google Sign-In SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     :root {
       --bg-dark: #0f172a;
-      --bg-card: rgba(30, 41, 59, 0.85);
-      --accent-gold: #d97706;
-      --accent-gold-hover: #b45309;
-      --text-light: #f8fafc;
+      --bg-card: #1e293b;
+      --primary: #d97706;
+      --primary-hover: #b45309;
+      --accent: #f59e0b;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: rgba(255, 255, 255, 0.1);
+      --success: #10b981;
+      --danger: #ef4444;
+      --border: #334155;
+      --font-inter: 'Inter', sans-serif;
+      --font-outfit: 'Outfit', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    img,
+    table,
+    select,
+    input,
+    textarea {
+      max-width: 100%;
     }
 
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-inter);
       background-color: var(--bg-dark);
-      color: var(--text-light);
+      color: var(--text-main);
       min-height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
-    /* Auth Screen */
+    a,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* ================= LOGIN SCREEN ================= */
     #authContainer {
-      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      z-index: 9999;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 16px;
     }
 
     .auth-card {
-      background: var(--bg-card);
+      background: rgba(30, 41, 59, 0.85);
       backdrop-filter: blur(16px);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2.5rem;
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 36px;
       width: 100%;
-      max-width: 450px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      text-align: center;
     }
 
-    .brand-logo {
-      color: var(--accent-gold);
+    .brand-logo-auth {
+      color: var(--primary);
+      font-family: var(--font-outfit);
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
-    /* Dashboard Layout */
-    .sidebar {
-      background: rgba(15, 23, 42, 0.95);
-      border-right: 1px solid var(--border-color);
+    .btn-gold {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .btn-gold:hover {
+      background-color: var(--primary-hover);
+      color: white;
+    }
+
+    .google-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    /* ================= MAIN DASHBOARD LAYOUT ================= */
+    #dashboardContainer {
+      display: flex;
       min-height: 100vh;
-      padding: 1.5rem;
+      overflow-x: hidden;
+      width: 100%;
     }
 
-    .nav-link-custom {
-      color: var(--text-muted);
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
+    /* Desktop Sidebar */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-outfit);
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+
+    .sidebar-brand i {
+      color: var(--primary);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .sidebar-link {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 500;
+      padding: 12px 16px;
+      color: var(--text-muted);
       text-decoration: none;
-      transition: all 0.3s ease;
-      margin-bottom: 6px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    .nav-link-custom:hover, .nav-link-custom.active {
-      color: #fff;
-      background: rgba(217, 119, 6, 0.15);
-      border-left: 4px solid var(--accent-gold);
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-link.active {
+      background-color: rgba(217, 119, 6, 0.15);
+      color: var(--primary);
+      border-left: 3px solid var(--primary);
+    }
+
+    .sidebar-footer {
+      padding: 18px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Main Content Wrapper */
+    .main-wrapper {
+      margin-left: 260px;
+      flex-grow: 1;
+      padding: 36px 40px;
+      min-height: 100vh;
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-title h1 {
+      font-family: var(--font-outfit);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header-title p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* Tab Content Panels */
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
     }
 
     .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.5rem;
-      transition: transform 0.3s ease;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
     .stat-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
+      border-color: rgba(217, 119, 6, 0.4);
     }
 
     .stat-icon {
       width: 50px;
       height: 50px;
       border-radius: 12px;
-      background: rgba(217, 119, 6, 0.2);
-      color: var(--accent-gold);
+      background-color: rgba(217, 119, 6, 0.15);
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .stat-info h3 {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-info .stat-num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: var(--font-outfit);
+      color: var(--text-main);
+    }
+
+    /* Data Cards & Responsive Tables */
+    .data-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .card-header-custom {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-header-custom h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      font-family: var(--font-outfit);
+      margin-bottom: 0;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
     }
 
     .table-dark-custom {
-      background: var(--bg-card);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      margin-bottom: 0;
     }
 
     .table-dark-custom th {
-      background: rgba(15, 23, 42, 0.8);
-      color: var(--accent-gold);
-      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(15, 23, 42, 0.7);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
     }
 
     .table-dark-custom td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: #e2e8f0;
       vertical-align: middle;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-light);
     }
 
-    .modal-content-custom {
-      background: #1e293b;
-      color: var(--text-light);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
+    .table-dark-custom tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
     }
 
-    .btn-gold {
-      background: var(--accent-gold);
-      color: #fff;
-      border: none;
-      font-weight: 600;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
+    /* Quick Action Buttons */
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background-color: transparent;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      text-decoration: none;
     }
 
-    /* Mobile Responsive Enhancements */
+    .btn-icon:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .btn-icon.delete:hover {
+      background-color: rgba(239, 68, 68, 0.15);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .btn-icon.edit:hover {
+      background-color: rgba(59, 130, 246, 0.15);
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .btn-icon.whatsapp {
+      background-color: rgba(37, 211, 102, 0.1);
+      border-color: rgba(37, 211, 102, 0.3);
+      color: #25D366;
+    }
+
+    .btn-icon.whatsapp:hover {
+      background-color: #25D366;
+      color: white;
+    }
+
+    /* Mobile First Top Bar & Bottom Nav */
+    .mobile-top-bar,
+    .mobile-bottom-nav {
+      display: none;
+    }
+
     @media (max-width: 768px) {
-      #authContainer {
-        padding: 1rem;
-      }
-      .auth-card {
-        padding: 1.5rem !important;
-        max-width: 100% !important;
-        border-radius: 12px;
-      }
+      /* Hide desktop sidebar on mobile */
       .sidebar {
-        min-height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: #0f172a;
+        display: none !important;
       }
-      .mobile-tabs-scroll {
+
+      /* Mobile Top Bar */
+      .mobile-top-bar {
         display: flex;
-        flex-direction: row !important;
-        overflow-x: auto;
-        white-space: nowrap;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 58px;
+        background: #0f172a;
+        border-bottom: 2px solid var(--primary);
+        z-index: 1001;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+      }
+
+      .mobile-brand {
+        font-family: var(--font-outfit);
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .mobile-logout-btn {
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: var(--danger);
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
         gap: 6px;
-        padding-bottom: 6px;
-        -webkit-overflow-scrolling: touch;
       }
-      .mobile-tabs-scroll::-webkit-scrollbar {
-        height: 3px;
+
+      /* Mobile Bottom Navigation */
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 64px;
+        background: #1e293b;
+        border-top: 1px solid var(--border);
+        z-index: 1001;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 4px;
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
       }
-      .mobile-tabs-scroll::-webkit-scrollbar-thumb {
-        background: var(--accent-gold);
-        border-radius: 4px;
+
+      .bottom-nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.62rem;
+        font-weight: 600;
+        gap: 3px;
+        flex: 1;
+        height: 100%;
+        transition: color 0.2s ease;
+        cursor: pointer;
       }
-      .nav-link-custom {
-        flex-shrink: 0;
-        margin-bottom: 0;
-        font-size: 0.85rem;
-        padding: 0.5rem 0.85rem;
-        border-left: none !important;
-        border-bottom: 2px solid transparent;
+
+      .bottom-nav-link i {
+        font-size: 1.1rem;
+        transition: transform 0.2s ease;
       }
-      .nav-link-custom:hover, .nav-link-custom.active {
-        border-bottom: 2px solid var(--accent-gold) !important;
+
+      .bottom-nav-link.active {
+        color: var(--primary);
       }
+
+      .bottom-nav-link.active i {
+        transform: scale(1.15);
+      }
+
+      /* Main wrapper mobile adjustments */
+      .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 72px 14px 80px 14px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
       .stat-card {
-        padding: 1rem;
+        padding: 14px;
+        flex-direction: column;
+        text-align: center;
       }
+
       .stat-icon {
         width: 40px;
         height: 40px;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
-      .table-responsive {
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        -webkit-overflow-scrolling: touch;
+
+      .stat-info .stat-num {
+        font-size: 1.35rem;
       }
-      .admin-user-box {
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
+
+      .card-header-custom {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ==================== 1. LOGIN SCREEN ==================== -->
   <div id="authContainer">
-    <div class="auth-card text-center" style="max-width: 440px; margin: auto;">
-      <div class="brand-logo mb-3">
-        <i class="fa-solid fa-bus-simple me-2"></i> Mahakali Tours
+    <div class="auth-card">
+      <div class="brand-logo-auth">
+        <i class="fa-solid fa-bus-simple text-warning"></i> Mahakali Travels
       </div>
-      <h4 class="fw-bold text-white mb-2">Sign In / Sign Up</h4>
-      <p class="text-muted small mb-4">Enter your email & password to sign in. New users will be registered automatically.</p>
+      <h4 class="fw-bold text-white mb-2" style="font-family: var(--font-outfit);">Owner & Admin Portal</h4>
+      <p class="text-muted small mb-4">Enter email & password or sign in with Google to manage your travel agency.</p>
 
       <div id="accessDeniedAlert" class="alert alert-danger d-none text-start small mb-3">
         <i class="fa-solid fa-circle-exclamation me-2"></i> <span id="accessDeniedText">Access Denied: Unauthorized admin account.</span>
       </div>
 
-      <!-- Email / Password Form -->
+      <!-- Email / Password Login Form -->
       <form id="emailLoginForm" onsubmit="handleEmailLogin(event)" class="text-start mb-3">
         <div class="mb-3">
           <label class="form-label text-light small fw-bold">Email Address</label>
@@ -243,23 +577,31 @@
       </form>
 
       <div class="d-flex align-items-center my-3 text-muted small">
-        <hr class="flex-grow-1 border-secondary m-0">
-        <span class="px-2 text-uppercase">or sign in with</span>
-        <hr class="flex-grow-1 border-secondary m-0">
+        <hr class="flex-grow-1 border-secondary">
+        <span class="px-2">OR</span>
+        <hr class="flex-grow-1 border-secondary">
       </div>
 
-      <!-- Google Official Button -->
-      <div id="g_id_onload"
-           data-client_id="369842549051-c4066jq9bp5hgo9na7gh8jp17ndcoefn.apps.googleusercontent.com"
-           data-callback="handleCredentialResponse"
-           data-auto_prompt="false">
+      <!-- Google OAuth Sign-In Button -->
+      <div class="google-btn-container">
+        <div id="g_id_onload"
+          data-client_id="369842549051-c4066jq9bp5hgo9na7gh8jp17ndcoefn.apps.googleusercontent.com"
+          data-callback="handleGoogleCredentialResponse"
+          data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="filled_blue"
+          data-text="sign_in_with"
+          data-shape="rectangular"
+          data-logo_alignment="left">
+        </div>
       </div>
 
-      <div class="g_id_signin d-flex justify-content-center mb-3" data-type="standard" data-theme="filled_dark" data-size="large"></div>
-
-      <!-- Dev/Demo Login Backdoor for Local Testing -->
+      <!-- Local Quick Access -->
       <div class="border-top border-secondary pt-3 mt-3">
-        <p class="text-muted small mb-2">Dev / Testing Admin Quick Access:</p>
+        <p class="text-muted small mb-2">Dev / Testing Admin Access:</p>
         <button class="btn btn-outline-warning btn-sm w-100" onclick="devLogin()">
           <i class="fa-solid fa-key me-2"></i> Quick Admin Demo Login
         </button>
@@ -268,114 +610,160 @@
   </div>
 
   <!-- ==================== 2. MAIN ADMIN DASHBOARD ==================== -->
-  <div id="dashboardContainer" class="container-fluid d-none">
-    <div class="row">
-      <!-- Sidebar Navigation -->
-      <div class="col-lg-2 col-md-3 sidebar">
-        <div class="brand-logo mb-4 px-2">
-          <i class="fa-solid fa-bus-simple text-warning me-2"></i> Mahakali B2B
+  <div id="dashboardContainer" class="d-none">
+
+    <!-- Mobile Top Navigation Bar -->
+    <div class="mobile-top-bar">
+      <div class="mobile-brand">
+        <i class="fa-solid fa-bus-simple"></i> Mahakali B2B
+      </div>
+      <button onclick="logoutAdmin()" class="mobile-logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fa-solid fa-bus-simple"></i> Mahakali B2B
+      </div>
+
+      <nav class="sidebar-menu">
+        <a class="sidebar-link active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i> Overview</a>
+        <a class="sidebar-link" data-tab="packages"><i class="fa-solid fa-map-location-dot"></i> Tour Packages</a>
+        <a class="sidebar-link" data-tab="gallery"><i class="fa-solid fa-images"></i> Gallery</a>
+        <a class="sidebar-link" data-tab="tours"><i class="fa-solid fa-calendar-check"></i> Group Tours</a>
+        <a class="sidebar-link" data-tab="messages"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
+        <a class="sidebar-link" data-tab="corporate"><i class="fa-solid fa-building-user"></i> Corporate Quotes</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <img id="adminAvatar" src="https://img.icons8.com/color/96/user.png" class="rounded-circle" width="38" height="38">
+          <div class="overflow-hidden">
+            <div id="adminName" class="fw-bold small text-white text-truncate">Admin User</div>
+            <div id="adminEmail" class="text-muted small text-truncate">admin@mahakalitours.com</div>
+          </div>
         </div>
+        <button onclick="logoutAdmin()" class="btn btn-sm btn-outline-danger w-100">
+          <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+        </button>
+      </div>
+    </div>
 
-        <nav class="nav flex-column mobile-tabs-scroll mb-3">
-          <a class="nav-link-custom active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i> Overview</a>
-          <a class="nav-link-custom" data-tab="packages"><i class="fa-solid fa-map-location-dot"></i> Tour Packages</a>
-          <a class="nav-link-custom" data-tab="gallery"><i class="fa-solid fa-images"></i> Gallery</a>
-          <a class="nav-link-custom" data-tab="tours"><i class="fa-solid fa-calendar-check"></i> Group Tours</a>
-          <a class="nav-link-custom" data-tab="messages"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
-          <a class="nav-link-custom" data-tab="corporate"><i class="fa-solid fa-building-user"></i> Corporate Quotes</a>
-        </nav>
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="mobile-bottom-nav">
+      <a class="bottom-nav-link active" data-tab="overview">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Overview</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="packages">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Packages</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="gallery">
+        <i class="fa-solid fa-images"></i>
+        <span>Gallery</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="tours">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Tours</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="messages">
+        <i class="fa-solid fa-envelope"></i>
+        <span>Enquiries</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="corporate">
+        <i class="fa-solid fa-building-user"></i>
+        <span>B2B Quotes</span>
+      </a>
+    </div>
 
-        <div class="pt-4 border-top border-secondary mt-auto">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <img id="adminAvatar" src="https://img.icons8.com/color/96/user.png" class="rounded-circle" width="38" height="38">
-            <div class="overflow-hidden">
-              <div id="adminName" class="fw-bold small text-white text-truncate">Admin User</div>
-              <div id="adminEmail" class="text-muted small text-truncate">admin@mahakalitours.com</div>
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+
+      <!-- Header Title Bar -->
+      <div class="header-bar">
+        <div class="header-title">
+          <h1 id="tabTitle">Dashboard Overview</h1>
+          <p>Manage tour packages, gallery, enquiries, and corporate bookings.</p>
+        </div>
+        <span class="badge bg-warning text-dark px-3 py-2"><i class="fa-solid fa-shield-check me-1"></i> Authenticated Admin</span>
+      </div>
+
+      <!-- ================= TAB 1: OVERVIEW ================= -->
+      <div id="tab-overview" class="tab-panel active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="stat-info">
+              <h3>Packages</h3>
+              <div id="statPackages" class="stat-num">0</div>
             </div>
           </div>
-          <button onclick="logoutAdmin()" class="btn btn-sm btn-outline-danger w-100">
-            <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
-          </button>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-images"></i></div>
+            <div class="stat-info">
+              <h3>Gallery</h3>
+              <div id="statGallery" class="stat-num">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
+            <div class="stat-info">
+              <h3>Group Tours</h3>
+              <div id="statTours" class="stat-num">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <div class="stat-info">
+              <h3>Enquiries</h3>
+              <div id="statContacts" class="stat-num">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-bus-simple"></i></div>
+            <div class="stat-info">
+              <h3>B2B Quotes</h3>
+              <div id="statCorporate" class="stat-num">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Recent Enquiries Overview</h2>
+            <button class="btn btn-sm btn-outline-warning" onclick="switchTab('messages')">View All Messages</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table-dark-custom">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="overviewContactsBody">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Main Content Area -->
-      <div class="col-lg-10 col-md-9 p-4">
-        
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
-          <h3 id="tabTitle" class="fw-bold text-white mb-0">Dashboard Overview</h3>
-          <span class="badge bg-warning text-dark px-3 py-2"><i class="fa-solid fa-shield-check me-1"></i> Authenticated Admin Session</span>
-        </div>
-
-        <!-- ================= TAB 1: OVERVIEW ================= -->
-        <div id="tab-overview" class="tab-pane-custom">
-          <div class="row g-3 mb-4">
-            <div class="col-md-4 col-sm-6">
-              <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                <div>
-                  <div class="text-muted small">Total Packages</div>
-                  <h3 id="statPackages" class="fw-bold text-white mb-0">0</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-              <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="fa-solid fa-images"></i></div>
-                <div>
-                  <div class="text-muted small">Gallery Images</div>
-                  <h3 id="statGallery" class="fw-bold text-white mb-0">0</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-              <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
-                <div>
-                  <div class="text-muted small">Upcoming Group Tours</div>
-                  <h3 id="statTours" class="fw-bold text-white mb-0">0</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-              <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div>
-                  <div class="text-muted small">Contact Enquiries</div>
-                  <h3 id="statContacts" class="fw-bold text-white mb-0">0</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-              <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="fa-solid fa-bus-simple"></i></div>
-                <div>
-                  <div class="text-muted small">Corporate B2B Quotes</div>
-                  <h3 id="statCorporate" class="fw-bold text-white mb-0">0</h3>
-                </div>
-              </div>
-            </div>
+      <!-- ================= TAB 2: PACKAGES ================= -->
+      <div id="tab-packages" class="tab-panel">
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Tour Packages Management</h2>
+            <button class="btn btn-gold btn-sm" onclick="openPackageModal()"><i class="fa-solid fa-plus me-1"></i> Add New Package</button>
           </div>
-
-          <div class="card bg-dark border-secondary p-4">
-            <h5 class="fw-bold text-warning mb-3"><i class="fa-solid fa-bolt me-2"></i> Admin Quick Actions</h5>
-            <div class="d-flex flex-wrap gap-2">
-              <button class="btn btn-gold" onclick="switchTab('packages'); openPackageModal();"><i class="fa-solid fa-plus me-1"></i> Add Tour Package</button>
-              <button class="btn btn-outline-light" onclick="switchTab('gallery'); openGalleryModal();"><i class="fa-solid fa-upload me-1"></i> Upload Gallery Images</button>
-              <button class="btn btn-outline-info" onclick="switchTab('corporate');"><i class="fa-solid fa-list-check me-1"></i> View Staff Commute Requests</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ================= TAB 2: PACKAGES ================= -->
-        <div id="tab-packages" class="tab-pane-custom d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="text-white mb-0">Featured Tour Packages Management</h5>
-            <button class="btn btn-gold" onclick="openPackageModal()"><i class="fa-solid fa-plus me-1"></i> Add New Package</button>
-          </div>
-          <div class="table-responsive table-dark-custom">
-            <table class="table table-dark table-hover mb-0">
+          <div class="table-responsive">
+            <table class="table-dark-custom">
               <thead>
                 <tr>
                   <th>Image</th>
@@ -393,26 +781,30 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <!-- ================= TAB 3: GALLERY ================= -->
-        <div id="tab-gallery" class="tab-pane-custom d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="text-white mb-0">Gallery Image Management (Cloudinary Supported)</h5>
-            <button class="btn btn-gold" onclick="openGalleryModal()"><i class="fa-solid fa-upload me-1"></i> Upload Images</button>
+      <!-- ================= TAB 3: GALLERY ================= -->
+      <div id="tab-gallery" class="tab-panel">
+        <div class="data-card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Gallery Image Management</h2>
+            <button class="btn btn-gold btn-sm" onclick="openGalleryModal()"><i class="fa-solid fa-upload me-1"></i> Upload Images</button>
           </div>
           <div class="row g-3" id="galleryGrid">
             <!-- Dynamically Populated -->
           </div>
         </div>
+      </div>
 
-        <!-- ================= TAB 4: UPCOMING TOURS ================= -->
-        <div id="tab-tours" class="tab-pane-custom d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="text-white mb-0">Upcoming Group Departure Tours</h5>
-            <button class="btn btn-gold" onclick="openTourModal()"><i class="fa-solid fa-plus me-1"></i> Add Group Tour</button>
+      <!-- ================= TAB 4: UPCOMING TOURS ================= -->
+      <div id="tab-tours" class="tab-panel">
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Upcoming Group Departure Tours</h2>
+            <button class="btn btn-gold btn-sm" onclick="openTourModal()"><i class="fa-solid fa-plus me-1"></i> Add Group Tour</button>
           </div>
-          <div class="table-responsive table-dark-custom">
-            <table class="table table-dark table-hover mb-0">
+          <div class="table-responsive">
+            <table class="table-dark-custom">
               <thead>
                 <tr>
                   <th>Tour Name</th>
@@ -430,15 +822,17 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <!-- ================= TAB 5: CONTACT MESSAGES ================= -->
-        <div id="tab-messages" class="tab-pane-custom d-none">
-          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 gap-2">
-            <h5 class="text-white mb-0">Enquiries & Contact Form Submissions</h5>
-            <input type="text" id="contactSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-100 w-sm-auto" style="max-width: 250px;" placeholder="Search name/email/phone..." onkeyup="loadContacts()">
+      <!-- ================= TAB 5: CONTACT MESSAGES ================= -->
+      <div id="tab-messages" class="tab-panel">
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Customer Contact Enquiries</h2>
+            <input type="text" id="contactSearch" class="form-control form-control-sm bg-dark text-white border-secondary" style="max-width: 250px;" placeholder="Search name/phone..." onkeyup="loadContacts()">
           </div>
-          <div class="table-responsive table-dark-custom">
-            <table class="table table-dark table-hover mb-0">
+          <div class="table-responsive">
+            <table class="table-dark-custom">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -456,23 +850,25 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <!-- ================= TAB 6: CORPORATE QUOTES ================= -->
-        <div id="tab-corporate" class="tab-pane-custom d-none">
-          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 gap-2">
-            <h5 class="text-white mb-0">Corporate B2B Staff Bus Commute Requests</h5>
-            <input type="text" id="corpSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-100 w-sm-auto" style="max-width: 250px;" placeholder="Search company/contact..." onkeyup="loadCorporateQuotes()">
+      <!-- ================= TAB 6: CORPORATE QUOTES ================= -->
+      <div id="tab-corporate" class="tab-panel">
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Corporate B2B Staff Bus Commute Requests</h2>
+            <input type="text" id="corpSearch" class="form-control form-control-sm bg-dark text-white border-secondary" style="max-width: 250px;" placeholder="Search company/contact..." onkeyup="loadCorporateQuotes()">
           </div>
-          <div class="table-responsive table-dark-custom">
-            <table class="table table-dark table-hover mb-0">
+          <div class="table-responsive">
+            <table class="table-dark-custom">
               <thead>
                 <tr>
-                  <th>Submission Date</th>
+                  <th>Date</th>
                   <th>Company Name</th>
                   <th>Contact Person</th>
                   <th>Phone / Email</th>
                   <th>Bus Capacity</th>
-                  <th>Service Requested</th>
+                  <th>Service</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -483,19 +879,17 @@
             </table>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
 
-  <!-- ==================== MODALS ==================== -->
-
   <!-- Package Add/Edit Modal -->
   <div class="modal fade" id="packageModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content modal-content-custom">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary">
-          <h5 class="modal-title fw-bold" id="packageModalTitle">Add Tour Package</h5>
+          <h5 class="modal-title fw-bold" id="pkgModalTitle">Add Tour Package</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <form id="packageForm" onsubmit="savePackage(event)">
@@ -559,7 +953,7 @@
   <!-- Gallery Upload Modal -->
   <div class="modal fade" id="galleryModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content modal-content-custom">
+      <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary">
           <h5 class="modal-title fw-bold">Upload Gallery Image(s)</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -598,7 +992,7 @@
   <!-- Upcoming Tour Modal -->
   <div class="modal fade" id="tourModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content modal-content-custom">
+      <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary">
           <h5 class="modal-title fw-bold" id="tourModalTitle">Add Upcoming Group Tour</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -652,7 +1046,7 @@
   <!-- Detail Viewer Modal -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog">
-      <div class="modal-content modal-content-custom">
+      <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary">
           <h5 class="modal-title fw-bold" id="detailModalTitle">Submission Details</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -667,7 +1061,7 @@
     </div>
   </div>
 
-  <!-- Bootstrap 5 Bundle JS -->
+  <!-- Bootstrap 5 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
@@ -692,15 +1086,53 @@
         showLoginScreen();
       }
 
-      // Tab navigation listener
-      document.querySelectorAll('.nav-link-custom').forEach(link => {
+      // Sidebar link click listener
+      document.querySelectorAll('.sidebar-link').forEach(link => {
         link.addEventListener('click', (e) => {
-          const tab = e.target.closest('.nav-link-custom').getAttribute('data-tab');
+          const tab = e.target.closest('.sidebar-link').getAttribute('data-tab');
+          switchTab(tab);
+        });
+      });
+
+      // Bottom nav link click listener
+      document.querySelectorAll('.bottom-nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const tab = e.target.closest('.bottom-nav-link').getAttribute('data-tab');
           switchTab(tab);
         });
       });
     });
 
+    // Handle Tab Switching
+    function switchTab(tabId) {
+      // Update Sidebar links
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-tab') === tabId);
+      });
+
+      // Update Bottom Nav links
+      document.querySelectorAll('.bottom-nav-link').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-tab') === tabId);
+      });
+
+      // Update Tab Panels
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === `tab-${tabId}`);
+      });
+
+      // Update Header Title
+      const titles = {
+        overview: 'Dashboard Overview',
+        packages: 'Tour Packages Management',
+        gallery: 'Gallery Image Management',
+        tours: 'Group Departure Tours',
+        messages: 'Customer Contact Enquiries',
+        corporate: 'Corporate B2B Bus Quotes'
+      };
+      document.getElementById('tabTitle').innerText = titles[tabId] || 'Admin Dashboard';
+    }
+
+    // Login screen visibility
     function showLoginScreen() {
       document.getElementById('authContainer').classList.remove('d-none');
       document.getElementById('dashboardContainer').classList.add('d-none');
@@ -709,216 +1141,181 @@
     function showDashboard() {
       document.getElementById('authContainer').classList.add('d-none');
       document.getElementById('dashboardContainer').classList.remove('d-none');
-      loadOverviewStats();
+      loadOverviewData();
+      loadPackages();
+      loadGallery();
+      loadTours();
+      loadContacts();
+      loadCorporateQuotes();
     }
 
+    // Verify Auth Session
     async function verifySession() {
       try {
         const res = await fetch(`${API_BASE}/auth/profile`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        if (data.success && (data.user.role === 'admin' || data.user.isAdmin)) {
-          document.getElementById('adminName').innerText = data.user.name;
-          document.getElementById('adminEmail').innerText = data.user.email;
-          if (data.user.avatar) document.getElementById('adminAvatar').src = data.user.avatar;
+        if (data.success && data.user && data.user.role === 'admin') {
+          setAdminProfile(data.user);
           showDashboard();
-        } else if (data.success && data.user.role !== 'admin') {
-          alert('Logged in as Standard User. Redirecting to Mahakali Tours home page...');
-          window.location.href = 'index.html';
         } else {
-          logoutAdmin();
+          localStorage.removeItem('adminToken');
+          showLoginScreen();
         }
       } catch (err) {
-        showDashboard(); // Continue in dev mode
+        console.error("Session verification error:", err);
+        showDashboard();
       }
     }
 
-    // Email / Password Login & Auto Signup Handler
+    function setAdminProfile(user) {
+      if (user.name) document.getElementById('adminName').innerText = user.name;
+      if (user.email) document.getElementById('adminEmail').innerText = user.email;
+      if (user.avatar) document.getElementById('adminAvatar').src = user.avatar;
+    }
+
+    // Email/Password Login
     async function handleEmailLogin(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
 
       try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
+        const res = await fetch(`${API_BASE}/auth/email`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
         const data = await res.json();
 
-        if (data.success) {
-          if (data.isAdmin || (data.user && data.user.role === 'admin')) {
-            token = data.token;
-            localStorage.setItem('adminToken', token);
-            document.getElementById('accessDeniedAlert').classList.add('d-none');
-            verifySession();
-          } else {
-            localStorage.setItem('userToken', data.token);
-            alert(`Welcome ${data.user ? data.user.name : 'User'}! You are logged in as a Standard User. Redirecting to home page...`);
-            window.location.href = 'index.html';
-          }
-        } else {
-          document.getElementById('accessDeniedAlert').classList.remove('d-none');
-          document.getElementById('accessDeniedText').innerText = data.message;
-        }
-      } catch (err) {
-        alert('Authentication Error: ' + err.message);
-      }
-    }
-
-    // Google Sign-In Callback
-    async function handleCredentialResponse(response) {
-
-      try {
-        const res = await fetch(`${API_BASE}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ credential: response.credential })
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          if (data.isAdmin || (data.user && data.user.role === 'admin')) {
-            token = data.token;
-            localStorage.setItem('adminToken', token);
-            document.getElementById('accessDeniedAlert').classList.add('d-none');
-            verifySession();
-          } else {
-            localStorage.setItem('userToken', data.token);
-            alert(`Welcome ${data.user ? data.user.name : 'User'}! You are logged in as a Standard User. Redirecting to home page...`);
-            window.location.href = 'index.html';
-          }
-        } else {
-          document.getElementById('accessDeniedAlert').classList.remove('d-none');
-          document.getElementById('accessDeniedText').innerText = data.message;
-        }
-      } catch (err) {
-        alert('Authentication Error: ' + err.message);
-      }
-    }
-
-
-    // Quick Dev/Demo Login
-    async function devLogin() {
-      try {
-        const res = await fetch(`${API_BASE}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ demoEmail: 'admin@mahakalitours.com', demoName: 'Mahakali Administrator' })
-        });
-        const data = await res.json();
-        if (data.success) {
+        if (data.success && data.isAdmin) {
+          localStorage.setItem('adminToken', data.token);
           token = data.token;
-          localStorage.setItem('adminToken', token);
-          verifySession();
+          setAdminProfile(data.user);
+          showDashboard();
         } else {
-          alert('Dev Login Failed: ' + data.message);
+          document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Account is not authorized as Admin.';
+          document.getElementById('accessDeniedAlert').classList.remove('d-none');
         }
       } catch (err) {
-        alert('Backend not responding: ' + err.message);
+        alert('Server login error: ' + err.message);
       }
     }
 
+    // Google Credential Response
+    async function handleGoogleCredentialResponse(response) {
+      try {
+        const res = await fetch(`${API_BASE}/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken: response.credential })
+        });
+        const data = await res.json();
+
+        if (data.success && data.isAdmin) {
+          localStorage.setItem('adminToken', data.token);
+          token = data.token;
+          setAdminProfile(data.user);
+          showDashboard();
+        } else {
+          document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Google Account is not an authorized Admin.';
+          document.getElementById('accessDeniedAlert').classList.remove('d-none');
+        }
+      } catch (err) {
+        alert('Google Sign-In Error: ' + err.message);
+      }
+    }
+
+    // Dev Demo Login
+    function devLogin() {
+      localStorage.setItem('adminToken', 'dev-demo-token');
+      token = 'dev-demo-token';
+      setAdminProfile({ name: 'Mahakali Admin', email: 'admin@mahakalitours.com' });
+      showDashboard();
+    }
+
+    // Admin Logout
     function logoutAdmin() {
-      token = null;
       localStorage.removeItem('adminToken');
+      token = null;
       showLoginScreen();
     }
 
-    function switchTab(tabName) {
-      document.querySelectorAll('.nav-link-custom').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-pane-custom').forEach(el => el.classList.add('d-none'));
-
-      const activeNav = document.querySelector(`.nav-link-custom[data-tab="${tabName}"]`);
-      if (activeNav) activeNav.classList.add('active');
-
-      const targetPane = document.getElementById(`tab-${tabName}`);
-      if (targetPane) targetPane.classList.remove('d-none');
-
-      document.getElementById('tabTitle').innerText = tabName.charAt(0).toUpperCase() + tabName.slice(1) + ' Management';
-
-      if (tabName === 'overview') loadOverviewStats();
-      if (tabName === 'packages') loadPackages();
-      if (tabName === 'gallery') loadGallery();
-      if (tabName === 'tours') loadTours();
-      if (tabName === 'messages') loadContacts();
-      if (tabName === 'corporate') loadCorporateQuotes();
-    }
-
-    // ==================== OVERVIEW STATS ====================
-    async function loadOverviewStats() {
+    // Overview Statistics
+    async function loadOverviewData() {
       try {
-        const res = await fetch(`${API_BASE}/stats`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (data.success) {
-          document.getElementById('statPackages').innerText = data.data.totalPackages;
-          document.getElementById('statGallery').innerText = data.data.totalGallery;
-          document.getElementById('statTours').innerText = data.data.totalTours;
-          document.getElementById('statContacts').innerText = data.data.totalContactMessages;
-          document.getElementById('statCorporate').innerText = data.data.totalCorporateRequests;
-        }
+        const [pkgRes, galRes, tourRes, msgRes, corpRes] = await Promise.all([
+          fetch(`${API_BASE}/packages`),
+          fetch(`${API_BASE}/gallery`),
+          fetch(`${API_BASE}/tours`),
+          fetch(`${API_BASE}/contact`),
+          fetch(`${API_BASE}/corporate/quotes`)
+        ]);
+
+        const pkgs = (await pkgRes.json()).data || [];
+        const gal = (await galRes.json()).data || [];
+        const tours = (await tourRes.json()).data || [];
+        const msgs = (await msgRes.json()).data || [];
+        const corps = (await corpRes.json()).data || [];
+
+        document.getElementById('statPackages').innerText = pkgs.length;
+        document.getElementById('statGallery').innerText = gal.length;
+        document.getElementById('statTours').innerText = tours.length;
+        document.getElementById('statContacts').innerText = msgs.length;
+        document.getElementById('statCorporate').innerText = corps.length;
+
+        // Render Recent Overview Messages
+        const overviewBody = document.getElementById('overviewContactsBody');
+        overviewBody.innerHTML = msgs.slice(0, 5).map(m => `
+          <tr>
+            <td>${new Date(m.createdAt || Date.now()).toLocaleDateString()}</td>
+            <td class="fw-bold">${m.fullName || m.name || 'Guest'}</td>
+            <td>${m.phone || m.email || 'N/A'}</td>
+            <td>${m.subject || 'Enquiry'}</td>
+            <td><span class="badge bg-${m.status === 'Resolved' ? 'success' : 'warning'}">${m.status || 'Pending'}</span></td>
+          </tr>
+        `).join('') || '<tr><td colspan="5" class="text-center text-muted">No recent enquiries found.</td></tr>';
+
       } catch (err) {
-        console.error('Stats load error:', err);
+        console.error("Error loading overview statistics:", err);
       }
     }
 
-    // ==================== PACKAGES CRUD ====================
+    // Packages Management
     async function loadPackages() {
       try {
         const res = await fetch(`${API_BASE}/packages`);
         const data = await res.json();
+        const pkgs = data.data || [];
         const tbody = document.getElementById('packageTableBody');
-        tbody.innerHTML = '';
 
-        data.data.forEach(pkg => {
-          tbody.innerHTML += `
-            <tr>
-              <td><img src="${pkg.image}" width="45" height="45" class="rounded object-fit-cover"></td>
-              <td class="fw-bold">${pkg.name}</td>
-              <td>${pkg.destination}</td>
-              <td>${pkg.duration}</td>
-              <td class="text-warning">₹${pkg.price.toLocaleString()}</td>
-              <td>⭐ ${pkg.rating}</td>
-              <td>
-                <button class="btn btn-sm btn-outline-light me-1" onclick="editPackage('${pkg._id}')"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deletePackage('${pkg._id}')"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
-        });
+        tbody.innerHTML = pkgs.map(p => `
+          <tr>
+            <td><img src="${p.image || 'images/corporate-travel.png'}" width="50" height="38" class="rounded object-fit-cover"></td>
+            <td class="fw-bold">${p.name}</td>
+            <td>${p.destination}</td>
+            <td>${p.duration}</td>
+            <td class="text-warning fw-bold">₹${p.price.toLocaleString()}</td>
+            <td><i class="fa-solid fa-star text-warning"></i> ${p.rating || '4.8'}</td>
+            <td>
+              <div class="d-flex gap-1">
+                <button class="btn-icon edit" onclick="editPackage('${p._id}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-icon delete" onclick="deletePackage('${p._id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" class="text-center text-muted">No tour packages found.</td></tr>';
       } catch (err) {
-        console.error('Packages load error:', err);
+        console.error("Error loading packages:", err);
       }
     }
 
-    function openPackageModal(pkg = null) {
-      document.getElementById('packageForm').reset();
-      document.getElementById('pkgId').value = '';
-      document.getElementById('packageModalTitle').innerText = pkg ? 'Edit Tour Package' : 'Add Tour Package';
-
-      if (pkg) {
-        document.getElementById('pkgId').value = pkg._id;
-        document.getElementById('pkgName').value = pkg.name;
-        document.getElementById('pkgDestination').value = pkg.destination;
-        document.getElementById('pkgDuration').value = pkg.duration;
-        document.getElementById('pkgPrice').value = pkg.price;
-        document.getElementById('pkgDiscountPrice').value = pkg.discountPrice || '';
-        document.getElementById('pkgCategory').value = pkg.category;
-        document.getElementById('pkgDescription').value = pkg.description;
-        document.getElementById('pkgHighlights').value = pkg.highlights ? pkg.highlights.join(', ') : '';
-        document.getElementById('pkgImageUrl').value = pkg.image;
-      }
+    function openPackageModal(id = null) {
+      document.getElementById('pkgId').value = id || '';
+      document.getElementById('pkgModalTitle').innerText = id ? 'Edit Tour Package' : 'Add Tour Package';
+      if (!id) document.getElementById('packageForm').reset();
       packageModal.show();
-    }
-
-    async function editPackage(id) {
-      const res = await fetch(`${API_BASE}/packages/${id}`);
-      const data = await res.json();
-      if (data.success) openPackageModal(data.data);
     }
 
     async function savePackage(e) {
@@ -929,72 +1326,75 @@
       formData.append('destination', document.getElementById('pkgDestination').value);
       formData.append('duration', document.getElementById('pkgDuration').value);
       formData.append('price', document.getElementById('pkgPrice').value);
-      formData.append('discountPrice', document.getElementById('pkgDiscountPrice').value);
+      formData.append('discountPrice', document.getElementById('pkgDiscountPrice').value || 0);
       formData.append('category', document.getElementById('pkgCategory').value);
       formData.append('description', document.getElementById('pkgDescription').value);
       formData.append('highlights', document.getElementById('pkgHighlights').value);
 
       const fileInput = document.getElementById('pkgImageFile');
-      if (fileInput.files[0]) {
-        formData.append('image', fileInput.files[0]);
-      } else {
-        formData.append('image', document.getElementById('pkgImageUrl').value || 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b');
-      }
+      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (document.getElementById('pkgImageUrl').value) formData.append('imageUrl', document.getElementById('pkgImageUrl').value);
 
-      const url = id ? `${API_BASE}/packages/${id}` : `${API_BASE}/packages`;
       const method = id ? 'PUT' : 'POST';
+      const url = id ? `${API_BASE}/packages/${id}` : `${API_BASE}/packages`;
 
-      const res = await fetch(url, {
-        method,
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        packageModal.hide();
-        loadPackages();
-      } else {
-        alert('Error: ' + data.message);
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          packageModal.hide();
+          loadPackages();
+          loadOverviewData();
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (err) {
+        alert('Save Package error: ' + err.message);
       }
     }
 
     async function deletePackage(id) {
-      if (!confirm('Are you sure you want to delete this tour package?')) return;
-      const res = await fetch(`${API_BASE}/packages/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      if (data.success) loadPackages();
+      if (!confirm('Are you sure you want to delete this package?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/packages/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadPackages();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Delete Package error: ' + err.message);
+      }
     }
 
-    // ==================== GALLERY CRUD ====================
+    // Gallery Management
     async function loadGallery() {
       try {
         const res = await fetch(`${API_BASE}/gallery`);
         const data = await res.json();
+        const items = data.data || [];
         const grid = document.getElementById('galleryGrid');
-        grid.innerHTML = '';
 
-        data.data.forEach(item => {
-          grid.innerHTML += `
-            <div class="col-md-3 col-sm-6">
-              <div class="card bg-dark border-secondary overflow-hidden">
-                <img src="${item.imageUrl}" class="card-img-top object-fit-cover" height="160">
-                <div class="card-body p-2 d-flex justify-content-between align-items-center">
-                  <div>
-                    <div class="small fw-bold text-white text-truncate">${item.title}</div>
-                    <span class="badge bg-secondary">${item.category}</span>
-                  </div>
-                  <button class="btn btn-sm btn-outline-danger" onclick="deleteGalleryItem('${item._id}')"><i class="fa-solid fa-trash"></i></button>
-                </div>
+        grid.innerHTML = items.map(g => `
+          <div class="col-md-3 col-6">
+            <div class="card bg-dark border-secondary overflow-hidden">
+              <img src="${g.url || g.imageUrl}" class="card-img-top object-fit-cover" height="150">
+              <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                <span class="small text-truncate text-light">${g.title || 'Gallery Image'}</span>
+                <button class="btn-icon delete" onclick="deleteGalleryItem('${g._id}')"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
-          `;
-        });
+          </div>
+        `).join('') || '<div class="col-12 text-center text-muted py-4">No gallery images uploaded yet.</div>';
       } catch (err) {
-        console.error('Gallery load error:', err);
+        console.error("Error loading gallery:", err);
       }
     }
 
@@ -1010,63 +1410,72 @@
       formData.append('category', document.getElementById('galCategory').value);
 
       const files = document.getElementById('galFiles').files;
-      if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          formData.append('images', files[i]);
-        }
-      } else {
-        formData.append('imageUrl', document.getElementById('galUrl').value);
+      for (let i = 0; i < files.length; i++) {
+        formData.append('images', files[i]);
       }
+      if (document.getElementById('galUrl').value) formData.append('url', document.getElementById('galUrl').value);
 
-      const res = await fetch(`${API_BASE}/gallery`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        galleryModal.hide();
-        loadGallery();
-      } else {
-        alert('Upload Error: ' + data.message);
+      try {
+        const res = await fetch(`${API_BASE}/gallery/upload`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          galleryModal.hide();
+          loadGallery();
+          loadOverviewData();
+        } else {
+          alert('Upload Error: ' + data.message);
+        }
+      } catch (err) {
+        alert('Upload Gallery error: ' + err.message);
       }
     }
 
     async function deleteGalleryItem(id) {
-      if (!confirm('Delete this gallery image?')) return;
-      const res = await fetch(`${API_BASE}/gallery/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      if (data.success) loadGallery();
+      if (!confirm('Are you sure you want to delete this gallery image?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/gallery/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadGallery();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Delete Gallery error: ' + err.message);
+      }
     }
 
-    // ==================== UPCOMING TOURS ====================
+    // Group Tours Management
     async function loadTours() {
       try {
         const res = await fetch(`${API_BASE}/tours`);
         const data = await res.json();
+        const tours = data.data || [];
         const tbody = document.getElementById('tourTableBody');
-        tbody.innerHTML = '';
 
-        data.data.forEach(t => {
-          tbody.innerHTML += `
-            <tr>
-              <td class="fw-bold">${t.name}</td>
-              <td>${t.destination}</td>
-              <td>${t.startDate} to ${t.endDate}</td>
-              <td class="text-warning">₹${t.price}</td>
-              <td>${t.seatsAvailable} seats</td>
-              <td><span class="badge bg-warning text-dark">${t.status}</span></td>
-              <td>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteTour('${t._id}')"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
-        });
+        tbody.innerHTML = tours.map(t => `
+          <tr>
+            <td class="fw-bold">${t.name}</td>
+            <td>${t.destination}</td>
+            <td>${new Date(t.startDate).toLocaleDateString()} - ${new Date(t.endDate).toLocaleDateString()}</td>
+            <td class="text-warning fw-bold">₹${t.price}</td>
+            <td>${t.seatsAvailable || 30} seats</td>
+            <td><span class="badge bg-${t.status === 'Open' ? 'success' : 'danger'}">${t.status || 'Open'}</span></td>
+            <td>
+              <div class="d-flex gap-1">
+                <button class="btn-icon delete" onclick="deleteTour('${t._id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" class="text-center text-muted">No group tours scheduled.</td></tr>';
       } catch (err) {
-        console.error('Tours load error:', err);
+        console.error("Error loading tours:", err);
       }
     }
 
@@ -1077,178 +1486,196 @@
 
     async function saveTour(e) {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append('name', document.getElementById('tourName').value);
-      formData.append('destination', document.getElementById('tourDestination').value);
-      formData.append('startDate', document.getElementById('tourStartDate').value);
-      formData.append('endDate', document.getElementById('tourEndDate').value);
-      formData.append('price', document.getElementById('tourPrice').value);
-      formData.append('seatsAvailable', document.getElementById('tourSeats').value);
+      const payload = {
+        name: document.getElementById('tourName').value,
+        destination: document.getElementById('tourDestination').value,
+        startDate: document.getElementById('tourStartDate').value,
+        endDate: document.getElementById('tourEndDate').value,
+        price: document.getElementById('tourPrice').value,
+        seatsAvailable: document.getElementById('tourSeats').value,
+        image: document.getElementById('tourImageUrl').value || 'images/corporate-travel.png'
+      };
 
-      const file = document.getElementById('tourImageFile').files[0];
-      if (file) formData.append('image', file);
-      else formData.append('image', document.getElementById('tourImageUrl').value || 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b');
-
-      const res = await fetch(`${API_BASE}/tours`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        tourModal.hide();
-        loadTours();
+      try {
+        const res = await fetch(`${API_BASE}/tours`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          tourModal.hide();
+          loadTours();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Save Tour error: ' + err.message);
       }
     }
 
     async function deleteTour(id) {
-      if (!confirm('Delete this tour?')) return;
-      const res = await fetch(`${API_BASE}/tours/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if ((await res.json()).success) loadTours();
-    }
-
-    // ==================== CONTACT MESSAGES ====================
-    async function loadContacts() {
+      if (!confirm('Are you sure you want to delete this group tour?')) return;
       try {
-        const search = document.getElementById('contactSearch').value;
-        const res = await fetch(`${API_BASE}/contact?search=${encodeURIComponent(search)}`, {
+        const res = await fetch(`${API_BASE}/tours/${id}`, {
+          method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        const tbody = document.getElementById('contactTableBody');
-        tbody.innerHTML = '';
-
-        data.data.forEach(m => {
-          tbody.innerHTML += `
-            <tr>
-              <td class="small text-muted">${new Date(m.date).toLocaleDateString()}</td>
-              <td class="fw-bold">${m.fullName}</td>
-              <td>${m.email}</td>
-              <td>${m.phone}</td>
-              <td>${m.subject}</td>
-              <td><span class="badge ${m.status === 'Unread' ? 'bg-danger' : 'bg-success'}">${m.status}</span></td>
-              <td>
-                <button class="btn btn-sm btn-outline-info me-1" onclick="viewContactDetails('${m._id}')"><i class="fa-solid fa-eye"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteContact('${m._id}')"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
-        });
+        if (data.success) {
+          loadTours();
+          loadOverviewData();
+        }
       } catch (err) {
-        console.error('Contacts load error:', err);
+        alert('Delete Tour error: ' + err.message);
       }
     }
 
-    async function viewContactDetails(id) {
-      const res = await fetch(`${API_BASE}/contact`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      const msg = data.data.find(m => m._id === id);
-      if (msg) {
-        document.getElementById('detailModalTitle').innerText = 'Contact Enquiry';
-        document.getElementById('detailModalBody').innerHTML = `
-          <p><strong>Name:</strong> ${msg.fullName}</p>
-          <p><strong>Email:</strong> ${msg.email}</p>
-          <p><strong>Phone:</strong> ${msg.phone}</p>
-          <p><strong>Subject:</strong> ${msg.subject}</p>
-          <p><strong>Message:</strong> ${msg.message}</p>
-          <p class="small text-muted">Submitted on ${new Date(msg.date).toLocaleString()}</p>
-        `;
-        detailModal.show();
-        // Mark as read
-        await fetch(`${API_BASE}/contact/${id}`, {
+    // Contact Messages Management
+    async function loadContacts() {
+      try {
+        const res = await fetch(`${API_BASE}/contact`);
+        const data = await res.json();
+        let msgs = data.data || [];
+        const search = document.getElementById('contactSearch').value.toLowerCase();
+        if (search) {
+          msgs = msgs.filter(m => (m.fullName || m.name || '').toLowerCase().includes(search) || (m.phone || '').includes(search));
+        }
+
+        const tbody = document.getElementById('contactTableBody');
+        tbody.innerHTML = msgs.map(m => `
+          <tr>
+            <td>${new Date(m.createdAt || Date.now()).toLocaleDateString()}</td>
+            <td class="fw-bold">${m.fullName || m.name || 'Guest'}</td>
+            <td>${m.email || 'N/A'}</td>
+            <td>${m.phone || 'N/A'}</td>
+            <td>${m.subject || 'General Inquiry'}</td>
+            <td>
+              <select onchange="updateContactStatus('${m._id}', this.value)" class="form-select form-select-sm bg-dark text-white border-secondary">
+                <option value="Pending" ${m.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="In Contact" ${m.status === 'In Contact' ? 'selected' : ''}>In Contact</option>
+                <option value="Resolved" ${m.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+              </select>
+            </td>
+            <td>
+              <div class="d-flex gap-1">
+                <a href="https://wa.me/${m.phone ? m.phone.replace(/[^0-9]/g, '') : ''}" target="_blank" class="btn-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                <button class="btn-icon delete" onclick="deleteContact('${m._id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" class="text-center text-muted">No contact messages found.</td></tr>';
+      } catch (err) {
+        console.error("Error loading contacts:", err);
+      }
+    }
+
+    async function updateContactStatus(id, status) {
+      try {
+        await fetch(`${API_BASE}/contact/${id}/status`, {
           method: 'PATCH',
-          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: 'Read' })
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status })
         });
-        loadContacts();
+      } catch (err) {
+        console.error("Update status error:", err);
       }
     }
 
     async function deleteContact(id) {
-      if (!confirm('Delete contact message?')) return;
-      await fetch(`${API_BASE}/contact/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      loadContacts();
-    }
-
-    // ==================== CORPORATE B2B QUOTES ====================
-    async function loadCorporateQuotes() {
+      if (!confirm('Are you sure you want to delete this message?')) return;
       try {
-        const search = document.getElementById('corpSearch').value;
-        const res = await fetch(`${API_BASE}/corporate?search=${encodeURIComponent(search)}`, {
+        const res = await fetch(`${API_BASE}/contact/${id}`, {
+          method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        const tbody = document.getElementById('corpTableBody');
-        tbody.innerHTML = '';
+        if (data.success) {
+          loadContacts();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Delete Contact error: ' + err.message);
+      }
+    }
 
-        data.data.forEach(q => {
-          tbody.innerHTML += `
-            <tr>
-              <td class="small text-muted">${new Date(q.submissionDate).toLocaleDateString()}</td>
-              <td class="fw-bold text-warning">${q.companyName}</td>
-              <td>${q.contactPerson}</td>
-              <td>${q.phone}<br><span class="small text-muted">${q.email}</span></td>
-              <td><span class="badge bg-info text-dark">${q.companySize}</span></td>
-              <td>${q.destination}</td>
-              <td><span class="badge ${q.status === 'New' ? 'bg-warning text-dark' : 'bg-success'}">${q.status}</span></td>
-              <td>
-                <button class="btn btn-sm btn-outline-info me-1" onclick="viewCorporateDetails('${q._id}')"><i class="fa-solid fa-eye"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteCorporate('${q._id}')"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
+    // Corporate Quotes Management
+    async function loadCorporateQuotes() {
+      try {
+        const res = await fetch(`${API_BASE}/corporate/quotes`);
+        const data = await res.json();
+        let quotes = data.data || [];
+        const search = document.getElementById('corpSearch').value.toLowerCase();
+        if (search) {
+          quotes = quotes.filter(q => (q.companyName || '').toLowerCase().includes(search) || (q.contactPerson || '').toLowerCase().includes(search));
+        }
+
+        const tbody = document.getElementById('corpTableBody');
+        tbody.innerHTML = quotes.map(q => `
+          <tr>
+            <td>${new Date(q.createdAt || Date.now()).toLocaleDateString()}</td>
+            <td class="fw-bold text-warning">${q.companyName || 'N/A'}</td>
+            <td>${q.contactPerson || 'N/A'}</td>
+            <td>${q.phone || q.email || 'N/A'}</td>
+            <td><span class="badge bg-secondary">${q.busCapacity || '32 Seater'}</span></td>
+            <td>${q.serviceType || 'Daily Employee Commute'}</td>
+            <td>
+              <select onchange="updateCorpStatus('${q._id}', this.value)" class="form-select form-select-sm bg-dark text-white border-secondary">
+                <option value="New Request" ${q.status === 'New Request' ? 'selected' : ''}>New Request</option>
+                <option value="Quote Sent" ${q.status === 'Quote Sent' ? 'selected' : ''}>Quote Sent</option>
+                <option value="Contract Active" ${q.status === 'Contract Active' ? 'selected' : ''}>Contract Active</option>
+              </select>
+            </td>
+            <td>
+              <div class="d-flex gap-1">
+                <a href="https://wa.me/${q.phone ? q.phone.replace(/[^0-9]/g, '') : ''}" target="_blank" class="btn-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                <button class="btn-icon delete" onclick="deleteCorpQuote('${q._id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" class="text-center text-muted">No corporate bus commute quotes submitted yet.</td></tr>';
+      } catch (err) {
+        console.error("Error loading corporate quotes:", err);
+      }
+    }
+
+    async function updateCorpStatus(id, status) {
+      try {
+        await fetch(`${API_BASE}/corporate/quotes/${id}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status })
         });
       } catch (err) {
-        console.error('Corporate load error:', err);
+        console.error("Update corp status error:", err);
       }
     }
 
-    async function viewCorporateDetails(id) {
-      const res = await fetch(`${API_BASE}/corporate`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      const q = data.data.find(item => item._id === id);
-      if (q) {
-        document.getElementById('detailModalTitle').innerText = 'Corporate B2B Quote Request';
-        document.getElementById('detailModalBody').innerHTML = `
-          <div class="alert alert-warning text-dark fw-bold">Company: ${q.companyName}</div>
-          <p><strong>Contact Person:</strong> ${q.contactPerson}</p>
-          <p><strong>Phone:</strong> ${q.phone}</p>
-          <p><strong>Email:</strong> ${q.email}</p>
-          <p><strong>Seating Capacity Required:</strong> ${q.companySize}</p>
-          <p><strong>Service Type:</strong> ${q.destination}</p>
-          <p><strong>Route & Schedule Details:</strong> ${q.requirements}</p>
-          <p class="small text-muted">Submitted on ${new Date(q.submissionDate).toLocaleString()}</p>
-        `;
-        detailModal.show();
-
-        // Mark as Contacted
-        await fetch(`${API_BASE}/corporate/${id}`, {
-          method: 'PATCH',
-          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: 'Contacted' })
+    async function deleteCorpQuote(id) {
+      if (!confirm('Are you sure you want to delete this corporate quote request?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/corporate/quotes/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
         });
-        loadCorporateQuotes();
+        const data = await res.json();
+        if (data.success) {
+          loadCorporateQuotes();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Delete Corporate quote error: ' + err.message);
       }
-    }
-
-    async function deleteCorporate(id) {
-      if (!confirm('Delete corporate RFP request?')) return;
-      await fetch(`${API_BASE}/corporate/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      loadCorporateQuotes();
     }
   </script>
 </body>
+
 </html>

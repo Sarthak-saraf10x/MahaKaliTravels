@@ -1319,6 +1319,30 @@
       packageModal.show();
     }
 
+    async function editPackage(id) {
+      try {
+        const res = await fetch(`${API_BASE}/packages/${id}`);
+        const data = await res.json();
+        if (data.success && data.data) {
+          const pkg = data.data;
+          document.getElementById('pkgId').value = pkg._id;
+          document.getElementById('pkgName').value = pkg.name || '';
+          document.getElementById('pkgDestination').value = pkg.destination || '';
+          document.getElementById('pkgDuration').value = pkg.duration || '';
+          document.getElementById('pkgPrice').value = pkg.price || '';
+          document.getElementById('pkgDiscountPrice').value = pkg.discountPrice || 0;
+          if (document.getElementById('pkgCategory')) document.getElementById('pkgCategory').value = pkg.category || 'Hill Station';
+          if (document.getElementById('pkgDescription')) document.getElementById('pkgDescription').value = pkg.description || '';
+          if (document.getElementById('pkgHighlights')) document.getElementById('pkgHighlights').value = Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : (pkg.highlights || '');
+          if (document.getElementById('pkgImageUrl')) document.getElementById('pkgImageUrl').value = pkg.image || '';
+          document.getElementById('pkgModalTitle').innerText = 'Edit Tour Package';
+          packageModal.show();
+        }
+      } catch (err) {
+        console.error("Error loading package for edit:", err);
+      }
+    }
+
     async function savePackage(e) {
       e.preventDefault();
       const id = document.getElementById('pkgId').value;

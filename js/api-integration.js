@@ -244,23 +244,35 @@ async function fetchBusRoutes() {
       const waUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
 
       const cardHTML = `
-        <div class="col-lg-6" data-aos="fade-up">
-          <div class="bus-route-card p-4 rounded-4 bg-dark text-white border border-secondary shadow-lg d-flex flex-column flex-sm-row gap-3 align-items-center">
-            <img src="${img}" alt="${src} to ${dest}" class="rounded-3 object-fit-cover flex-shrink-0" style="width: 140px; height: 140px;">
-            <div class="flex-grow-1 w-100">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="badge bg-warning text-dark fw-bold px-2 py-1">${freq}</span>
-                <span class="text-warning fw-bold fs-5">₹${price.toLocaleString()}</span>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up">
+          <div class="package-card border border-secondary bg-dark text-white rounded-4 overflow-hidden shadow-lg h-100 d-flex flex-column">
+            <div class="package-img-wrap position-relative" style="height: 200px;">
+              <img src="${img}" alt="${src} to ${dest}" class="package-img w-100 h-100 object-fit-cover" loading="lazy">
+              <span class="package-tag bg-warning text-dark fw-bold position-absolute top-0 start-0 m-3 px-3 py-1 rounded-pill small">${freq}</span>
+              <div class="package-duration bg-dark text-white position-absolute bottom-0 end-0 m-3 px-3 py-1 rounded-pill small border border-secondary">
+                <i class="fa-solid fa-bus text-warning me-1"></i> ${busType}
               </div>
-              <h5 class="fw-bold text-white mb-1">
-                ${src} <i class="fa-solid fa-arrow-right text-warning mx-2"></i> ${dest}
-              </h5>
-              <p class="small text-light mb-1"><i class="fa-solid fa-bus text-warning me-1"></i> ${busType}</p>
-              <p class="small text-muted mb-2"><i class="fa-solid fa-clock text-warning me-1"></i> Departs: ${dep} | Arrives: ${arr}</p>
-              <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top border-secondary">
-                <span class="small text-success fw-semibold"><i class="fa-solid fa-chair me-1"></i> ${seats} Seats Left</span>
-                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1">
-                  <i class="fa-brands fa-whatsapp fs-6"></i> Book Now
+            </div>
+            <div class="package-content p-4 flex-grow-1 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-gold text-dark"><i class="fa-solid fa-route me-1"></i> Daily Route</span>
+                  <span class="small text-success fw-bold"><i class="fa-solid fa-chair me-1"></i> ${seats} Seats Left</span>
+                </div>
+                <h4 class="package-title fw-bold text-white mb-2 fs-5">
+                  ${src} <i class="fa-solid fa-arrow-right text-warning mx-1"></i> ${dest}
+                </h4>
+                <p class="package-desc text-light small mb-3">
+                  <i class="fa-solid fa-clock text-warning me-1"></i> <strong>Departs:</strong> ${dep} | <strong>Arrives:</strong> ${arr}
+                </p>
+              </div>
+              <div class="package-footer d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
+                <div>
+                  <span class="small text-muted d-block">Ticket Price</span>
+                  <span class="package-price text-warning fw-bold fs-4">₹${price.toLocaleString()}</span>
+                </div>
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-success rounded-pill px-3 py-2 btn-sm fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
+                  <i class="fa-brands fa-whatsapp fs-5"></i> Book Now
                 </a>
               </div>
             </div>

@@ -145,9 +145,70 @@
       border-radius: 8px;
     }
 
-    .btn-gold:hover {
-      background: var(--accent-gold-hover);
-      color: #fff;
+    /* Mobile Responsive Enhancements */
+    @media (max-width: 768px) {
+      #authContainer {
+        padding: 1rem;
+      }
+      .auth-card {
+        padding: 1.5rem !important;
+        max-width: 100% !important;
+        border-radius: 12px;
+      }
+      .sidebar {
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #0f172a;
+      }
+      .mobile-tabs-scroll {
+        display: flex;
+        flex-direction: row !important;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 6px;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .mobile-tabs-scroll::-webkit-scrollbar {
+        height: 3px;
+      }
+      .mobile-tabs-scroll::-webkit-scrollbar-thumb {
+        background: var(--accent-gold);
+        border-radius: 4px;
+      }
+      .nav-link-custom {
+        flex-shrink: 0;
+        margin-bottom: 0;
+        font-size: 0.85rem;
+        padding: 0.5rem 0.85rem;
+        border-left: none !important;
+        border-bottom: 2px solid transparent;
+      }
+      .nav-link-custom:hover, .nav-link-custom.active {
+        border-bottom: 2px solid var(--accent-gold) !important;
+      }
+      .stat-card {
+        padding: 1rem;
+      }
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      .table-responsive {
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        -webkit-overflow-scrolling: touch;
+      }
+      .admin-user-box {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+      }
     }
   </style>
 </head>
@@ -215,13 +276,13 @@
           <i class="fa-solid fa-bus-simple text-warning me-2"></i> Mahakali B2B
         </div>
 
-        <nav class="nav flex-column mb-4">
+        <nav class="nav flex-column mobile-tabs-scroll mb-3">
           <a class="nav-link-custom active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i> Overview</a>
           <a class="nav-link-custom" data-tab="packages"><i class="fa-solid fa-map-location-dot"></i> Tour Packages</a>
           <a class="nav-link-custom" data-tab="gallery"><i class="fa-solid fa-images"></i> Gallery</a>
           <a class="nav-link-custom" data-tab="tours"><i class="fa-solid fa-calendar-check"></i> Group Tours</a>
           <a class="nav-link-custom" data-tab="messages"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
-          <a class="nav-link-custom" data-tab="corporate"><i class="fa-solid fa-building-user"></i> Corporate B2B Quotes</a>
+          <a class="nav-link-custom" data-tab="corporate"><i class="fa-solid fa-building-user"></i> Corporate Quotes</a>
         </nav>
 
         <div class="pt-4 border-top border-secondary mt-auto">
@@ -372,9 +433,9 @@
 
         <!-- ================= TAB 5: CONTACT MESSAGES ================= -->
         <div id="tab-messages" class="tab-pane-custom d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 gap-2">
             <h5 class="text-white mb-0">Enquiries & Contact Form Submissions</h5>
-            <input type="text" id="contactSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-25" placeholder="Search name/email/phone..." onkeyup="loadContacts()">
+            <input type="text" id="contactSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-100 w-sm-auto" style="max-width: 250px;" placeholder="Search name/email/phone..." onkeyup="loadContacts()">
           </div>
           <div class="table-responsive table-dark-custom">
             <table class="table table-dark table-hover mb-0">
@@ -398,9 +459,9 @@
 
         <!-- ================= TAB 6: CORPORATE QUOTES ================= -->
         <div id="tab-corporate" class="tab-pane-custom d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 gap-2">
             <h5 class="text-white mb-0">Corporate B2B Staff Bus Commute Requests</h5>
-            <input type="text" id="corpSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-25" placeholder="Search company/contact..." onkeyup="loadCorporateQuotes()">
+            <input type="text" id="corpSearch" class="form-control form-control-sm bg-dark text-white border-secondary w-100 w-sm-auto" style="max-width: 250px;" placeholder="Search company/contact..." onkeyup="loadCorporateQuotes()">
           </div>
           <div class="table-responsive table-dark-custom">
             <table class="table table-dark table-hover mb-0">

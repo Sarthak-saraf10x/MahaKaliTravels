@@ -184,7 +184,7 @@ async function fetchBusRoutes() {
           seatsAvailable: 24,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
-          whatsappNumber: '919876543210'
+          whatsappNumber: '917517685951'
         },
         {
           source: 'Nagpur',
@@ -194,7 +194,7 @@ async function fetchBusRoutes() {
           seatsAvailable: 18,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
-          whatsappNumber: '919876543210'
+          whatsappNumber: '917517685951'
         },
         {
           source: 'Nagpur',
@@ -204,7 +204,7 @@ async function fetchBusRoutes() {
           seatsAvailable: 32,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
-          whatsappNumber: '919876543210'
+          whatsappNumber: '917517685951'
         },
         {
           source: 'Nagpur',
@@ -214,7 +214,7 @@ async function fetchBusRoutes() {
           seatsAvailable: 15,
           frequency: 'Mon, Wed, Fri',
           image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-          whatsappNumber: '919876543210'
+          whatsappNumber: '917517685951'
         }
       ];
     }
@@ -227,7 +227,7 @@ async function fetchBusRoutes() {
       const dep = b.departureTime || b.startDate || '08:00 AM, 01:00 PM, 05:00 PM';
       const seats = b.seatsAvailable || 30;
       const freq = b.frequency || 'Daily Service';
-      const phone = b.whatsappNumber || '919876543210';
+      const phone = b.whatsappNumber || '917517685951';
       const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
 
       const timingPills = dep.split(',').map(t => `<span class="badge bg-secondary text-light px-2 py-1 me-1 mb-1 border border-secondary"><i class="fa-solid fa-clock text-warning me-1"></i>${t.trim()}</span>`).join('');

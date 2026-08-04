@@ -1066,10 +1066,10 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                      <button type="button" class="btn btn-outline-warning btn-sm py-1 px-2" onclick="copyChatGptPrompt()">
+                      <button type="button" class="btn btn-outline-warning btn-sm py-1 px-2" onclick="copyChatGptPrompt(true)">
                         <i class="fa-solid fa-copy me-1"></i> Copy Prompt
                       </button>
-                      <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm py-1 px-2">
+                      <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm py-1 px-2" onclick="openChatGPTWithPrompt(event)">
                         <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open ChatGPT
                       </a>
                     </div>
@@ -1628,13 +1628,19 @@
       }
     });
 
-    function copyChatGptPrompt() {
+    function copyChatGptPrompt(showAlert = true) {
       const promptText = document.getElementById('chatGptPromptText').innerText;
-      navigator.clipboard.writeText(promptText).then(() => {
-        alert('ChatGPT prompt copied to clipboard! Open ChatGPT and paste it with your image to quickly resize it.');
-      }).catch(err => {
-        alert('Prompt: ' + promptText);
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promptText).then(() => {
+          if (showAlert) alert('ChatGPT prompt copied to clipboard! Open ChatGPT and paste it with your image to quickly resize it.');
+        }).catch(err => {
+          if (showAlert) alert('Prompt: ' + promptText);
+        });
+      }
+    }
+
+    function openChatGPTWithPrompt(e) {
+      copyChatGptPrompt(false);
     }
 
     async function editTour(id) {

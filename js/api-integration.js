@@ -180,9 +180,7 @@ async function fetchBusRoutes() {
           source: 'Nagpur',
           destination: 'Pune',
           busType: 'AC Sleeper (2+1)',
-          departureTime: '09:00 PM',
-          arrivalTime: '07:30 AM',
-          price: 950,
+          departureTime: '08:00 AM, 01:00 PM, 08:30 PM',
           seatsAvailable: 24,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
@@ -192,9 +190,7 @@ async function fetchBusRoutes() {
           source: 'Nagpur',
           destination: 'Hyderabad',
           busType: 'Volvo Multi-Axle AC',
-          departureTime: '08:30 PM',
-          arrivalTime: '06:00 AM',
-          price: 1100,
+          departureTime: '09:00 AM, 02:30 PM, 09:00 PM',
           seatsAvailable: 18,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
@@ -204,9 +200,7 @@ async function fetchBusRoutes() {
           source: 'Nagpur',
           destination: 'Indore',
           busType: 'Non-AC Sleeper Coach',
-          departureTime: '10:00 PM',
-          arrivalTime: '08:00 AM',
-          price: 750,
+          departureTime: '07:30 AM, 04:00 PM, 10:00 PM',
           seatsAvailable: 32,
           frequency: 'Daily Service',
           image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
@@ -216,9 +210,7 @@ async function fetchBusRoutes() {
           source: 'Nagpur',
           destination: 'Pachmarhi',
           busType: 'Tourist Express AC',
-          departureTime: '06:00 AM',
-          arrivalTime: '12:30 PM',
-          price: 650,
+          departureTime: '06:00 AM, 11:30 AM, 05:00 PM',
           seatsAvailable: 15,
           frequency: 'Mon, Wed, Fri',
           image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
@@ -232,15 +224,15 @@ async function fetchBusRoutes() {
       const src = b.source || 'Nagpur';
       const dest = b.destination || b.name || 'Destination';
       const busType = b.busType || 'AC Sleeper';
-      const dep = b.departureTime || b.startDate || '09:00 PM';
-      const arr = b.arrivalTime || b.endDate || '06:00 AM';
-      const price = b.price ? Number(b.price) : 850;
+      const dep = b.departureTime || b.startDate || '08:00 AM, 01:00 PM, 05:00 PM';
       const seats = b.seatsAvailable || 30;
       const freq = b.frequency || 'Daily Service';
       const phone = b.whatsappNumber || '919876543210';
       const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
 
-      const waMsg = encodeURIComponent(`Hi Mahakali Travels, I want to book a seat for the bus route from ${src} to ${dest} (${busType}, Departure: ${dep}, Price: ₹${price}). Please provide seat availability details.`);
+      const timingPills = dep.split(',').map(t => `<span class="badge bg-secondary text-light px-2 py-1 me-1 mb-1 border border-secondary"><i class="fa-solid fa-clock text-warning me-1"></i>${t.trim()}</span>`).join('');
+
+      const waMsg = encodeURIComponent(`Hi Mahakali Travels, I want to book a seat for the bus route from ${src} to ${dest} (${busType}, Departure Timings: ${dep}). Please provide seat availability details.`);
       const waUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
 
       const cardHTML = `
@@ -262,14 +254,17 @@ async function fetchBusRoutes() {
                 <h4 class="package-title fw-bold text-white mb-2 fs-5">
                   ${src} <i class="fa-solid fa-arrow-right text-warning mx-1"></i> ${dest}
                 </h4>
-                <p class="package-desc text-light small mb-3">
-                  <i class="fa-solid fa-clock text-warning me-1"></i> <strong>Departs:</strong> ${dep} | <strong>Arrives:</strong> ${arr}
-                </p>
+                <div class="mb-3">
+                  <span class="small text-muted d-block mb-1">Daily Departure Timings:</span>
+                  <div class="d-flex flex-wrap align-items-center">
+                    ${timingPills}
+                  </div>
+                </div>
               </div>
               <div class="package-footer d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
                 <div>
-                  <span class="small text-muted d-block">Ticket Price</span>
-                  <span class="package-price text-warning fw-bold fs-4">₹${price.toLocaleString()}</span>
+                  <span class="small text-muted d-block">Booking Enquiries</span>
+                  <span class="small text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Available Daily</span>
                 </div>
                 <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-success rounded-pill px-3 py-2 btn-sm fw-bold d-inline-flex align-items-center gap-1 shadow-sm">
                   <i class="fa-brands fa-whatsapp fs-5"></i> Book Now

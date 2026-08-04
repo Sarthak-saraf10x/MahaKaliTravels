@@ -809,10 +809,8 @@
                 <tr>
                   <th>Bus Route</th>
                   <th>Bus Type</th>
-                  <th>Dep / Arr Time</th>
-                  <th>Price</th>
+                  <th>Departure Timings</th>
                   <th>Seats</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -1020,25 +1018,13 @@
                 <input type="text" id="tourFrequency" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Daily Service" value="Daily Service">
               </div>
             </div>
-            <div class="row g-2 mb-3">
-              <div class="col-6">
-                <label class="form-label small">Departure Time *</label>
-                <input type="text" id="tourDepTime" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 09:00 PM" value="09:00 PM" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label small">Arrival Time *</label>
-                <input type="text" id="tourArrTime" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 06:00 AM" value="06:00 AM" required>
-              </div>
+            <div class="mb-3">
+              <label class="form-label small">Departure Timings (comma-separated for multiple daily trips) *</label>
+              <input type="text" id="tourDepTime" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 08:00 AM, 01:00 PM, 05:00 PM" value="08:00 AM, 01:00 PM, 05:00 PM" required>
             </div>
-            <div class="row g-2 mb-3">
-              <div class="col-6">
-                <label class="form-label small">Ticket Price (₹) *</label>
-                <input type="number" id="tourPrice" class="form-control bg-dark text-white border-secondary" placeholder="850" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label small">Seats Available *</label>
-                <input type="number" id="tourSeats" class="form-control bg-dark text-white border-secondary" value="30" required>
-              </div>
+            <div class="mb-3">
+              <label class="form-label small">Seats Available *</label>
+              <input type="number" id="tourSeats" class="form-control bg-dark text-white border-secondary" value="30" required>
             </div>
             <div class="mb-3">
               <label class="form-label small">WhatsApp Booking Phone</label>
@@ -1525,18 +1511,16 @@
           const dest = b.destination || b.name || 'Destination';
           const img = b.image || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
           const busType = b.busType || 'AC Sleeper';
-          const dep = b.departureTime || '09:00 PM';
-          const arr = b.arrivalTime || '06:00 AM';
-          const price = b.price ? Number(b.price) : 850;
+          const dep = b.departureTime || '08:00 AM, 01:00 PM, 05:00 PM';
           const seats = b.seatsAvailable || 30;
+          const timingBadges = dep.split(',').map(t => `<span class="badge bg-secondary text-light me-1 mb-1">${t.trim()}</span>`).join('');
 
           return `
             <tr>
               <td><img src="${img}" class="table-img" alt="${src} to ${dest}"></td>
               <td class="fw-bold text-white">${src} <i class="fa-solid fa-arrow-right text-warning mx-1"></i> ${dest}</td>
               <td>${busType}</td>
-              <td>${dep} - ${arr}</td>
-              <td class="text-warning fw-bold">₹${price.toLocaleString()}</td>
+              <td>${timingBadges}</td>
               <td><span class="badge bg-success">${seats} Seats</span></td>
               <td>
                 <div class="d-flex gap-1">
@@ -1546,7 +1530,7 @@
               </td>
             </tr>
           `;
-        }).join('') || '<tr><td colspan="7" class="text-center text-muted">No route buses added yet.</td></tr>';
+        }).join('') || '<tr><td colspan="5" class="text-center text-muted">No route buses added yet.</td></tr>';
       } catch (err) {
         console.error("Error loading bus routes:", err);
       }
@@ -1560,8 +1544,7 @@
         document.getElementById('tourForm').reset();
         document.getElementById('tourSource').value = 'Nagpur';
         document.getElementById('tourBusType').value = 'AC Sleeper (2+1)';
-        document.getElementById('tourDepTime').value = '09:00 PM';
-        document.getElementById('tourArrTime').value = '06:00 AM';
+        document.getElementById('tourDepTime').value = '08:00 AM, 01:00 PM, 05:00 PM';
         document.getElementById('tourSeats').value = '30';
         document.getElementById('tourFrequency').value = 'Daily Service';
         document.getElementById('tourWhatsApp').value = '919876543210';
@@ -1595,9 +1578,7 @@
           document.getElementById('tourDestination').value = b.destination || b.name || '';
           document.getElementById('tourBusType').value = b.busType || 'AC Sleeper (2+1)';
           document.getElementById('tourFrequency').value = b.frequency || 'Daily Service';
-          document.getElementById('tourDepTime').value = b.departureTime || '09:00 PM';
-          document.getElementById('tourArrTime').value = b.arrivalTime || '06:00 AM';
-          document.getElementById('tourPrice').value = b.price || 850;
+          document.getElementById('tourDepTime').value = b.departureTime || '08:00 AM, 01:00 PM, 05:00 PM';
           document.getElementById('tourSeats').value = b.seatsAvailable || 30;
           document.getElementById('tourWhatsApp').value = b.whatsappNumber || '919876543210';
           document.getElementById('tourImageUrl').value = b.image || '';
@@ -1618,8 +1599,6 @@
       formData.append('busType', document.getElementById('tourBusType').value);
       formData.append('frequency', document.getElementById('tourFrequency').value);
       formData.append('departureTime', document.getElementById('tourDepTime').value);
-      formData.append('arrivalTime', document.getElementById('tourArrTime').value);
-      formData.append('price', document.getElementById('tourPrice').value);
       formData.append('seatsAvailable', document.getElementById('tourSeats').value);
       formData.append('whatsappNumber', document.getElementById('tourWhatsApp').value);
 

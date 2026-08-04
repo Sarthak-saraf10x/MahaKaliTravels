@@ -72,39 +72,83 @@ async function fetchFeaturedPackages() {
 // 2. Fetch & Render Gallery Images
 async function fetchGalleryItems() {
   try {
-    const galleryContainer = document.querySelector('#gallery .row.g-4');
+    const galleryContainer = document.querySelector('#gallery .gallery-grid') || document.querySelector('#gallery .row.g-4');
     if (!galleryContainer) return;
 
     const res = await fetch(`${API_BASE}/gallery`);
     const data = await res.json();
 
-    if (data.success && data.data && data.data.length > 0) {
-      galleryContainer.innerHTML = '';
-      data.data.forEach(item => {
-        const itemHTML = `
-          <div class="col-lg-4 col-md-6 gallery-item" data-category="${(item.category || 'all').toLowerCase()}">
-            <div class="gallery-card">
-              <img src="${item.imageUrl}" alt="${item.title}" class="img-fluid gallery-img" loading="lazy">
-              <div class="gallery-overlay">
-                <div class="gallery-info text-center text-white">
-                  <h5 class="fw-bold mb-1">${item.title}</h5>
-                  <span class="badge bg-gold text-dark mb-2">${item.category}</span>
-                  <div>
-                    <button class="btn btn-sm btn-light rounded-circle" onclick="openGalleryModal('${item.title}', '${item.imageUrl}')">
-                      <i class="fa-solid fa-expand"></i>
-                    </button>
-                  </div>
-                </div>
+    if (data.success) {
+      if (data.data && data.data.length > 0) {
+        galleryContainer.innerHTML = '';
+        data.data.forEach((item, index) => {
+          let sizeClass = '';
+          if (index % 5 === 0) sizeClass = 'tall';
+          else if (index % 4 === 0) sizeClass = 'wide';
+
+          const catSlug = (item.category || 'all').toLowerCase().replace(/\s+/g, '-');
+
+          const itemHTML = `
+            <div class="gallery-item ${sizeClass}" data-category="${catSlug}" data-type="image">
+              <img src="${item.imageUrl || item.url}" alt="${item.title || 'Mahakali Travel'}" class="gallery-img" loading="lazy">
+              <div class="gallery-hover-overlay">
+                <div class="gallery-icon-btn"><i class="fa-solid fa-expand"></i></div>
+                <h4 class="gallery-title">${item.title || 'Mahakali Travel'}</h4>
+                <span class="gallery-cat">${item.category || 'Mahakali Tours'}</span>
               </div>
             </div>
+          `;
+          galleryContainer.innerHTML += itemHTML;
+        });
+
+        // Attach modal handlers to dynamically created gallery items
+        initDynamicGalleryLightbox();
+      } else {
+        galleryContainer.innerHTML = `
+          <div class="col-12 text-center text-muted py-5 w-100">
+            <i class="fa-solid fa-images fa-3x mb-3 text-secondary"></i>
+            <p class="fs-5 text-light">No gallery images available right now.</p>
           </div>
         `;
-        galleryContainer.innerHTML += itemHTML;
-      });
+      }
     }
   } catch (err) {
     console.warn('Gallery API warning:', err.message);
   }
+}
+
+// Lightbox handler for dynamic gallery items
+function initDynamicGalleryLightbox() {
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const imgSrc = item.querySelector('img')?.src;
+      const title = item.querySelector('.gallery-title')?.innerText || 'Maharashtra Travel Highlight';
+      const isVideo = item.getAttribute('data-type') === 'video';
+
+      const modalTitle = document.getElementById('galleryModalTitle');
+      const modalBody = document.getElementById('galleryModalBody');
+
+      if (modalTitle && modalBody) {
+        modalTitle.innerText = title;
+        if (isVideo) {
+          modalBody.innerHTML = `
+            <div class="ratio ratio-16x9">
+              <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="YouTube video" allowfullscreen></iframe>
+            </div>
+          `;
+        } else {
+          modalBody.innerHTML = `<img src="${imgSrc}" class="img-fluid rounded-4 w-100" alt="${title}">`;
+        }
+
+        const galleryModalEl = document.getElementById('galleryModal');
+        if (galleryModalEl && window.bootstrap) {
+          const galleryModal = new bootstrap.Modal(galleryModalEl);
+          galleryModal.show();
+        }
+      }
+    });
+  });
 }
 
 // 3. Fetch & Render Upcoming Group Tours

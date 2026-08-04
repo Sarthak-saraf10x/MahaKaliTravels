@@ -353,16 +353,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // 7. Gallery Pinterest Masonry & Lightbox Modal
   // ------------------------------------------------------------------
   const galleryCatBtns = document.querySelectorAll('.gallery-cat-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
 
   galleryCatBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       galleryCatBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const filter = btn.getAttribute('data-gallery-filter');
-      galleryItems.forEach(item => {
-        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+      const filter = btn.getAttribute('data-gallery-filter').toLowerCase();
+      const liveGalleryItems = document.querySelectorAll('.gallery-item');
+      liveGalleryItems.forEach(item => {
+        const cat = (item.getAttribute('data-category') || '').toLowerCase();
+        if (filter === 'all' || cat.includes(filter) || filter.includes(cat)) {
           item.style.display = 'block';
         } else {
           item.style.display = 'none';
@@ -371,8 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Gallery Modal Handler
-  galleryItems.forEach(item => {
+  // Attach static lightbox click listener for fallback html elements
+  document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
       const imgSrc = item.querySelector('img')?.src;
       const title = item.querySelector('.gallery-title')?.innerText || 'Maharashtra Travel Highlight';
@@ -393,8 +394,11 @@ document.addEventListener('DOMContentLoaded', () => {
           modalBody.innerHTML = `<img src="${imgSrc}" class="img-fluid rounded-4 w-100" alt="${title}">`;
         }
 
-        const galleryModal = new bootstrap.Modal(document.getElementById('galleryModal'));
-        galleryModal.show();
+        const galleryModalEl = document.getElementById('galleryModal');
+        if (galleryModalEl && window.bootstrap) {
+          const galleryModal = new bootstrap.Modal(galleryModalEl);
+          galleryModal.show();
+        }
       }
     });
   });

@@ -18,16 +18,16 @@
 
   <style>
     :root {
-      --bg-dark: #f8fafc; /* Very light slate/gray */
+      --bg-dark: #F8F4EC; /* Same beige as main site background */
       --bg-card: #ffffff; /* Pure white for containers, sidebar, cards */
-      --primary: #d97706; /* Maintain elegant gold accent */
-      --primary-hover: #b45309;
-      --accent: #f59e0b;
-      --text-main: #0f172a; /* Dark charcoal text */
-      --text-muted: #64748b; /* Slate gray */
+      --primary: #FF8A00; /* Same orange as main site primary */
+      --primary-hover: #E57A00;
+      --accent: #FF8A00;
+      --text-main: #3E2A1F; /* Same dark brown as main site text */
+      --text-muted: #6B5C54; /* Same warm gray as main site muted text */
       --success: #10b981;
       --danger: #ef4444;
-      --border: #e2e8f0; /* Very light gray borders */
+      --border: #F2ECDF; /* Same border color as main site */
       --font-inter: 'Inter', sans-serif;
       --font-outfit: 'Outfit', sans-serif;
     }
@@ -79,7 +79,7 @@
       background-color: #ffffff !important;
       color: var(--text-main) !important;
       border-color: var(--primary) !important;
-      box-shadow: 0 0 0 0.25rem rgba(217, 119, 6, 0.15) !important;
+      box-shadow: 0 0 0 0.25rem rgba(255, 138, 0, 0.15) !important;
     }
 
     .modal-content.bg-dark {
@@ -121,6 +121,38 @@
       color: var(--text-main) !important;
     }
 
+    /* Bootstrap Warning (Gold/Amber) Overrides for Brand Consistency */
+    .btn-outline-warning {
+      color: var(--primary) !important;
+      border-color: var(--primary) !important;
+    }
+    .btn-outline-warning:hover,
+    .btn-outline-warning:focus,
+    .btn-outline-warning:active {
+      background-color: var(--primary) !important;
+      border-color: var(--primary) !important;
+      color: #ffffff !important;
+    }
+    .btn-warning {
+      background-color: var(--primary) !important;
+      border-color: var(--primary) !important;
+      color: #ffffff !important;
+    }
+    .btn-warning:hover,
+    .btn-warning:focus,
+    .btn-warning:active {
+      background-color: var(--primary-hover) !important;
+      border-color: var(--primary-hover) !important;
+      color: #ffffff !important;
+    }
+    .text-warning {
+      color: var(--primary) !important;
+    }
+    .bg-warning {
+      background-color: var(--primary) !important;
+      color: #ffffff !important;
+    }
+
     /* ================= LOGIN SCREEN ================= */
     #authContainer {
       position: fixed;
@@ -128,7 +160,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+      background: radial-gradient(circle at center, #ffffff 0%, var(--bg-dark) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -281,7 +313,7 @@
     }
 
     .sidebar-link.active {
-      background-color: rgba(217, 119, 6, 0.15);
+      background-color: rgba(255, 138, 0, 0.12);
       color: var(--primary);
       border-left: 3px solid var(--primary);
     }
@@ -354,14 +386,14 @@
 
     .stat-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(217, 119, 6, 0.4);
+      border-color: rgba(255, 138, 0, 0.4);
     }
 
     .stat-icon {
       width: 50px;
       height: 50px;
       border-radius: 12px;
-      background-color: rgba(217, 119, 6, 0.15);
+      background-color: rgba(255, 138, 0, 0.12);
       color: var(--primary);
       display: flex;
       align-items: center;

@@ -601,7 +601,7 @@ img {
     margin-bottom: 25px;
   }
   .hero-btns {
-    justify-content: center;
+    display: none;
   }
 }
 

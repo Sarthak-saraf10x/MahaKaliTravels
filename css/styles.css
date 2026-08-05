@@ -2295,3 +2295,143 @@ body.mobile-nav-active .mobile-nav-toggle {
   }
 }
 
+/* ==========================================================================
+   5c. Cab Services & Rentals Section Styles
+   ========================================================================== */
+.cab-services-section {
+  background-color: var(--color-white);
+  padding: 90px 0;
+}
+
+.cab-card {
+  background: var(--color-white);
+  border: 1px solid rgba(62, 42, 31, 0.08);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cab-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-orange);
+}
+
+.cab-img-wrap {
+  position: relative;
+  height: 200px;
+  background-color: var(--color-beige-alt);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cab-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--color-dark-brown);
+  color: var(--color-white);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  z-index: 5;
+}
+
+.cab-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cab-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-dark-brown);
+  margin-bottom: 4px;
+}
+
+.cab-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-orange);
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.cab-features {
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.cab-feature-item {
+  font-size: 0.88rem;
+  color: var(--color-text-main);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cab-feature-item i {
+  color: var(--color-orange);
+}
+
+.btn-cab-book {
+  background: var(--color-dark-brown);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-cab-book:hover {
+  background: var(--color-orange);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.cab-consultation-banner {
+  padding: 48px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--color-dark-brown) 0%, #523728 100%);
+  border: 1px solid rgba(255, 138, 0, 0.15);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cab-call {
+  background: var(--color-orange);
+  color: var(--color-white);
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+}
+
+.btn-cab-call:hover {
+  background: var(--color-white);
+  color: var(--color-dark-brown);
+  transform: translateY(-2px);
+}
+
+

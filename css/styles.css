@@ -522,9 +522,9 @@ img {
   height: 100%;
   background: linear-gradient(
     180deg,
-    rgba(42, 28, 20, 0.75) 0%,
-    rgba(42, 28, 20, 0.4) 50%,
-    rgba(42, 28, 20, 0.95) 100%
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.5) 100%
   );
   z-index: 2;
 }

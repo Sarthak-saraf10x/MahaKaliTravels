@@ -110,7 +110,7 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-dark-brown-deep);
+  background: var(--color-white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,7 +121,7 @@ img {
 
 .loader-content {
   text-align: center;
-  color: var(--color-white);
+  color: var(--color-dark-brown);
 }
 
 .loader-logo-wrap {
@@ -181,7 +181,7 @@ img {
 .loader-bar-wrap {
   width: 220px;
   height: 4px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(62, 42, 31, 0.15);
   border-radius: 4px;
   margin-top: 25px;
   overflow: hidden;

@@ -500,7 +500,14 @@ img {
   z-index: 1;
 }
 
+.hero-bg-wrapper picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .hero-bg-img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -510,8 +517,13 @@ img {
 }
 
 @keyframes heroZoom {
-  0% { transform: scale(1); }
+  0% { transform: scale(1.02); }
   100% { transform: scale(1.12); }
+}
+
+@keyframes heroZoomMobile {
+  0% { transform: scale(1.12); }
+  100% { transform: scale(1.25); }
 }
 
 .hero-overlay {
@@ -602,6 +614,9 @@ img {
   }
   .hero-btns {
     display: none !important;
+  }
+  .hero-bg-img {
+    animation: heroZoomMobile 20s infinite alternate ease-in-out;
   }
 }
 

@@ -18,16 +18,16 @@
 
   <style>
     :root {
-      --bg-dark: #F8F4EC; /* Same beige as main site background */
-      --bg-card: #ffffff; /* Pure white for containers, sidebar, cards */
-      --primary: #FF8A00; /* Same orange as main site primary */
-      --primary-hover: #E57A00;
+      --bg-dark: #09090b; /* Deep rich obsidian black */
+      --bg-card: #18181b; /* Sleek zinc dark gray for cards & panels */
+      --primary: #FF8A00; /* Beautiful orange accent */
+      --primary-hover: #FF9E2B;
       --accent: #FF8A00;
-      --text-main: #3E2A1F; /* Same dark brown as main site text */
-      --text-muted: #6B5C54; /* Same warm gray as main site muted text */
+      --text-main: #f4f4f5; /* Off-white for high contrast and readability */
+      --text-muted: #a1a1aa; /* Soft gray for captions and metadata */
       --success: #10b981;
       --danger: #ef4444;
-      --border: #F2ECDF; /* Same border color as main site */
+      --border: #27272a; /* Muted zinc border */
       --font-inter: 'Inter', sans-serif;
       --font-outfit: 'Outfit', sans-serif;
     }
@@ -66,27 +66,27 @@
       font-family: inherit;
     }
 
-    /* ================= BOOTSTRAP OVERRIDES FOR LIGHT THEME ================= */
+    /* ================= BOOTSTRAP OVERRIDES FOR DARK THEME ================= */
     .form-control.bg-dark,
     .form-select.bg-dark {
-      background-color: #ffffff !important;
+      background-color: var(--bg-dark) !important;
       color: var(--text-main) !important;
       border-color: var(--border) !important;
     }
     
     .form-control.bg-dark:focus,
     .form-select.bg-dark:focus {
-      background-color: #ffffff !important;
+      background-color: var(--bg-dark) !important;
       color: var(--text-main) !important;
       border-color: var(--primary) !important;
-      box-shadow: 0 0 0 0.25rem rgba(255, 138, 0, 0.15) !important;
+      box-shadow: 0 0 0 0.25rem rgba(255, 138, 0, 0.25) !important;
     }
 
     .modal-content.bg-dark {
       background-color: var(--bg-card) !important;
       color: var(--text-main) !important;
       border-color: var(--border) !important;
-      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08) !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
     }
     
     .modal-header, .modal-footer {
@@ -160,7 +160,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle at center, #ffffff 0%, var(--bg-dark) 100%);
+      background: radial-gradient(circle at center, #18181b 0%, var(--bg-dark) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -171,15 +171,15 @@
     }
 
     .auth-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(24, 24, 27, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 20px;
       padding: 36px;
       width: 100%;
       max-width: 440px;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       text-align: center;
     }
 
@@ -309,7 +309,7 @@
     .sidebar-link:hover,
     .sidebar-link.active {
       color: var(--text-main);
-      background-color: rgba(15, 23, 42, 0.05);
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
     .sidebar-link.active {
@@ -457,7 +457,7 @@
     }
 
     .table-dark-custom th {
-      background-color: rgba(15, 23, 42, 0.04);
+      background-color: rgba(255, 255, 255, 0.03);
       color: var(--primary);
       font-weight: 600;
       font-size: 0.82rem;
@@ -476,7 +476,7 @@
     }
 
     .table-dark-custom tr:hover td {
-      background-color: rgba(15, 23, 42, 0.02);
+      background-color: rgba(255, 255, 255, 0.02);
     }
 
     /* Quick Action Buttons */
@@ -496,7 +496,7 @@
     }
 
     .btn-icon:hover {
-      background-color: rgba(15, 23, 42, 0.05);
+      background-color: rgba(255, 255, 255, 0.08);
       color: var(--text-main);
     }
 
@@ -549,7 +549,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 16px;
-        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       }
 
       .mobile-brand {
@@ -590,7 +590,7 @@
         justify-content: space-around;
         align-items: center;
         padding: 0 4px;
-        box-shadow: 0 -4px 15px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
       }
 
       .bottom-nav-link {
@@ -598,7 +598,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: #64748b;
+        color: var(--text-muted);
         text-decoration: none;
         font-size: 0.62rem;
         font-weight: 600;

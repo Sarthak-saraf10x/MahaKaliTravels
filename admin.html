@@ -108,6 +108,35 @@
       margin-bottom: 12px;
     }
 
+    .brand-logo-img-auth {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 16px auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-logo-img-sidebar {
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-logo-img-mobile {
+      height: 38px;
+      width: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
     .btn-gold {
       background-color: var(--primary);
       color: white;
@@ -551,8 +580,8 @@
   <!-- ==================== 1. LOGIN SCREEN ==================== -->
   <div id="authContainer">
     <div class="auth-card">
-      <div class="brand-logo-auth">
-        <i class="fa-solid fa-bus-simple text-warning"></i> Mahakali Travels
+      <div class="brand-logo-auth text-center">
+        <img src="images/logo.jpeg" alt="Mahakali Tours & Travels Logo" class="brand-logo-img-auth">
       </div>
       <h4 class="fw-bold text-white mb-2" style="font-family: var(--font-outfit);">Owner & Admin Portal</h4>
       <p class="text-muted small mb-4">Enter email & password or sign in with Google to manage your travel agency.</p>
@@ -615,7 +644,7 @@
     <!-- Mobile Top Navigation Bar -->
     <div class="mobile-top-bar">
       <div class="mobile-brand">
-        <i class="fa-solid fa-bus-simple"></i> Mahakali B2B
+        <img src="images/logo.jpeg" alt="Mahakali Tours & Travels Logo" class="brand-logo-img-mobile">
       </div>
       <button onclick="logoutAdmin()" class="mobile-logout-btn">
         <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -624,8 +653,8 @@
 
     <!-- Desktop Sidebar -->
     <div class="sidebar">
-      <div class="sidebar-brand">
-        <i class="fa-solid fa-bus-simple"></i> Mahakali B2B
+      <div class="sidebar-brand justify-content-center">
+        <img src="images/logo.jpeg" alt="Mahakali Tours & Travels Logo" class="brand-logo-img-sidebar">
       </div>
 
       <nav class="sidebar-menu">

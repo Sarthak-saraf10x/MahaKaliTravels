@@ -627,8 +627,7 @@ img {
     margin-bottom: 15px;
   }
   .hero-subheading {
-    font-size: 1.05rem;
-    margin-bottom: 25px;
+    display: none !important;
   }
   .hero-btns {
     display: none !important;

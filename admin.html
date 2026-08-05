@@ -815,13 +815,6 @@
         </div>
       </div>
 
-      <!-- Local Quick Access -->
-      <div class="border-top border-secondary pt-3 mt-3">
-        <p class="text-muted small mb-2">Dev / Testing Admin Access:</p>
-        <button class="btn btn-outline-warning btn-sm w-100" onclick="devLogin()">
-          <i class="fa-solid fa-key me-2"></i> Quick Admin Demo Login
-        </button>
-      </div>
     </div>
   </div>
 
@@ -1474,13 +1467,7 @@
       }
     }
 
-    // Dev Demo Login
-    function devLogin() {
-      localStorage.setItem('adminToken', 'dev-demo-token');
-      token = 'dev-demo-token';
-      setAdminProfile({ name: 'Mahakali Admin', email: 'admin@mahakalitours.com' });
-      showDashboard();
-    }
+
 
     // Admin Logout
     function logoutAdmin() {

@@ -404,15 +404,16 @@ img {
 
 @media (max-width: 768px) {
   .header-area .container {
-    padding-left: 8px;
+    padding-left: 0;
   }
   .brand-logo-img {
     height: 105px;
     max-width: 200px;
-    margin-left: -10px;
+    margin-left: -28px;
   }
   .header-area.sticky .brand-logo-img {
     height: 75px;
+    margin-left: -28px;
   }
 }
 

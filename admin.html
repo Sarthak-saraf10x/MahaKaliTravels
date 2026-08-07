@@ -842,6 +842,7 @@
         <a class="sidebar-link" data-tab="packages"><i class="fa-solid fa-map-location-dot"></i> Tour Packages</a>
         <a class="sidebar-link" data-tab="gallery"><i class="fa-solid fa-images"></i> Gallery</a>
         <a class="sidebar-link" data-tab="tours"><i class="fa-solid fa-bus"></i> Route Buses</a>
+        <a class="sidebar-link" data-tab="vehicles"><i class="fa-solid fa-taxi"></i> Cabs &amp; Rentals</a>
         <a class="sidebar-link" data-tab="messages"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
         <a class="sidebar-link" data-tab="corporate"><i class="fa-solid fa-building-user"></i> Corporate Quotes</a>
       </nav>
@@ -877,6 +878,10 @@
       <a class="bottom-nav-link" data-tab="tours">
         <i class="fa-solid fa-bus"></i>
         <span>Route Buses</span>
+      </a>
+      <a class="bottom-nav-link" data-tab="vehicles">
+        <i class="fa-solid fa-taxi"></i>
+        <span>Cabs</span>
       </a>
       <a class="bottom-nav-link" data-tab="messages">
         <i class="fa-solid fa-envelope"></i>
@@ -922,6 +927,13 @@
             <div class="stat-info">
               <h3>Route Buses</h3>
               <div id="statTours" class="stat-num">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-taxi"></i></div>
+            <div class="stat-info">
+              <h3>Cabs &amp; Rentals</h3>
+              <div id="statVehicles" class="stat-num">0</div>
             </div>
           </div>
           <div class="stat-card">
@@ -1024,6 +1036,36 @@
                 </tr>
               </thead>
               <tbody id="tourTableBody">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 4b: CAB SERVICES & RENTAL VEHICLES ================= -->
+      <div id="tab-vehicles" class="tab-panel">
+        <div class="data-card">
+          <div class="card-header-custom">
+            <h2>Cab Services &amp; Rental Cars Fleet</h2>
+            <button class="btn btn-gold btn-sm" onclick="openVehicleModal()"><i class="fa-solid fa-plus me-1"></i> Add Vehicle</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table-dark-custom">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Vehicle Name</th>
+                  <th>Type</th>
+                  <th>Capacity</th>
+                  <th>Fuel / Transmission</th>
+                  <th>Price/KM</th>
+                  <th>AC</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="vehicleTableBody">
                 <!-- Dynamically Populated -->
               </tbody>
             </table>
@@ -1280,6 +1322,118 @@
     </div>
   </div>
 
+  <!-- ================= VEHICLE MODAL ================= -->
+  <div class="modal fade" id="vehicleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title fw-bold" id="vehicleModalTitle">Add Vehicle to Fleet</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="vehicleForm" onsubmit="saveVehicle(event)">
+          <div class="modal-body">
+            <input type="hidden" id="vehicleId">
+            <!-- Row 1: Name + Type -->
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small">Vehicle Name *</label>
+                <input type="text" id="vehicleName" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Toyota Innova Crysta" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Vehicle Type *</label>
+                <select id="vehicleType" class="form-select bg-dark text-white border-secondary" required>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="Innova">Innova</option>
+                  <option value="Ertiga">Ertiga</option>
+                  <option value="Tempo Traveller">Tempo Traveller</option>
+                  <option value="Mini Bus">Mini Bus</option>
+                  <option value="Luxury Bus">Luxury Bus</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <!-- Row 2: Capacity + Fuel -->
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small">Seating Capacity *</label>
+                <input type="number" id="vehicleCapacity" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 7" min="1" max="60" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Fuel Type</label>
+                <select id="vehicleFuelType" class="form-select bg-dark text-white border-secondary">
+                  <option value="Diesel">Diesel</option>
+                  <option value="Petrol">Petrol</option>
+                  <option value="CNG">CNG</option>
+                  <option value="Electric">Electric</option>
+                  <option value="Hybrid">Hybrid</option>
+                </select>
+              </div>
+            </div>
+            <!-- Row 3: Transmission + Price -->
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small">Transmission</label>
+                <select id="vehicleTransmission" class="form-select bg-dark text-white border-secondary">
+                  <option value="Manual">Manual</option>
+                  <option value="Automatic">Automatic</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Price per KM</label>
+                <input type="text" id="vehiclePricePerKm" class="form-control bg-dark text-white border-secondary" placeholder="e.g. ₹14/km">
+              </div>
+            </div>
+            <!-- Key Features -->
+            <div class="mb-3">
+              <label class="form-label small">Key Features <span class="text-muted">(comma-separated)</span></label>
+              <input type="text" id="vehicleFeatures" class="form-control bg-dark text-white border-secondary" placeholder="e.g. GPS Tracking, AC, Charging Ports">
+            </div>
+            <!-- WhatsApp Number -->
+            <div class="mb-3">
+              <label class="form-label small">WhatsApp Booking Number</label>
+              <input type="text" id="vehicleWhatsApp" class="form-control bg-dark text-white border-secondary" value="917517685951" placeholder="917517685951">
+            </div>
+            <!-- Status -->
+            <div class="mb-3">
+              <label class="form-label small">Status</label>
+              <select id="vehicleStatus" class="form-select bg-dark text-white border-secondary">
+                <option value="Available">Available</option>
+                <option value="On Trip">On Trip</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </div>
+            <!-- AC Checkbox -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="vehicleAC" checked>
+              <label class="form-check-label small" for="vehicleAC">Air Conditioned (AC)</label>
+            </div>
+            <!-- Vehicle Photo -->
+            <div class="mb-3">
+              <label class="form-label small">Vehicle Photo *</label>
+              <input type="file" id="vehicleImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
+              <div class="p-3 rounded bg-dark border border-secondary mt-2">
+                <p class="small text-light mb-1">
+                  <i class="fa-solid fa-circle-info text-warning me-1"></i> For best quality, use <strong>800 × 500 px</strong> (16:10 ratio, max 2MB).
+                </p>
+                <p class="small text-muted mb-2">Don't have one? Generate or resize it using ChatGPT.</p>
+                <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning btn-sm fw-bold d-inline-flex align-items-center gap-1" onclick="openChatGPTWithPrompt(event)">
+                  <i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Generate / Resize with ChatGPT
+                </a>
+              </div>
+              <input type="text" id="vehicleImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
+            </div>
+          </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-gold">Add to Fleet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Detail Viewer Modal -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog">
@@ -1309,12 +1463,13 @@
     let token = localStorage.getItem('adminToken');
 
     // Bootstrap Modals
-    let packageModal, galleryModal, tourModal, detailModal;
+    let packageModal, galleryModal, tourModal, vehicleModal, detailModal;
 
     document.addEventListener('DOMContentLoaded', () => {
       packageModal = new bootstrap.Modal(document.getElementById('packageModal'));
       galleryModal = new bootstrap.Modal(document.getElementById('galleryModal'));
       tourModal = new bootstrap.Modal(document.getElementById('tourModal'));
+      vehicleModal = new bootstrap.Modal(document.getElementById('vehicleModal'));
       detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
 
       if (token) {
@@ -1362,7 +1517,8 @@
         overview: 'Dashboard Overview',
         packages: 'Tour Packages Management',
         gallery: 'Gallery Image Management',
-        tours: 'Group Departure Tours',
+        tours: 'Route Bus Services Management',
+        vehicles: 'Cab Services & Rental Cars Fleet',
         messages: 'Customer Contact Enquiries',
         corporate: 'Corporate B2B Bus Quotes'
       };
@@ -1382,6 +1538,7 @@
       loadPackages();
       loadGallery();
       loadTours();
+      loadVehicles();
       loadContacts();
       loadCorporateQuotes();
     }
@@ -1480,10 +1637,11 @@
     async function loadOverviewData() {
       try {
         const authHeaders = token ? { 'Authorization': `Bearer ${token}` } : {};
-        const [pkgRes, galRes, tourRes, msgRes, corpRes] = await Promise.all([
+        const [pkgRes, galRes, tourRes, vehicleRes, msgRes, corpRes] = await Promise.all([
           fetch(`${API_BASE}/packages`),
           fetch(`${API_BASE}/gallery`),
           fetch(`${API_BASE}/bus-routes`).catch(() => fetch(`${API_BASE}/tours`)),
+          fetch(`${API_BASE}/vehicles`),
           fetch(`${API_BASE}/contact`, { headers: authHeaders }),
           fetch(`${API_BASE}/corporate`, { headers: authHeaders })
         ]);
@@ -1491,12 +1649,14 @@
         const pkgs = pkgRes.ok ? (await pkgRes.json()).data || [] : [];
         const gal = galRes.ok ? (await galRes.json()).data || [] : [];
         const tours = tourRes && tourRes.ok ? (await tourRes.json()).data || [] : [];
+        const vehicles = vehicleRes && vehicleRes.ok ? (await vehicleRes.json()).data || [] : [];
         const msgs = msgRes.ok ? (await msgRes.json()).data || [] : [];
         const corps = corpRes.ok ? (await corpRes.json()).data || [] : [];
 
         document.getElementById('statPackages').innerText = pkgs.length;
         document.getElementById('statGallery').innerText = gal.length;
         document.getElementById('statTours').innerText = tours.length;
+        if (document.getElementById('statVehicles')) document.getElementById('statVehicles').innerText = vehicles.length;
         document.getElementById('statMessages').innerText = msgs.length;
         if (document.getElementById('statCorporate')) document.getElementById('statCorporate').innerText = corps.length;
 
@@ -1861,6 +2021,144 @@
         }
       } catch (err) {
         alert('Delete Bus Route error: ' + err.message);
+      }
+    }
+
+    // =================== CAB SERVICES & RENTAL VEHICLES MANAGEMENT ===================
+
+    async function loadVehicles() {
+      try {
+        const res = await fetch(`${API_BASE}/vehicles`);
+        const data = await res.json();
+        const vehicles = data.data || [];
+        const tbody = document.getElementById('vehicleTableBody');
+
+        tbody.innerHTML = vehicles.map(v => {
+          const img = v.image
+            ? `<img src="${v.image}" class="table-img" alt="${v.name}">`
+            : `<div class="table-img d-flex align-items-center justify-content-center bg-secondary rounded" style="width:48px;height:36px;"><i class="fa-solid fa-car text-muted"></i></div>`;
+          const acBadge = v.ac
+            ? `<span class="badge bg-success">AC</span>`
+            : `<span class="badge bg-secondary">Non-AC</span>`;
+          const statusColor = v.status === 'Available' ? 'success' : v.status === 'On Trip' ? 'warning' : 'danger';
+          return `
+            <tr>
+              <td>${img}</td>
+              <td class="fw-bold text-white">${v.name}</td>
+              <td>${v.vehicleType}</td>
+              <td><i class="fa-solid fa-users text-warning me-1"></i>${v.seatingCapacity} Seater</td>
+              <td><span class="badge bg-secondary me-1">${v.fuelType || 'Diesel'}</span><span class="badge bg-dark border border-secondary">${v.transmission || 'Manual'}</span></td>
+              <td>${v.pricePerKm || '<span class="text-muted">N/A</span>'}</td>
+              <td>${acBadge}</td>
+              <td><span class="badge bg-${statusColor}">${v.status || 'Available'}</span></td>
+              <td>
+                <div class="d-flex gap-1">
+                  <button class="btn-icon edit" onclick="editVehicle('${v._id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button class="btn-icon delete" onclick="deleteVehicle('${v._id}')"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('') || '<tr><td colspan="9" class="text-center text-muted">No vehicles in fleet yet.</td></tr>';
+      } catch (err) {
+        console.error('Error loading vehicles:', err);
+      }
+    }
+
+    function openVehicleModal(id = null) {
+      document.getElementById('vehicleId').value = id || '';
+      document.getElementById('vehicleModalTitle').innerText = id ? 'Edit Vehicle' : 'Add Vehicle to Fleet';
+      document.querySelector('#vehicleModal .modal-footer .btn-gold').innerText = id ? 'Save Changes' : 'Add to Fleet';
+      if (!id) {
+        document.getElementById('vehicleForm').reset();
+        document.getElementById('vehicleAC').checked = true;
+        document.getElementById('vehicleWhatsApp').value = '917517685951';
+      }
+      vehicleModal.show();
+    }
+
+    async function editVehicle(id) {
+      try {
+        const res = await fetch(`${API_BASE}/vehicles/${id}`);
+        const data = await res.json();
+        if (data.success && data.data) {
+          const v = data.data;
+          document.getElementById('vehicleId').value = v._id;
+          document.getElementById('vehicleName').value = v.name || '';
+          document.getElementById('vehicleType').value = v.vehicleType || 'Sedan';
+          document.getElementById('vehicleCapacity').value = v.seatingCapacity || '';
+          document.getElementById('vehicleFuelType').value = v.fuelType || 'Diesel';
+          document.getElementById('vehicleTransmission').value = v.transmission || 'Manual';
+          document.getElementById('vehiclePricePerKm').value = v.pricePerKm || '';
+          document.getElementById('vehicleFeatures').value = Array.isArray(v.features) ? v.features.join(', ') : (v.features || '');
+          document.getElementById('vehicleWhatsApp').value = v.whatsappNumber || '917517685951';
+          document.getElementById('vehicleStatus').value = v.status || 'Available';
+          document.getElementById('vehicleAC').checked = !!v.ac;
+          document.getElementById('vehicleImageUrl').value = v.image || '';
+          document.getElementById('vehicleModalTitle').innerText = 'Edit Vehicle';
+          document.querySelector('#vehicleModal .modal-footer .btn-gold').innerText = 'Save Changes';
+          vehicleModal.show();
+        }
+      } catch (err) {
+        console.error('Error loading vehicle for edit:', err);
+      }
+    }
+
+    async function saveVehicle(e) {
+      e.preventDefault();
+      const id = document.getElementById('vehicleId').value;
+      const formData = new FormData();
+      formData.append('name', document.getElementById('vehicleName').value);
+      formData.append('vehicleType', document.getElementById('vehicleType').value);
+      formData.append('seatingCapacity', document.getElementById('vehicleCapacity').value);
+      formData.append('fuelType', document.getElementById('vehicleFuelType').value);
+      formData.append('transmission', document.getElementById('vehicleTransmission').value);
+      formData.append('pricePerKm', document.getElementById('vehiclePricePerKm').value);
+      formData.append('features', document.getElementById('vehicleFeatures').value);
+      formData.append('whatsappNumber', document.getElementById('vehicleWhatsApp').value);
+      formData.append('status', document.getElementById('vehicleStatus').value);
+      formData.append('ac', document.getElementById('vehicleAC').checked ? 'true' : 'false');
+
+      const fileInput = document.getElementById('vehicleImageFile');
+      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (document.getElementById('vehicleImageUrl').value) formData.append('imageUrl', document.getElementById('vehicleImageUrl').value);
+
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `${API_BASE}/vehicles/${id}` : `${API_BASE}/vehicles`;
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          vehicleModal.hide();
+          loadVehicles();
+          loadOverviewData();
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (err) {
+        alert('Save Vehicle error: ' + err.message);
+      }
+    }
+
+    async function deleteVehicle(id) {
+      if (!confirm('Are you sure you want to remove this vehicle from the fleet?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/vehicles/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadVehicles();
+          loadOverviewData();
+        }
+      } catch (err) {
+        alert('Delete Vehicle error: ' + err.message);
       }
     }
 

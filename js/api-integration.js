@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchFeaturedPackages();
   fetchGalleryItems();
   fetchUpcomingTours();
+  fetchVehicles();
   initFormListeners();
 });
 
@@ -279,6 +280,77 @@ async function fetchBusRoutes() {
 
   } catch (err) {
     console.warn('Bus Routes API warning:', err.message);
+  }
+}
+
+// 4. Fetch & Render Cab Services & Rental Cars fleet from backend
+async function fetchVehicles() {
+  try {
+    const cabGrid = document.querySelector('#cab-services .row.g-4.mb-5');
+    if (!cabGrid) return;
+
+    const res = await fetch(`${API_BASE}/vehicles`);
+    const data = await res.json();
+
+    if (!data.success || !data.data || data.data.length === 0) {
+      // Keep static content as fallback — do nothing
+      return;
+    }
+
+    cabGrid.innerHTML = '';
+    data.data.forEach((v, index) => {
+      const img = v.image
+        ? `<img src="${v.image}" alt="${v.name}" class="cab-img w-100 h-100 object-fit-cover" loading="lazy">`
+        : `<div class="d-flex flex-column align-items-center justify-content-center h-100 opacity-50"><i class="fa-regular fa-image fa-3x mb-2 text-muted"></i><div class="small fw-semibold text-muted">Vehicle Image Coming Soon</div></div>`;
+
+      const acBadge = v.ac
+        ? `<li class="cab-feature-item"><i class="fa-solid fa-snowflake"></i> Air Conditioned (AC)</li>`
+        : '';
+
+      const priceTag = v.pricePerKm
+        ? `<li class="cab-feature-item"><i class="fa-solid fa-indian-rupee-sign"></i> ${v.pricePerKm}</li>`
+        : '';
+
+      const featureItems = (v.features || []).slice(0, 2).map(f =>
+        `<li class="cab-feature-item"><i class="fa-solid fa-circle-check"></i> ${f}</li>`
+      ).join('');
+
+      const waMsg = encodeURIComponent(`Hello Mahakali Tours, I want to book the ${v.name} (${v.vehicleType}, ${v.seatingCapacity} Seater). Please provide availability and rates.`);
+      const waUrl = `https://wa.me/${v.whatsappNumber || '917517685951'}?text=${waMsg}`;
+
+      const seaterTag = `${v.seatingCapacity} Seater`;
+
+      const cardHTML = `
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="${(index % 4 + 1) * 100}">
+          <div class="cab-card">
+            <div class="cab-img-wrap">
+              <span class="cab-tag">${seaterTag}</span>
+              ${img}
+            </div>
+            <div class="cab-body">
+              <h4 class="cab-title">${v.name}</h4>
+              <p class="cab-subtitle">${v.vehicleType}${v.fuelType ? ' · ' + v.fuelType : ''}${v.transmission ? ' · ' + v.transmission : ''}</p>
+
+              <ul class="list-unstyled cab-features">
+                ${acBadge}
+                ${featureItems}
+                ${priceTag}
+              </ul>
+
+              <div>
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-custom btn-cab-book w-100">
+                  <i class="fa-brands fa-whatsapp fs-5"></i> Book ${v.vehicleType}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      cabGrid.innerHTML += cardHTML;
+    });
+
+  } catch (err) {
+    console.warn('Vehicles API warning (keeping static content):', err.message);
   }
 }
 

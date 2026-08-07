@@ -1570,9 +1570,27 @@
       if (user.avatar) document.getElementById('adminAvatar').src = user.avatar;
     }
 
+    // Helper for form submit loading states
+    function setButtonLoading(btn, isLoading, loadingText = 'Processing...') {
+      if (!btn) return;
+      if (isLoading) {
+        btn.dataset.originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${loadingText}`;
+      } else {
+        btn.disabled = false;
+        if (btn.dataset.originalHtml) {
+          btn.innerHTML = btn.dataset.originalHtml;
+        }
+      }
+    }
+
     // Email/Password Login
     async function handleEmailLogin(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      setButtonLoading(submitBtn, true, 'Signing In...');
+
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
 
@@ -1595,6 +1613,8 @@
         }
       } catch (err) {
         alert('Server login error: ' + err.message);
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     }
 
@@ -1740,6 +1760,9 @@
 
     async function savePackage(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      setButtonLoading(submitBtn, true, 'Saving Package...');
+
       const id = document.getElementById('pkgId').value;
       const formData = new FormData();
       formData.append('name', document.getElementById('pkgName').value);
@@ -1774,6 +1797,8 @@
         }
       } catch (err) {
         alert('Save Package error: ' + err.message);
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     }
 
@@ -1825,6 +1850,9 @@
 
     async function saveGallery(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      setButtonLoading(submitBtn, true, 'Uploading Images...');
+
       const formData = new FormData();
       formData.append('title', document.getElementById('galTitle').value);
       formData.append('category', document.getElementById('galCategory').value);
@@ -1851,6 +1879,8 @@
         }
       } catch (err) {
         alert('Upload Gallery error: ' + err.message);
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     }
 
@@ -1972,6 +2002,8 @@
 
     async function saveTour(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      setButtonLoading(submitBtn, true, 'Saving Bus Route...');
       const id = document.getElementById('tourId').value;
       const formData = new FormData();
       formData.append('source', document.getElementById('tourSource').value);
@@ -2005,6 +2037,8 @@
         }
       } catch (err) {
         alert('Save Bus Route error: ' + err.message);
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     }
 
@@ -2120,6 +2154,8 @@
 
     async function saveVehicle(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      setButtonLoading(submitBtn, true, 'Saving Vehicle...');
       const id = document.getElementById('vehicleId').value;
       const formData = new FormData();
       formData.append('name', document.getElementById('vehicleName').value);
@@ -2158,6 +2194,8 @@
         }
       } catch (err) {
         alert('Save Vehicle error: ' + err.message);
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     }
 

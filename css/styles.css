@@ -633,7 +633,7 @@ img {
 @media (max-width: 767px) {
   .hero-section {
     align-items: flex-start;
-    padding-top: 120px;
+    padding-top: 170px;
     padding-bottom: 40px;
   }
   .hero-content {
@@ -655,7 +655,7 @@ img {
     display: flex !important;
     justify-content: center;
     gap: 12px;
-    margin-top: 25px;
+    margin-top: 30px;
     width: 100%;
   }
   .hero-btns .btn-custom {

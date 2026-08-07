@@ -90,27 +90,29 @@
   <!-- ==========================================
        Page Hero Banner
        ========================================== -->
-  <section class="page-hero-section">
-    <div class="page-hero-bg">
+  <section id="home" class="hero-section">
+    <div class="hero-bg-wrapper">
       <picture>
         <source media="(max-width: 767px)" srcset="images/heroPhone.png">
-        <img src="images/heroDesktop.png" alt="Mahakali Travels Banner" class="page-hero-img">
+        <img src="images/heroDesktop.png" alt="Mahakali Travels Background" class="hero-bg-img">
       </picture>
     </div>
-    <div class="page-hero-overlay"></div>
-    <div class="container position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-3">
       <div class="row">
-        <div class="col-lg-8" data-aos="fade-up">
-          <div class="page-hero-content">
-            <div class="breadcrumb-custom">
-              <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-              <i class="fa-solid fa-chevron-right small opacity-50"></i>
+        <div class="col-lg-7 col-md-9 col-12">
+          <div class="hero-content">
+            <div class="breadcrumb-custom mb-3">
+              <a href="index.html"><i class="fa-solid fa-house me-1"></i> Home</a>
+              <i class="fa-solid fa-chevron-right small opacity-50 ms-1 me-1"></i>
               <span class="text-orange fw-semibold">About Us</span>
             </div>
-            <h1 class="display-4 fw-extrabold text-white mb-3">About Mahakali Travels</h1>
-            <p class="lead text-white-50 mb-0">
-              Delivering safe, comfortable, and reliable transportation and tour solutions across Maharashtra and India.
-            </p>
+            <h1 class="hero-heading">About <span class="text-orange-highlight">Mahakali Travels</span></h1>
+            <p class="hero-subheading">Delivering safe, comfortable, and reliable transportation and tour solutions across Maharashtra and India.</p>
+            <div class="hero-btns">
+              <a href="#story" class="btn-custom btn-primary-custom text-white">Our Story <i class="fa-solid fa-arrow-down ms-1"></i></a>
+              <a href="index.html#packages" class="btn-custom btn-outline-dark-custom">Explore Packages</a>
+            </div>
           </div>
         </div>
       </div>

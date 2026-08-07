@@ -283,6 +283,18 @@ async function fetchBusRoutes() {
   }
 }
 
+// Helper to format price per km cleanly (e.g., "70" -> "₹70/km")
+function formatPricePerKm(raw) {
+  if (!raw) return '';
+  let str = String(raw).trim();
+  if (!str) return '';
+  str = str.replace(/^₹\s*/, '');
+  if (!/\/km$/i.test(str) && !/per\s*km$/i.test(str)) {
+    str = `${str}/km`;
+  }
+  return `₹${str}`;
+}
+
 // 4. Fetch & Render Cab Services & Rental Cars fleet from backend
 async function fetchVehicles() {
   try {
@@ -307,8 +319,9 @@ async function fetchVehicles() {
         ? `<li class="cab-feature-item"><i class="fa-solid fa-snowflake"></i> Air Conditioned (AC)</li>`
         : '';
 
-      const priceTag = v.pricePerKm
-        ? `<li class="cab-feature-item"><i class="fa-solid fa-indian-rupee-sign"></i> ${v.pricePerKm}</li>`
+      const priceFormatted = formatPricePerKm(v.pricePerKm);
+      const priceTag = priceFormatted
+        ? `<li class="cab-feature-item"><i class="fa-solid fa-indian-rupee-sign"></i> ${priceFormatted}</li>`
         : '';
 
       const featureItems = (v.features || []).slice(0, 2).map(f =>

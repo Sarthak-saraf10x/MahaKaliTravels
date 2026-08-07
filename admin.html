@@ -1381,8 +1381,9 @@
                 </select>
               </div>
               <div class="col-6">
-                <label class="form-label small">Price per KM</label>
-                <input type="text" id="vehiclePricePerKm" class="form-control bg-dark text-white border-secondary" placeholder="e.g. ₹14/km">
+                <label class="form-label small">Price per KM (Rate)</label>
+                <input type="text" id="vehiclePricePerKm" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 70 or 14/km">
+                <small class="text-muted opacity-75">Entering e.g. 70 formats as ₹70/km</small>
               </div>
             </div>
             <!-- Key Features -->
@@ -2024,6 +2025,18 @@
       }
     }
 
+    // Helper to format price per km cleanly (e.g., "70" -> "₹70/km")
+    function formatPricePerKm(raw) {
+      if (!raw) return '';
+      let str = String(raw).trim();
+      if (!str) return '';
+      str = str.replace(/^₹\s*/, '');
+      if (!/\/km$/i.test(str) && !/per\s*km$/i.test(str)) {
+        str = `${str}/km`;
+      }
+      return `₹${str}`;
+    }
+
     // =================== CAB SERVICES & RENTAL VEHICLES MANAGEMENT ===================
 
     async function loadVehicles() {
@@ -2041,6 +2054,7 @@
             ? `<span class="badge bg-success">AC</span>`
             : `<span class="badge bg-secondary">Non-AC</span>`;
           const statusColor = v.status === 'Available' ? 'success' : v.status === 'On Trip' ? 'warning' : 'danger';
+          const priceDisplay = v.pricePerKm ? formatPricePerKm(v.pricePerKm) : '<span class="text-muted">N/A</span>';
           return `
             <tr>
               <td>${img}</td>
@@ -2048,7 +2062,7 @@
               <td>${v.vehicleType}</td>
               <td><i class="fa-solid fa-users text-warning me-1"></i>${v.seatingCapacity} Seater</td>
               <td><span class="badge bg-secondary me-1">${v.fuelType || 'Diesel'}</span><span class="badge bg-dark border border-secondary">${v.transmission || 'Manual'}</span></td>
-              <td>${v.pricePerKm || '<span class="text-muted">N/A</span>'}</td>
+              <td class="fw-semibold text-warning">${priceDisplay}</td>
               <td>${acBadge}</td>
               <td><span class="badge bg-${statusColor}">${v.status || 'Available'}</span></td>
               <td>
@@ -2113,7 +2127,9 @@
       formData.append('seatingCapacity', document.getElementById('vehicleCapacity').value);
       formData.append('fuelType', document.getElementById('vehicleFuelType').value);
       formData.append('transmission', document.getElementById('vehicleTransmission').value);
-      formData.append('pricePerKm', document.getElementById('vehiclePricePerKm').value);
+      
+      const rawPrice = document.getElementById('vehiclePricePerKm').value;
+      formData.append('pricePerKm', formatPricePerKm(rawPrice));
       formData.append('features', document.getElementById('vehicleFeatures').value);
       formData.append('whatsappNumber', document.getElementById('vehicleWhatsApp').value);
       formData.append('status', document.getElementById('vehicleStatus').value);

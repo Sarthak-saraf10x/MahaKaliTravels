@@ -411,6 +411,9 @@ img {
     max-width: 200px;
     margin-left: -28px;
   }
+  .footer-brand .brand-logo-img {
+    margin-left: -28px;
+  }
   .header-area.sticky .brand-logo-img {
     height: 75px;
     margin-left: -28px;

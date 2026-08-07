@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Mahakali Travels</title>
+  <meta name="description" content="Learn about Mahakali Travels - your trusted partner for corporate transport, employee commute, bus rentals, luxury cabs, and tour packages across Maharashtra and India.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       Preloader
+       ========================================== -->
+  <div id="preloader">
+    <div class="loader-content">
+      <div class="loader-logo-wrap-img">
+        <img src="images/Logo2.png" alt="Mahakali Travels Logo" class="loader-logo-img">
+      </div>
+      <div class="loader-text">MAHAKALI TRAVELS</div>
+      <div class="loader-subtext">Exploring Maharashtra</div>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Header & Navigation (Exact Reused Component)
+       ========================================== -->
+  <header class="header-area">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0">
+        <a class="navbar-brand" href="index.html">
+          <img src="images/Logo2.png" alt="Mahakali Travels Logo" class="brand-logo-img">
+        </a>
+
+        <button class="mobile-nav-toggle" type="button" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#corporate">Corporate</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#packages">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#bus-routes"><i class="fa-solid fa-bus text-warning me-1"></i> Bus Routes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#cabs"><i class="fa-solid fa-car text-warning me-1"></i> Cabs & Rentals</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#categories">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#gallery">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#contact">Contact</a>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <a href="index.html#contact" class="btn-custom btn-primary-custom nav-btn">
+                Book Now <i class="fa-solid fa-paper-plane ms-1"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       Hero Banner (Exact Reused Hero Section)
+       ========================================== -->
+  <section id="home" class="hero-section">
+    <div class="hero-bg-wrapper">
+      <picture>
+        <source media="(max-width: 767px)" srcset="images/heroPhone.png">
+        <img src="images/heroDesktop.png" alt="Mahakali Travels Background" class="hero-bg-img">
+      </picture>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-3">
+      <div class="row">
+        <div class="col-lg-7 col-md-9 col-12">
+          <div class="hero-content">
+            <div class="breadcrumb-custom mb-3">
+              <a href="index.html"><i class="fa-solid fa-house me-1"></i> Home</a>
+              <i class="fa-solid fa-chevron-right small opacity-50 ms-1 me-1"></i>
+              <span class="text-orange fw-semibold">About Us</span>
+            </div>
+            <h1 class="hero-heading">About <span class="text-orange-highlight">Mahakali Travels</span></h1>
+            <p class="hero-subheading">Delivering safe, comfortable, and reliable transportation and tour solutions across Maharashtra and India.</p>
+            <div class="hero-btns">
+              <a href="#story" class="btn-custom btn-primary-custom text-white">Our Story <i class="fa-solid fa-arrow-down ms-1"></i></a>
+              <a href="index.html#packages" class="btn-custom btn-outline-dark-custom">Explore Packages</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 1: Company Story
+       ========================================== -->
+  <section id="story" class="story-section py-5 position-relative overflow-hidden">
+    <div class="container py-lg-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-10" data-aos="fade-up">
+          <div class="text-center mb-5">
+            <span class="section-tag">
+              <i class="fa-solid fa-book-open me-1"></i> Our Journey
+            </span>
+            <h2 class="section-title text-dark-brown">The Story of Mahakali Travels</h2>
+            <div class="section-title-line mx-auto mb-3"></div>
+            <p class="section-subtitle text-muted">Building a legacy of trust, safety, and excellence in passenger transportation.</p>
+          </div>
+
+          <div class="story-card-wrapper premium-card p-4 p-md-5 bg-white border border-opacity-10 shadow-lg">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-12">
+                <p class="lead text-dark-brown fw-semibold mb-4">
+                  Mahakali Travels was founded with a clear, unwavering vision: to transform road travel across Maharashtra into a comfortable, safe, and premium experience for every passenger.
+                </p>
+                <p class="text-secondary mb-3">
+                  Starting as a modest fleet operator dedicated to local route services, our journey began with a commitment to customer service and absolute punctuality. Recognizing the growing demand for reliable corporate employee transport and luxury long-distance travel, we systematically expanded our fleet to include modern air-conditioned buses, corporate coaches, executive sedans, and SUVs.
+                </p>
+                <p class="text-secondary mb-3">
+                  Over the years, Mahakali Travels has earned the trust of over 500 top-tier corporate clients, educational institutions, and thousands of family travelers. Our growth has been fueled by continuous investment in driver safety training, vehicle maintenance technologies, and 24/7 client support systems.
+                </p>
+                <p class="text-secondary mb-0">
+                  Today, whether executing daily shift transportation for corporate workforces or curating memorable pilgrimage and holiday tour packages across India, Mahakali Travels stands as a benchmark of reliability, safety, and operational excellence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 2: Meet the Founder
+       ========================================== -->
+  <section id="founder" class="founder-section py-5 bg-beige position-relative overflow-hidden">
+    <div class="container py-lg-4">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">
+          <i class="fa-solid fa-user-tie me-1"></i> Leadership
+        </span>
+        <h2 class="section-title text-dark-brown">Meet the Founder</h2>
+        <div class="section-title-line mx-auto"></div>
+      </div>
+
+      <div class="row g-5 align-items-center">
+        <!-- Founder Image Column -->
+        <div class="col-lg-5 col-md-6 text-center text-md-start" data-aos="fade-right">
+          <div class="founder-img-wrapper position-relative">
+            <img src="images/profile.jpeg" alt="Gaurav - Founder & Managing Director" class="img-fluid rounded-4 shadow-lg border border-white border-4 w-100" style="object-fit: cover; max-height: 480px;">
+            <div class="founder-badge position-absolute bottom-0 start-50 translate-middle-x mb-n3 bg-dark-brown text-white py-2 px-4 rounded-pill shadow">
+              <span class="fw-bold text-orange">Gaurav</span> • Founder & MD
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder Bio Column -->
+        <div class="col-lg-7 col-md-6" data-aos="fade-left">
+          <div class="founder-content ps-lg-3">
+            <h3 class="fw-extrabold text-dark-brown mb-2">Gaurav</h3>
+            <span class="text-orange fw-semibold d-block mb-3 fs-5">Founder & Managing Director</span>
+            
+            <p class="text-secondary mb-3">
+              Gaurav established Mahakali Travels with a passion for excellence in passenger mobility. With years of hands-on experience in fleet management and logistics, his vision has guided the company from a local operator to one of Maharashtra's most respected travel service providers.
+            </p>
+            <p class="text-secondary mb-4">
+              Driven by core values of integrity, safety, and customer satisfaction, Gaurav believes that every journey should be seamless and stress-free. He personally oversees vehicle quality standards and driver welfare, ensuring that the company's high service benchmarks are maintained across all daily operations.
+            </p>
+
+            <div class="quote-card p-4 bg-white rounded-4 border-start border-orange border-4 shadow-sm">
+              <i class="fa-solid fa-quote-left text-orange fs-3 mb-2 d-block"></i>
+              <p class="fst-italic text-dark-brown mb-2 fw-medium">
+                "Our mission is simple: provide transportation that people trust completely. Punctuality, safety, and client comfort are non-negotiable standards at Mahakali Travels."
+              </p>
+              <span class="small text-muted fw-bold">— Gaurav, Founder</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 3: Our Mission & Vision
+       ========================================== -->
+  <section id="mission-vision" class="mission-vision-section py-5 position-relative overflow-hidden">
+    <div class="container py-lg-4">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">
+          <i class="fa-solid fa-bullseye me-1"></i> Purpose & Goals
+        </span>
+        <h2 class="section-title text-dark-brown">Our Mission & Vision</h2>
+        <div class="section-title-line mx-auto"></div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Mission Card -->
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="premium-card p-4 p-md-5 h-100 bg-white border border-opacity-10 shadow-sm position-relative overflow-hidden">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-circle bg-orange-light text-orange rounded-circle p-3 fs-2 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
+                <i class="fa-solid fa-bullseye"></i>
+              </div>
+              <div>
+                <h3 class="fw-bold text-dark-brown mb-1 fs-3">Our Mission</h3>
+                <span class="text-orange small fw-semibold">Core Purpose</span>
+              </div>
+            </div>
+            <p class="text-secondary mb-4">
+              To deliver exceptionally reliable, safe, and professional transportation services for corporate organizations, daily commuters, and holiday travelers across India. We strive to maximize customer satisfaction through punctual operations, well-maintained fleets, and courteous service.
+            </p>
+            <ul class="list-unstyled d-flex flex-column gap-2 mb-0 text-dark-brown fw-medium">
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> 100% Punctual Shifts & Journeys</li>
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> Uncompromised Passenger Safety</li>
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> Transparent & Competitive Pricing</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Vision Card -->
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="premium-card p-4 p-md-5 h-100 bg-white border border-opacity-10 shadow-sm position-relative overflow-hidden">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="icon-circle bg-orange-light text-orange rounded-circle p-3 fs-2 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+              <div>
+                <h3 class="fw-bold text-dark-brown mb-1 fs-3">Our Vision</h3>
+                <span class="text-orange small fw-semibold">Future Aspiration</span>
+              </div>
+            </div>
+            <p class="text-secondary mb-4">
+              To become Maharashtra's most trusted and technologically advanced travel and corporate mobility partner. We aim to continually expand our fleet, foster long-lasting client relationships, and lead the industry in sustainable, comfortable travel experiences.
+            </p>
+            <ul class="list-unstyled d-flex flex-column gap-2 mb-0 text-dark-brown fw-medium">
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> Expanding Fleet Across India</li>
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> Long-Term Client Partnerships</li>
+              <li class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-orange"></i> Premium Comfort Innovations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 4: Why Choose Mahakali Travels
+       ========================================== -->
+  <section id="why-choose" class="why-choose-section py-5 bg-beige position-relative overflow-hidden">
+    <div class="container py-lg-4">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">
+          <i class="fa-solid fa-star me-1"></i> Key Advantages
+        </span>
+        <h2 class="section-title text-dark-brown">Why Choose Mahakali Travels</h2>
+        <div class="section-title-line mx-auto mb-3"></div>
+        <p class="section-subtitle text-muted">Experience the distinct advantages that make us the preferred travel choice.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Advantage 1 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-user-shield fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Professional Drivers</h5>
+            <p class="small text-secondary mb-0">Verified, experienced, and courteous drivers trained for safe road navigation.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 2 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="150">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-bus-simple fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Well Maintained Fleet</h5>
+            <p class="small text-secondary mb-0">Clean, AC-equipped buses and cars subjected to strict safety inspections.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 3 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-building-user fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Corporate Solutions</h5>
+            <p class="small text-secondary mb-0">Customized employee commuting programs and corporate event logistics.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 4 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="250">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-car-side fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Bus & Cab Rentals</h5>
+            <p class="small text-secondary mb-0">Flexible daily, weekly, and monthly vehicle rentals for private travel.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 5 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-shield-halved fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Safety First</h5>
+            <p class="small text-secondary mb-0">GPS tracking, speed governors, and emergency support on every vehicle.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 6 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="350">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-clock fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">On-Time Service</h5>
+            <p class="small text-secondary mb-0">Punctual departures and arrivals guaranteed across all schedules.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 7 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-tags fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">Affordable Pricing</h5>
+            <p class="small text-secondary mb-0">Competitive rates with complete billing transparency and zero hidden fees.</p>
+          </div>
+        </div>
+
+        <!-- Advantage 8 -->
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="450">
+          <div class="premium-card p-4 text-center h-100 bg-white border border-opacity-10 shadow-sm">
+            <div class="feature-icon bg-orange-light text-orange rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fa-solid fa-headset fs-4"></i>
+            </div>
+            <h5 class="fw-bold text-dark-brown mb-2">24/7 Support</h5>
+            <p class="small text-secondary mb-0">Dedicated customer care desk assisting you anytime, day or night.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       Footer (Exact Reused Component)
+       ========================================== -->
+  <footer class="footer-area bg-dark-brown text-white py-5 position-relative overflow-hidden">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Col 1: Brand Info -->
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-brand mb-4">
+            <img src="images/Logo2.png" alt="Mahakali Travels Logo" class="footer-logo mb-3" style="max-width: 140px; height: auto;">
+            <h5 class="fw-bold text-white mb-2">Mahakali Travels</h5>
+            <p class="small text-white-50">
+              Your trusted partner for corporate transport, employee commute, luxury bus rentals, and customized tour packages across Maharashtra and India.
+            </p>
+          </div>
+          <div class="social-links d-flex gap-2">
+            <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h6 class="fw-bold text-orange mb-3">Quick Links</h6>
+          <ul class="list-unstyled footer-links small">
+            <li><a href="index.html#home"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> Home</a></li>
+            <li><a href="about.html"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> About Us</a></li>
+            <li><a href="index.html#corporate"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> Corporate</a></li>
+            <li><a href="index.html#packages"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> Packages</a></li>
+            <li><a href="index.html#bus-routes"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> Bus Routes</a></li>
+            <li><a href="index.html#cabs"><i class="fa-solid fa-chevron-right me-1 text-orange extra-small"></i> Cabs & Rentals</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Services -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="fw-bold text-orange mb-3">Our Services</h6>
+          <ul class="list-unstyled footer-links small">
+            <li><a href="index.html#corporate"><i class="fa-solid fa-check text-orange me-2"></i> Employee Transportation</a></li>
+            <li><a href="index.html#corporate"><i class="fa-solid fa-check text-orange me-2"></i> Executive Cab Rentals</a></li>
+            <li><a href="index.html#bus-routes"><i class="fa-solid fa-check text-orange me-2"></i> Daily Bus Routes</a></li>
+            <li><a href="index.html#packages"><i class="fa-solid fa-check text-orange me-2"></i> Maharashtra Tour Packages</a></li>
+            <li><a href="index.html#packages"><i class="fa-solid fa-check text-orange me-2"></i> Outstation Bus Hire</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact Info -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="fw-bold text-orange mb-3">Contact Us</h6>
+          <ul class="list-unstyled footer-contact small text-white-50">
+            <li class="d-flex align-items-start gap-2 mb-2">
+              <i class="fa-solid fa-location-dot text-orange mt-1"></i>
+              <span>Shop No. 12, Transport Hub, Nigdi, Pune, Maharashtra 411044</span>
+            </li>
+            <li class="d-flex align-items-center gap-2 mb-2">
+              <i class="fa-solid fa-phone text-orange"></i>
+              <a href="tel:+919876543210" class="text-white-50 text-decoration-none">+91 98765 43210</a>
+            </li>
+            <li class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-envelope text-orange"></i>
+              <a href="mailto:info@mahakalitravels.com" class="text-white-50 text-decoration-none">info@mahakalitravels.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="my-4 border-secondary opacity-25">
+
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="extra-small text-white-50 mb-0">
+            © 2026 Mahakali Travels. All Rights Reserved.
+          </p>
+        </div>
+        <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+          <a href="admin.html" class="extra-small text-white-50 text-decoration-none me-3"><i class="fa-solid fa-lock me-1"></i> Admin Portal</a>
+          <a href="#" class="extra-small text-white-50 text-decoration-none me-3">Privacy Policy</a>
+          <a href="#" class="extra-small text-white-50 text-decoration-none">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+  </script>
+</body>
+</html>

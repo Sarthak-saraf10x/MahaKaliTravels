@@ -51,9 +51,9 @@ async function fetchFeaturedPackages() {
                   <div>
                     <span class="small text-muted d-block"><i class="fa-solid fa-circle-check text-warning me-1"></i> Best Rates Available</span>
                   </div>
-                  <button class="btn btn-outline-gold rounded-pill px-3 py-2 btn-sm" onclick="openBookingModal('${pkg.name}')">
-                    Book Now <i class="fa-solid fa-arrow-right ms-1"></i>
-                  </button>
+                  <a href="https://wa.me/917517685951?text=${encodeURIComponent(`Hello Mahakali Tours & Travels, I want to book the *${pkg.name}* package. Please provide details.`)}" target="_blank" class="btn btn-outline-gold rounded-pill px-3 py-2 btn-sm">
+                    Book Now <i class="fa-brands fa-whatsapp ms-1"></i>
+                  </a>
                 </div>
               </div>
             </div>

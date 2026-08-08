@@ -509,22 +509,28 @@ document.addEventListener('DOMContentLoaded', () => {
       bookingModalInstance.show();
     }
   }
+  window.openBookingModal = openBookingModal;
 
   // Booking Form Submit
   const bookingForm = document.getElementById('modal-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const pkgTitle = document.getElementById('modalPkgTitle')?.innerText || 'Tour Package';
       const name = document.getElementById('bookingName')?.value;
       const phone = document.getElementById('bookingPhone')?.value;
+      const date = document.getElementById('bookingDate')?.value || '';
+      const travelers = document.getElementById('bookingTravelers')?.value || '1';
 
       if (!name || !phone) {
         showToast("Please complete all required fields.", "error");
         return;
       }
 
-      bookingModalInstance.hide();
-      showToast(`🎉 Thank you ${name}! Your booking enquiry has been received. Our team will call you at ${phone} shortly.`, "success");
+      bookingModalInstance?.hide();
+      const waMsg = encodeURIComponent(`Hello Mahakali Tours & Travels, I want to book the *${pkgTitle}* package.\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Date:* ${date}\n*Travelers:* ${travelers}`);
+      window.open(`https://wa.me/917517685951?text=${waMsg}`, '_blank');
+      showToast(`🎉 Thank you ${name}! Opening WhatsApp to complete your enquiry.`, "success");
       bookingForm.reset();
     });
   }

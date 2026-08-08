@@ -267,16 +267,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderPackages(items) {
     if (!packagesGrid) return;
-    packagesGrid.innerHTML = items.map(pkg => `
+    packagesGrid.innerHTML = items.map(pkg => {
+      const categoryLabel = pkg.category ? (pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)) : (pkg.tag || 'Tour');
+      return `
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
         <div class="premium-card package-card">
           <div class="package-img-wrap">
             <img src="${pkg.image}" alt="${pkg.title}" class="package-img" loading="lazy">
-            <span class="package-tag">${pkg.tag}</span>
-            <span class="package-duration"><i class="fa-regular fa-clock me-1"></i>${pkg.duration}</span>
+            <span class="package-tag"><i class="fa-solid fa-layer-group me-1"></i>${categoryLabel}</span>
+            <span class="package-duration"><i class="fa-regular fa-clock me-1 text-warning"></i>${pkg.duration}</span>
           </div>
           <div class="package-body">
-            <span class="package-dest"><i class="fa-solid fa-location-dot me-1"></i>${pkg.destination}</span>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="package-dest"><i class="fa-solid fa-location-dot me-1"></i>${pkg.destination}</span>
+              <span class="small text-warning fw-bold"><i class="fa-solid fa-star me-1"></i> 4.8</span>
+            </div>
             <h3 class="package-title">${pkg.title}</h3>
             <div class="package-inclusions">
               ${pkg.inclusions.map(inc => `<span class="inclusion-item"><i class="fa-solid fa-circle-check"></i>${inc}</span>`).join('')}
@@ -293,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
       </div>
-    `).join('');
+    `}).join('');
   }
 
   renderPackages(tourPackagesData);

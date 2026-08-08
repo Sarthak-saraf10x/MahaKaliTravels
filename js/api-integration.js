@@ -30,25 +30,26 @@ async function fetchFeaturedPackages() {
       data.data.forEach(pkg => {
         const discountTag = pkg.discountPrice ? `<span class="badge-discount">${Math.round(((pkg.price - pkg.discountPrice)/pkg.price)*100)}% OFF</span>` : '';
         const priceDisplay = pkg.discountPrice ? `₹${pkg.discountPrice.toLocaleString()} <span class="text-decoration-line-through text-muted fs-6">₹${pkg.price.toLocaleString()}</span>` : `₹${pkg.price.toLocaleString()}`;
-        const categoryBadge = pkg.category ? `<span class="badge bg-gold text-dark mb-2">${pkg.category}</span>` : '';
+        const categoryTag = pkg.category ? `<span class="package-tag"><i class="fa-solid fa-layer-group me-1"></i>${pkg.category}</span>` : '';
 
         const cardHTML = `
           <div class="col-lg-4 col-md-6" data-aos="fade-up">
-            <div class="package-card">
-              <div class="package-img-wrapper">
+            <div class="premium-card package-card">
+              <div class="package-img-wrap">
                 <img src="${pkg.image}" alt="${pkg.name}" class="package-img" loading="lazy">
+                ${categoryTag}
                 ${discountTag}
-                <div class="package-overlay-badge">
-                  <i class="fa-solid fa-clock me-1"></i> ${pkg.duration}
+                <div class="package-duration">
+                  <i class="fa-regular fa-clock me-1 text-warning"></i> ${pkg.duration}
                 </div>
               </div>
-              <div class="package-content p-4">
+              <div class="package-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  ${categoryBadge}
+                  <span class="package-dest"><i class="fa-solid fa-location-dot me-1"></i>${pkg.destination || 'Maharashtra'}</span>
                   <span class="small text-warning fw-bold"><i class="fa-solid fa-star me-1"></i> ${pkg.rating || 4.8}</span>
                 </div>
                 <h4 class="package-title">${pkg.name}</h4>
-                <p class="package-desc text-muted small">${pkg.description}</p>
+                <p class="package-desc text-muted small mb-3">${pkg.description}</p>
                 <div class="package-footer d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
                   <div>
                     <span class="small text-muted d-block">Starting from</span>

@@ -66,7 +66,7 @@
               <a class="nav-link" href="index.html#packages">Packages</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="index.html#bus-routes"><i class="fa-solid fa-bus text-warning me-1"></i> Bus Routes</a>
+              <a class="nav-link" href="index.html#bus-routes"><i class="fa-solid fa-bus text-warning me-1"></i> Routes</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.html#cabs"><i class="fa-solid fa-car text-warning me-1"></i> Our Fleet</a>
@@ -88,21 +88,34 @@
     </div>
   </header>
 
-  <!-- Hero Header Banner -->
-  <section class="hero-section py-5 position-relative overflow-hidden" style="min-height: auto; padding-top: 140px !important; padding-bottom: 60px !important;">
-    <div class="container text-center position-relative z-2">
-      <span class="hero-badge d-inline-block px-3 py-1 rounded-pill mb-3">
-        <i class="fa-solid fa-scale-balanced me-2 text-warning"></i> Service Agreement
-      </span>
-      <h1 class="hero-title text-white fw-bold display-5 mb-3">Terms & Conditions</h1>
-      <p class="hero-subtitle text-light lead mx-auto" style="max-width: 680px;">
-        Please review the operational terms, booking policies, and service guidelines governing your travel with Mahakali Tours & Travels.
-      </p>
+  <!-- ==========================================
+       Hero Banner (Exact Reused Hero Section)
+       ========================================== -->
+  <section id="home" class="hero-section">
+    <div class="hero-bg-wrapper">
+      <picture>
+        <source media="(max-width: 767px)" srcset="images/heroPhone.png">
+        <img src="images/heroDesktop.png" alt="Mahakali Travels Background" class="hero-bg-img">
+      </picture>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-3">
+      <div class="row">
+        <div class="col-lg-7 col-md-9 col-12">
+          <div class="hero-content">
+            <h1 class="hero-heading">Terms & <span class="text-orange-highlight">Conditions</span></h1>
+            <p class="hero-subheading">Please review the operational terms, booking policies, and service guidelines governing your travel.</p>
+            <div class="hero-btns">
+              <a href="#terms-content" class="btn-custom btn-primary-custom text-white">Read Terms <i class="fa-solid fa-arrow-down ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Terms Content Section -->
-  <section class="py-5 bg-dark position-relative">
+  <section id="terms-content" class="py-5 bg-dark position-relative">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10" data-aos="fade-up">
@@ -189,35 +202,42 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer-area pt-5 pb-4 bg-black text-light">
+  <!-- ==========================================
+       Footer (Exact Reused Component)
+       ========================================== -->
+  <footer class="footer-area">
     <div class="container">
-      <div class="row g-4 pb-4 border-bottom border-secondary">
-        <!-- Col 1: About -->
+      <div class="row g-4">
+        <!-- Col 1: Brand -->
         <div class="col-lg-4 col-md-6">
-          <div class="footer-logo mb-3">
-            <img src="images/Logo2.png" alt="Mahakali Travels Logo" height="55">
-          </div>
-          <p class="small text-muted mb-3">
-            Mahakali Tours & Travels is Maharashtra's premier travel agency offering daily bus routes, luxury cab rentals, corporate employee transport, and tailored tour packages.
-          </p>
-          <div class="social-links d-flex gap-2">
-            <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/917517685951" target="_blank" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
+          <div class="footer-brand">
+            <div class="navbar-brand">
+              <img src="images/Logo2.png" alt="Mahakali Tours & Travels Logo" class="brand-logo-img">
+            </div>
+            <p>
+              Your trusted Maharashtra travel companion since 2014. Specializing in customized hill station tours, coastal beach getaways, fort treks & corporate weekend retreats.
+            </p>
+            <div class="social-links">
+              <a href="https://www.facebook.com/share/r/1BEK8BDGc4/?mibextid=wwXIfr" class="social-btn" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/mahakali_travels.9037?utm_source=qr" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+              <a href="https://wa.me/917517685951" class="social-btn" title="WhatsApp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
           </div>
         </div>
 
         <!-- Col 2: Quick Links -->
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-3 col-md-6">
           <h4 class="footer-title">Quick Links</h4>
-          <ul class="footer-links list-unstyled">
-            <li><a href="index.html"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>Home</a></li>
-            <li><a href="about.html"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>About Us</a></li>
-            <li><a href="index.html#corporate"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>Corporate Solutions</a></li>
-            <li><a href="index.html#packages"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>Tour Packages</a></li>
-            <li><a href="index.html#cabs"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>Our Fleet</a></li>
-            <li><a href="index.html#contact"><i class="fa-solid fa-chevron-right me-2 text-orange"></i>Contact Us</a></li>
+          <ul class="footer-links">
+            <li><a href="index.html#home"><i class="fa-solid fa-angle-right"></i> Home</a></li>
+            <li><a href="about.html"><i class="fa-solid fa-angle-right"></i> About Us</a></li>
+            <li><a href="index.html#corporate"><i class="fa-solid fa-angle-right"></i> Corporate</a></li>
+            <li><a href="index.html#packages"><i class="fa-solid fa-angle-right"></i> Tour Packages</a></li>
+            <li><a href="index.html#bus-routes"><i class="fa-solid fa-angle-right"></i> Bus Routes</a></li>
+            <li><a href="index.html#cab-services"><i class="fa-solid fa-angle-right"></i> Our Fleet</a></li>
+            <li><a href="index.html#gallery"><i class="fa-solid fa-angle-right"></i> Photo Gallery</a></li>
+            <li><a href="index.html#contact"><i class="fa-solid fa-angle-right"></i> Contact Us</a></li>
+            <li><a href="admin.html" class="text-warning"><i class="fa-solid fa-user-gear"></i> Admin Login</a></li>
           </ul>
         </div>
 

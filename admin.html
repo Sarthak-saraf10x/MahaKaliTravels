@@ -979,9 +979,17 @@
       <!-- ================= TAB 2: PACKAGES ================= -->
       <div id="tab-packages" class="tab-panel">
         <div class="data-card">
-          <div class="card-header-custom">
+          <div class="card-header-custom d-flex flex-wrap align-items-center justify-content-between gap-3">
             <h2>Tour Packages Management</h2>
-            <button class="btn btn-gold btn-sm" onclick="openPackageModal()"><i class="fa-solid fa-plus me-1"></i> Add New Package</button>
+            <div class="d-flex align-items-center gap-3">
+              <div class="form-check form-switch bg-dark border border-secondary px-3 py-2 rounded-3 d-flex align-items-center gap-2 mb-0 shadow-sm">
+                <input class="form-check-input ms-0 cursor-pointer" type="checkbox" role="switch" id="toggleHidePackages" onchange="handleHidePackagesToggle(this.checked)">
+                <label class="form-check-label text-light small fw-bold mb-0 cursor-pointer" for="toggleHidePackages">
+                  <i class="fa-solid fa-eye-slash text-warning me-1"></i> Hide Section on Website
+                </label>
+              </div>
+              <button class="btn btn-gold btn-sm" onclick="openPackageModal()"><i class="fa-solid fa-plus me-1"></i> Add New Package</button>
+            </div>
           </div>
           <div class="table-responsive">
             <table class="table-dark-custom">
@@ -1689,8 +1697,51 @@
       }
     }
 
-    // Packages Management
+    // Settings & Packages Management
+    async function loadSettings() {
+      try {
+        let hideState = localStorage.getItem('hideTourPackagesSection') === 'true';
+        const res = await fetch(`${API_BASE}/settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.data && data.data.hideTourPackagesSection !== undefined) {
+            hideState = !!data.data.hideTourPackagesSection;
+          }
+        }
+        const toggleEl = document.getElementById('toggleHidePackages');
+        if (toggleEl) toggleEl.checked = hideState;
+        localStorage.setItem('hideTourPackagesSection', hideState ? 'true' : 'false');
+      } catch (err) {
+        console.warn("Settings load warning:", err);
+      }
+    }
+
+    async function handleHidePackagesToggle(checked) {
+      try {
+        localStorage.setItem('hideTourPackagesSection', checked ? 'true' : 'false');
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+          await fetch(`${API_BASE}/settings`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              key: 'hideTourPackagesSection',
+              value: checked
+            })
+          });
+        }
+        alert(checked ? "Tour Packages section is now HIDDEN on the website." : "Tour Packages section is now VISIBLE on the website.");
+      } catch (err) {
+        console.error("Error saving setting:", err);
+        alert("Setting updated locally.");
+      }
+    }
+
     async function loadPackages() {
+      loadSettings();
       try {
         const res = await fetch(`${API_BASE}/packages`);
         const data = await res.json();

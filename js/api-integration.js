@@ -9,12 +9,54 @@ const API_BASE = (window.location.hostname === 'localhost' || window.location.ho
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  applyWebsiteSettings();
   fetchFeaturedPackages();
   fetchGalleryItems();
   fetchUpcomingTours();
   fetchVehicles();
   initFormListeners();
 });
+
+// 0. Fetch & Apply Global Website Settings (e.g. Hide Tour Packages Section)
+async function applyWebsiteSettings() {
+  try {
+    let hidePackages = localStorage.getItem('hideTourPackagesSection') === 'true';
+    
+    try {
+      const res = await fetch(`${API_BASE}/settings`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.data && data.data.hideTourPackagesSection !== undefined) {
+          hidePackages = !!data.data.hideTourPackagesSection;
+          localStorage.setItem('hideTourPackagesSection', hidePackages ? 'true' : 'false');
+        }
+      }
+    } catch (e) {
+      // Offline fallback to localStorage
+    }
+
+    const packagesSection = document.getElementById('packages');
+    const packageNavLinks = document.querySelectorAll('a[href*="#packages"]');
+
+    if (hidePackages) {
+      if (packagesSection) packagesSection.style.display = 'none';
+      packageNavLinks.forEach(link => {
+        const navItem = link.closest('.nav-item') || link.closest('li');
+        if (navItem) navItem.style.display = 'none';
+        else link.style.display = 'none';
+      });
+    } else {
+      if (packagesSection) packagesSection.style.display = '';
+      packageNavLinks.forEach(link => {
+        const navItem = link.closest('.nav-item') || link.closest('li');
+        if (navItem) navItem.style.display = '';
+        else link.style.display = '';
+      });
+    }
+  } catch (err) {
+    console.warn('Error applying website settings:', err);
+  }
+}
 
 // 1. Fetch & Render Featured Tour Packages
 async function fetchFeaturedPackages() {

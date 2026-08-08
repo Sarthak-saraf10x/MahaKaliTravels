@@ -83,11 +83,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Handle click active highlighting
-  mainNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      mainNavLinks.forEach(item => item.classList.remove('active'));
-      link.classList.add('active');
+  // Helper function to close mobile menu drawer
+  const closeMobileMenu = () => {
+    const navCollapse = document.querySelector('.navbar-collapse');
+    const navToggle = document.querySelector('.mobile-nav-toggle');
+    if (navCollapse && navCollapse.classList.contains('show')) {
+      navCollapse.classList.remove('show');
+      document.body.classList.remove('mobile-nav-active');
+      if (navToggle) {
+        const icon = navToggle.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
+    }
+  };
+
+  // Precise Smooth Scrolling for Navbar Links and internal anchor links
+  document.querySelectorAll('a[href*="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href) return;
+
+      const hashIndex = href.indexOf('#');
+      if (hashIndex === -1) return;
+
+      const targetId = href.substring(hashIndex);
+      if (!targetId || targetId === '#') return;
+
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        // Prevent default hash jump if target is on current page
+        const isCurrentPage = window.location.pathname === '/' || 
+                              window.location.pathname.endsWith('index.html') || 
+                              !href.includes('.html') ||
+                              window.location.pathname.endsWith(href.split('#')[0]);
+        if (isCurrentPage) {
+          e.preventDefault();
+
+          // Close mobile menu drawer first
+          closeMobileMenu();
+
+          // Compute accurate header offset
+          const isMobile = window.innerWidth <= 768;
+          let headerHeight = headerArea ? headerArea.offsetHeight : (isMobile ? 75 : 85);
+          if (isMobile) {
+            headerHeight = 75; // Standard sticky header height on phone view
+          }
+
+          const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - headerHeight;
+
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+
+          // Highlight active nav item
+          mainNavLinks.forEach(item => item.classList.remove('active'));
+          if (this.classList.contains('nav-link')) {
+            this.classList.add('active');
+          }
+        }
+      }
     });
   });
 
@@ -126,14 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navToggle.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleMenu();
-    });
-
-    // Close when clicking any link inside the mobile drawer
-    const drawerLinks = navCollapse.querySelectorAll('a');
-    drawerLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        toggleMenu(false);
-      });
     });
 
     // Close when clicking outside of the drawer & toggle button

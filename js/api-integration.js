@@ -28,8 +28,6 @@ async function fetchFeaturedPackages() {
     if (data.success && data.data && data.data.length > 0) {
       packagesGrid.innerHTML = '';
       data.data.forEach(pkg => {
-        const discountTag = pkg.discountPrice ? `<span class="badge-discount">${Math.round(((pkg.price - pkg.discountPrice)/pkg.price)*100)}% OFF</span>` : '';
-        const priceDisplay = pkg.discountPrice ? `₹${pkg.discountPrice.toLocaleString()} <span class="text-decoration-line-through text-muted fs-6">₹${pkg.price.toLocaleString()}</span>` : `₹${pkg.price.toLocaleString()}`;
         const categoryTag = pkg.category ? `<span class="package-tag"><i class="fa-solid fa-layer-group me-1"></i>${pkg.category}</span>` : '';
 
         const cardHTML = `
@@ -38,7 +36,6 @@ async function fetchFeaturedPackages() {
               <div class="package-img-wrap">
                 <img src="${pkg.image}" alt="${pkg.name}" class="package-img" loading="lazy">
                 ${categoryTag}
-                ${discountTag}
                 <div class="package-duration">
                   <i class="fa-regular fa-clock me-1 text-warning"></i> ${pkg.duration}
                 </div>
@@ -52,10 +49,9 @@ async function fetchFeaturedPackages() {
                 <p class="package-desc text-muted small mb-3">${pkg.description}</p>
                 <div class="package-footer d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
                   <div>
-                    <span class="small text-muted d-block">Starting from</span>
-                    <span class="package-price">${priceDisplay}</span>
+                    <span class="small text-muted d-block"><i class="fa-solid fa-circle-check text-warning me-1"></i> Best Rates Available</span>
                   </div>
-                  <button class="btn btn-outline-gold rounded-pill px-3 py-2 btn-sm" onclick="openBookingModal('${pkg.name}', ${pkg.discountPrice || pkg.price})">
+                  <button class="btn btn-outline-gold rounded-pill px-3 py-2 btn-sm" onclick="openBookingModal('${pkg.name}')">
                     Book Now <i class="fa-solid fa-arrow-right ms-1"></i>
                   </button>
                 </div>

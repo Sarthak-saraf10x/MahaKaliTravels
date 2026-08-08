@@ -286,12 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="package-inclusions">
               ${pkg.inclusions.map(inc => `<span class="inclusion-item"><i class="fa-solid fa-circle-check"></i>${inc}</span>`).join('')}
             </div>
-            <div class="package-footer">
-              <div class="package-price-wrap">
-                <span class="package-price-label">Starting From</span>
-                <div class="package-price">₹${pkg.price.toLocaleString('en-IN')} <span>/ person</span></div>
+            <div class="package-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="small text-muted d-block"><i class="fa-solid fa-circle-check text-warning me-1"></i> Best Rates Available</span>
               </div>
-              <a href="https://wa.me/917517685951?text=${encodeURIComponent(`Hello Mahakali Tours & Travels, I want to book the *${pkg.title}* package (Price: ₹${pkg.price.toLocaleString('en-IN')} / person). Please provide details.`)}" target="_blank" class="btn-custom btn-primary-custom">
+              <a href="https://wa.me/917517685951?text=${encodeURIComponent(`Hello Mahakali Tours & Travels, I want to book the *${pkg.title}* package. Please provide details.`)}" target="_blank" class="btn-custom btn-primary-custom">
                 Book Now <i class="fa-solid fa-arrow-right ms-1"></i>
               </a>
             </div>
@@ -502,34 +501,13 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingModalInstance = new bootstrap.Modal(bookingModalElem);
   }
 
-  function openBookingModal(pkgTitle, pkgPrice) {
+  function openBookingModal(pkgTitle) {
     const modalTitle = document.getElementById('modalPkgTitle');
-    const modalPrice = document.getElementById('modalPkgPrice');
-    const priceInput = document.getElementById('pkgPriceHidden');
-    const totalDisplay = document.getElementById('modalTotalPrice');
-
     if (modalTitle) modalTitle.innerText = pkgTitle;
-    if (modalPrice) modalPrice.innerText = `₹${parseInt(pkgPrice).toLocaleString('en-IN')}`;
-    if (priceInput) priceInput.value = pkgPrice;
-    if (totalDisplay) totalDisplay.innerText = `₹${parseInt(pkgPrice).toLocaleString('en-IN')}`;
 
     if (bookingModalInstance) {
       bookingModalInstance.show();
     }
-  }
-
-  // Calculate total price based on travelers
-  const travelersInput = document.getElementById('bookingTravelers');
-  if (travelersInput) {
-    travelersInput.addEventListener('input', () => {
-      const price = parseInt(document.getElementById('pkgPriceHidden')?.value || 0);
-      const count = parseInt(travelersInput.value || 1);
-      const total = price * count;
-      const totalDisplay = document.getElementById('modalTotalPrice');
-      if (totalDisplay) {
-        totalDisplay.innerText = `₹${total.toLocaleString('en-IN')}`;
-      }
-    });
   }
 
   // Booking Form Submit

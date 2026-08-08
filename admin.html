@@ -991,7 +991,6 @@
                   <th>Name</th>
                   <th>Destination</th>
                   <th>Duration</th>
-                  <th>Price</th>
                   <th>Rating</th>
                   <th>Actions</th>
                 </tr>
@@ -1153,17 +1152,9 @@
                 <label class="form-label small">Destination *</label>
                 <input type="text" id="pkgDestination" class="form-control bg-dark text-white border-secondary" required>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <label class="form-label small">Duration *</label>
                 <input type="text" id="pkgDuration" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 3 Days / 2 Nights" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small">Price (₹) *</label>
-                <input type="number" id="pkgPrice" class="form-control bg-dark text-white border-secondary" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small">Discount Price (₹)</label>
-                <input type="number" id="pkgDiscountPrice" class="form-control bg-dark text-white border-secondary">
               </div>
               <div class="col-md-6">
                 <label class="form-label small">Category</label>
@@ -1712,7 +1703,6 @@
             <td class="fw-bold">${p.name}</td>
             <td>${p.destination}</td>
             <td>${p.duration}</td>
-            <td class="text-warning fw-bold">₹${p.price.toLocaleString()}</td>
             <td><i class="fa-solid fa-star text-warning"></i> ${p.rating || '4.8'}</td>
             <td>
               <div class="d-flex gap-1">
@@ -1721,7 +1711,7 @@
               </div>
             </td>
           </tr>
-        `).join('') || '<tr><td colspan="7" class="text-center text-muted">No tour packages found.</td></tr>';
+        `).join('') || '<tr><td colspan="6" class="text-center text-muted">No tour packages found.</td></tr>';
       } catch (err) {
         console.error("Error loading packages:", err);
       }
@@ -1744,8 +1734,6 @@
           document.getElementById('pkgName').value = pkg.name || '';
           document.getElementById('pkgDestination').value = pkg.destination || '';
           document.getElementById('pkgDuration').value = pkg.duration || '';
-          document.getElementById('pkgPrice').value = pkg.price || '';
-          document.getElementById('pkgDiscountPrice').value = pkg.discountPrice || 0;
           if (document.getElementById('pkgCategory')) document.getElementById('pkgCategory').value = pkg.category || 'Hill Station';
           if (document.getElementById('pkgDescription')) document.getElementById('pkgDescription').value = pkg.description || '';
           if (document.getElementById('pkgHighlights')) document.getElementById('pkgHighlights').value = Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : (pkg.highlights || '');
@@ -1768,8 +1756,6 @@
       formData.append('name', document.getElementById('pkgName').value);
       formData.append('destination', document.getElementById('pkgDestination').value);
       formData.append('duration', document.getElementById('pkgDuration').value);
-      formData.append('price', document.getElementById('pkgPrice').value);
-      formData.append('discountPrice', document.getElementById('pkgDiscountPrice').value || 0);
       formData.append('category', document.getElementById('pkgCategory').value);
       formData.append('description', document.getElementById('pkgDescription').value);
       formData.append('highlights', document.getElementById('pkgHighlights').value);

@@ -420,20 +420,17 @@ img {
 }
 
 @media (max-width: 768px) {
-  .header-area .container {
-    padding-left: 0;
-  }
   .brand-logo-img {
     height: 105px;
     max-width: 200px;
-    margin-left: -28px;
+    margin-left: 8px;
   }
   .footer-brand .brand-logo-img {
-    margin-left: -48px;
+    margin-left: 0;
   }
   .header-area.sticky .brand-logo-img {
     height: 75px;
-    margin-left: -28px;
+    margin-left: 8px;
   }
 }
 

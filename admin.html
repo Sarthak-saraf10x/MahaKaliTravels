@@ -943,11 +943,79 @@
               <div id="statContacts" class="stat-num">0</div>
             </div>
           </div>
+          <div class="stat-card" style="border-left: 4px solid #FF6C00;">
+            <div class="stat-icon" style="background: rgba(255, 108, 0, 0.15); color: #FF6C00;"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="stat-info w-100">
+              <div class="d-flex align-items-center justify-content-between">
+                <h3 class="mb-0">Website Visits</h3>
+                <select id="overviewVisitPeriodSelect" class="form-select form-select-sm bg-dark text-warning border-secondary ms-1 py-0 px-2 small" style="width: auto; font-size: 0.75rem;" onchange="fetchVisitStats(this.value)">
+                  <option value="week" selected>This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
+                  <option value="today">Today</option>
+                  <option value="all">All Time</option>
+                </select>
+              </div>
+              <div id="statVisits" class="stat-num text-warning mt-1">0</div>
+            </div>
+          </div>
           <div class="stat-card">
             <div class="stat-icon"><i class="fa-solid fa-bus-simple"></i></div>
             <div class="stat-info">
               <h3>B2B Quotes</h3>
               <div id="statCorporate" class="stat-num">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Website Traffic & Visits Analytics Section -->
+        <div class="data-card mb-4">
+          <div class="card-header-custom d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+              <h2 class="mb-1"><i class="fa-solid fa-chart-area text-warning me-2"></i>Website Traffic &amp; Visit Analytics</h2>
+              <p class="small text-muted mb-0">Live counter of website visitors sorted by time period</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <label class="small text-light fw-semibold mb-0">Sort Period:</label>
+              <select id="visitSortFilter" class="form-select bg-dark text-warning border-secondary px-3 py-1 btn-sm fw-bold" onchange="onVisitPeriodChange(this.value)">
+                <option value="week" selected>📊 This Week</option>
+                <option value="month">🗓️ This Month</option>
+                <option value="year">📈 This Year</option>
+                <option value="today">📅 Today</option>
+                <option value="all">🌐 All Time</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-3 p-3">
+            <div class="col-6 col-md">
+              <div class="p-3 rounded-3 bg-dark border border-secondary text-center h-100">
+                <span class="small text-muted d-block mb-1"><i class="fa-solid fa-calendar-day text-warning me-1"></i> Today</span>
+                <h4 id="visitCountToday" class="fw-bold text-white mb-0">0</h4>
+              </div>
+            </div>
+            <div class="col-6 col-md">
+              <div class="p-3 rounded-3 bg-dark border border-secondary text-center h-100">
+                <span class="small text-muted d-block mb-1"><i class="fa-solid fa-calendar-week text-warning me-1"></i> This Week</span>
+                <h4 id="visitCountWeek" class="fw-bold text-warning mb-0">0</h4>
+              </div>
+            </div>
+            <div class="col-6 col-md">
+              <div class="p-3 rounded-3 bg-dark border border-secondary text-center h-100">
+                <span class="small text-muted d-block mb-1"><i class="fa-solid fa-calendar-days text-info me-1"></i> This Month</span>
+                <h4 id="visitCountMonth" class="fw-bold text-info mb-0">0</h4>
+              </div>
+            </div>
+            <div class="col-6 col-md">
+              <div class="p-3 rounded-3 bg-dark border border-secondary text-center h-100">
+                <span class="small text-muted d-block mb-1"><i class="fa-solid fa-chart-line text-success me-1"></i> This Year</span>
+                <h4 id="visitCountYear" class="fw-bold text-success mb-0">0</h4>
+              </div>
+            </div>
+            <div class="col-12 col-md">
+              <div class="p-3 rounded-3 bg-dark border border-warning text-center h-100" style="background: rgba(255, 184, 0, 0.08) !important;">
+                <span class="small text-warning d-block mb-1"><i class="fa-solid fa-globe me-1"></i> Total All-Time</span>
+                <h4 id="visitCountTotal" class="fw-bold text-warning mb-0">0</h4>
+              </div>
             </div>
           </div>
         </div>
@@ -1680,6 +1748,10 @@
         document.getElementById('statMessages').innerText = msgs.length;
         if (document.getElementById('statCorporate')) document.getElementById('statCorporate').innerText = corps.length;
 
+        // Fetch Visit Statistics
+        const currentPeriod = document.getElementById('visitSortFilter')?.value || 'week';
+        fetchVisitStats(currentPeriod);
+
         // Render Recent Overview Messages
         const overviewBody = document.getElementById('overviewContactsBody');
         overviewBody.innerHTML = msgs.slice(0, 5).map(m => `
@@ -1695,6 +1767,38 @@
       } catch (err) {
         console.error("Error loading overview statistics:", err);
       }
+    }
+
+    // Fetch website visits stats by period (week, month, year, today, all)
+    async function fetchVisitStats(period = 'week') {
+      try {
+        const res = await fetch(`${API_BASE}/visits/stats?period=${period}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.data) {
+            const stats = data.data;
+            if (document.getElementById('statVisits')) {
+              document.getElementById('statVisits').innerText = Number(stats.selectedCount || 0).toLocaleString();
+            }
+            if (document.getElementById('visitCountToday')) document.getElementById('visitCountToday').innerText = Number(stats.today || 0).toLocaleString();
+            if (document.getElementById('visitCountWeek')) document.getElementById('visitCountWeek').innerText = Number(stats.week || 0).toLocaleString();
+            if (document.getElementById('visitCountMonth')) document.getElementById('visitCountMonth').innerText = Number(stats.month || 0).toLocaleString();
+            if (document.getElementById('visitCountYear')) document.getElementById('visitCountYear').innerText = Number(stats.year || 0).toLocaleString();
+            if (document.getElementById('visitCountTotal')) document.getElementById('visitCountTotal').innerText = Number(stats.total || 0).toLocaleString();
+
+            const overviewSel = document.getElementById('overviewVisitPeriodSelect');
+            const mainSel = document.getElementById('visitSortFilter');
+            if (overviewSel && overviewSel.value !== period) overviewSel.value = period;
+            if (mainSel && mainSel.value !== period) mainSel.value = period;
+          }
+        }
+      } catch (err) {
+        console.warn('Error fetching website visit stats:', err.message);
+      }
+    }
+
+    function onVisitPeriodChange(period) {
+      fetchVisitStats(period);
     }
 
     // Settings & Packages Management

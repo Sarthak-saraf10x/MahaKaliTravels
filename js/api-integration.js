@@ -9,6 +9,7 @@ const API_BASE = (window.location.hostname === 'localhost' || window.location.ho
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  recordWebsiteVisit();
   applyWebsiteSettings();
   fetchFeaturedPackages();
   fetchGalleryItems();
@@ -16,6 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchVehicles();
   initFormListeners();
 });
+
+// Record website visit automatically
+async function recordWebsiteVisit() {
+  try {
+    await fetch(`${API_BASE}/visits`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: window.location.pathname || '/' })
+    });
+  } catch (e) {
+    // Silent fail if offline or backend starting up
+  }
+}
 
 // 0. Fetch & Apply Global Website Settings (e.g. Hide Tour Packages Section)
 async function applyWebsiteSettings() {

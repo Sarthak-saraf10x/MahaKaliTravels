@@ -421,27 +421,27 @@ img {
 
 @media (max-width: 768px) {
   .brand-logo-img {
-    height: 145px;
-    max-width: 300px;
+    height: 165px;
+    max-width: 320px;
     margin-left: 4px;
   }
   .footer-brand .brand-logo-img {
-    height: 150px;
+    height: 175px;
     margin-left: 0;
   }
   .header-area.sticky .brand-logo-img {
-    height: 105px;
+    height: 120px;
     margin-left: 4px;
   }
 }
 
 @media (max-width: 576px) {
   .brand-logo-img {
-    height: 135px;
-    max-width: 250px;
+    height: 160px;
+    max-width: 290px;
   }
   .header-area.sticky .brand-logo-img {
-    height: 98px;
+    height: 115px;
   }
 }
 

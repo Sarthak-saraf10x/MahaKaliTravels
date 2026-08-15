@@ -429,8 +429,12 @@ img {
     height: 175px;
     margin-left: 0;
   }
+  .header-area.sticky {
+    padding: 6px 0;
+  }
   .header-area.sticky .brand-logo-img {
-    height: 120px;
+    height: 52px;
+    max-width: 160px;
     margin-left: 4px;
   }
 }
@@ -440,8 +444,12 @@ img {
     height: 160px;
     max-width: 290px;
   }
+  .header-area.sticky {
+    padding: 4px 0;
+  }
   .header-area.sticky .brand-logo-img {
-    height: 115px;
+    height: 46px;
+    max-width: 140px;
   }
 }
 

@@ -384,9 +384,17 @@ img {
   background: rgba(248, 244, 236, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 12px 0;
+  padding: 2px 0;
   box-shadow: 0 4px 25px rgba(62, 42, 31, 0.08);
   border-bottom: 1px solid rgba(62, 42, 31, 0.05);
+}
+
+.header-area.sticky .navbar,
+.header-area.sticky .navbar-brand {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .header-area.sticky .nav-link {
@@ -430,7 +438,7 @@ img {
     margin-left: 0;
   }
   .header-area.sticky {
-    padding: 8px 0;
+    padding: 0;
   }
   .header-area.sticky .brand-logo-img {
     height: 85px;
@@ -445,7 +453,7 @@ img {
     max-width: 290px;
   }
   .header-area.sticky {
-    padding: 6px 0;
+    padding: 0;
   }
   .header-area.sticky .brand-logo-img {
     height: 78px;

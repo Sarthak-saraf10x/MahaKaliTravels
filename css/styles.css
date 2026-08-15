@@ -381,12 +381,12 @@ img {
 }
 
 .header-area.sticky {
-  background: transparent;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(248, 244, 236, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 12px 0;
-  box-shadow: none;
-  border-bottom: none;
+  box-shadow: 0 4px 25px rgba(62, 42, 31, 0.08);
+  border-bottom: 1px solid rgba(62, 42, 31, 0.05);
 }
 
 .header-area.sticky .nav-link {

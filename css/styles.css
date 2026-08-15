@@ -430,11 +430,11 @@ img {
     margin-left: 0;
   }
   .header-area.sticky {
-    padding: 6px 0;
+    padding: 8px 0;
   }
   .header-area.sticky .brand-logo-img {
-    height: 52px;
-    max-width: 160px;
+    height: 85px;
+    max-width: 210px;
     margin-left: 4px;
   }
 }
@@ -445,11 +445,11 @@ img {
     max-width: 290px;
   }
   .header-area.sticky {
-    padding: 4px 0;
+    padding: 6px 0;
   }
   .header-area.sticky .brand-logo-img {
-    height: 46px;
-    max-width: 140px;
+    height: 78px;
+    max-width: 190px;
   }
 }
 

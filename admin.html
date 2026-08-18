@@ -1741,16 +1741,17 @@
         const msgs = msgRes.ok ? (await msgRes.json()).data || [] : [];
         const corps = corpRes.ok ? (await corpRes.json()).data || [] : [];
 
-        document.getElementById('statPackages').innerText = pkgs.length;
-        document.getElementById('statGallery').innerText = gal.length;
-        document.getElementById('statTours').innerText = tours.length;
+        if (document.getElementById('statPackages')) document.getElementById('statPackages').innerText = pkgs.length;
+        if (document.getElementById('statGallery')) document.getElementById('statGallery').innerText = gal.length;
+        if (document.getElementById('statTours')) document.getElementById('statTours').innerText = tours.length;
         if (document.getElementById('statVehicles')) document.getElementById('statVehicles').innerText = vehicles.length;
-        document.getElementById('statMessages').innerText = msgs.length;
+        if (document.getElementById('statContacts')) document.getElementById('statContacts').innerText = msgs.length;
+        if (document.getElementById('statMessages')) document.getElementById('statMessages').innerText = msgs.length;
         if (document.getElementById('statCorporate')) document.getElementById('statCorporate').innerText = corps.length;
 
         // Fetch Visit Statistics
         const currentPeriod = document.getElementById('visitSortFilter')?.value || 'week';
-        fetchVisitStats(currentPeriod);
+        await fetchVisitStats(currentPeriod);
 
         // Render Recent Overview Messages
         const overviewBody = document.getElementById('overviewContactsBody');

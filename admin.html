@@ -638,6 +638,22 @@
       border: 2px solid var(--primary);
     }
 
+    /* Interactive Image Previews & Lightbox */
+    .admin-img-preview,
+    .table-img,
+    #galleryGrid .card-img-top {
+      cursor: pointer !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .admin-img-preview:hover,
+    .table-img:hover,
+    #galleryGrid .card-img-top:hover {
+      transform: scale(1.08);
+      filter: brightness(1.1);
+      box-shadow: 0 4px 12px rgba(255, 138, 0, 0.4);
+    }
+
     /* Mobile First Top Bar & Bottom Nav */
 
     .mobile-top-bar,
@@ -1607,6 +1623,23 @@
     </div>
   </div>
 
+  <!-- Image Lightbox Preview Modal -->
+  <div class="modal fade" id="imageLightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+        <div class="modal-header border-secondary py-2 px-3 align-items-center">
+          <h6 class="modal-title fw-bold text-warning mb-0" id="imageLightboxTitle">
+            <i class="fa-solid fa-image me-2"></i>Image Preview
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center p-2 bg-black rounded-bottom">
+          <img id="imageLightboxImg" src="" class="img-fluid rounded object-fit-contain" style="max-height: 75vh; width: auto; max-width: 100%; display: inline-block;" alt="Full Image Preview">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap 5 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -1618,7 +1651,7 @@
     let token = localStorage.getItem('adminToken');
 
     // Bootstrap Modals
-    let packageModal, galleryModal, tourModal, vehicleModal, detailModal;
+    let packageModal, galleryModal, tourModal, vehicleModal, detailModal, imageLightboxModal;
 
     document.addEventListener('DOMContentLoaded', () => {
       packageModal = new bootstrap.Modal(document.getElementById('packageModal'));
@@ -1626,12 +1659,29 @@
       tourModal = new bootstrap.Modal(document.getElementById('tourModal'));
       vehicleModal = new bootstrap.Modal(document.getElementById('vehicleModal'));
       detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+      imageLightboxModal = new bootstrap.Modal(document.getElementById('imageLightboxModal'));
 
       if (token) {
         verifySession();
       } else {
         showLoginScreen();
       }
+    });
+
+    // Image Lightbox Viewer
+    function openImageLightbox(src, title) {
+      if (!src) return;
+      const imgEl = document.getElementById('imageLightboxImg');
+      const titleEl = document.getElementById('imageLightboxTitle');
+      if (imgEl) imgEl.src = src;
+      if (titleEl) {
+        const cleanTitle = title || 'Image Preview';
+        titleEl.innerHTML = `<i class="fa-solid fa-image me-2 text-warning"></i>${cleanTitle}`;
+      }
+      if (imageLightboxModal) {
+        imageLightboxModal.show();
+      }
+    }
 
       // Sidebar link click listener
       document.querySelectorAll('.sidebar-link').forEach(link => {
@@ -2127,9 +2177,12 @@
         const pkgs = data.data || [];
         const tbody = document.getElementById('packageTableBody');
 
-        tbody.innerHTML = pkgs.map(p => `
+        tbody.innerHTML = pkgs.map(p => {
+          const imgSrc = p.image || 'images/corporate-travel.png';
+          const title = (p.name || 'Package Image').replace(/'/g, "\\'");
+          return `
           <tr>
-            <td><img src="${p.image || 'images/corporate-travel.png'}" width="50" height="38" class="rounded object-fit-cover"></td>
+            <td><img src="${imgSrc}" width="50" height="38" class="rounded object-fit-cover admin-img-preview" onclick="openImageLightbox('${imgSrc}', '${title}')" title="Click to view full image"></td>
             <td class="fw-bold">${p.name}</td>
             <td>${p.destination}</td>
             <td>${p.duration}</td>
@@ -2141,7 +2194,8 @@
               </div>
             </td>
           </tr>
-        `).join('') || '<tr><td colspan="6" class="text-center text-muted">No tour packages found.</td></tr>';
+        `;
+        }).join('') || '<tr><td colspan="6" class="text-center text-muted">No tour packages found.</td></tr>';
       } catch (err) {
         console.error("Error loading packages:", err);
       }
@@ -2243,17 +2297,21 @@
         const items = data.data || [];
         const grid = document.getElementById('galleryGrid');
 
-        grid.innerHTML = items.map(g => `
+        grid.innerHTML = items.map(g => {
+          const imgSrc = g.url || g.imageUrl;
+          const title = (g.title || 'Gallery Image').replace(/'/g, "\\'");
+          return `
           <div class="col-md-3 col-6">
             <div class="card bg-dark border-secondary overflow-hidden">
-              <img src="${g.url || g.imageUrl}" class="card-img-top object-fit-cover" height="150">
+              <img src="${imgSrc}" class="card-img-top object-fit-cover admin-img-preview" height="150" onclick="openImageLightbox('${imgSrc}', '${title}')" title="Click to view full image">
               <div class="card-body p-2 d-flex justify-content-between align-items-center">
                 <span class="small text-truncate text-light">${g.title || 'Gallery Image'}</span>
                 <button class="btn-icon delete" onclick="deleteGalleryItem('${g._id}')"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
-        `).join('') || '<div class="col-12 text-center text-muted py-4">No gallery images uploaded yet.</div>';
+        `;
+        }).join('') || '<div class="col-12 text-center text-muted py-4">No gallery images uploaded yet.</div>';
       } catch (err) {
         console.error("Error loading gallery:", err);
       }
@@ -2343,7 +2401,7 @@
 
           return `
             <tr>
-              <td><img src="${img}" class="table-img" alt="${src} to ${dest}"></td>
+              <td><img src="${img}" class="table-img admin-img-preview" alt="${src} to ${dest}" onclick="openImageLightbox('${img}', '${(src + ' to ' + dest).replace(/'/g, "\\'")}')" title="Click to view full image"></td>
               <td class="fw-bold text-white">${src} <i class="fa-solid fa-arrow-right text-warning mx-1"></i> ${dest}</td>
               <td>${busType}</td>
               <td>${timingBadges}</td>
@@ -2497,8 +2555,9 @@
         const tbody = document.getElementById('vehicleTableBody');
 
         tbody.innerHTML = vehicles.map(v => {
+          const vehicleTitle = (v.name || 'Vehicle Photo').replace(/'/g, "\\'");
           const img = v.image
-            ? `<img src="${v.image}" class="table-img" alt="${v.name}">`
+            ? `<img src="${v.image}" class="table-img admin-img-preview" alt="${v.name}" onclick="openImageLightbox('${v.image}', '${vehicleTitle}')" title="Click to view full image">`
             : `<div class="table-img d-flex align-items-center justify-content-center bg-secondary rounded" style="width:48px;height:36px;"><i class="fa-solid fa-car text-muted"></i></div>`;
           const acBadge = v.ac
             ? `<span class="badge bg-success">AC</span>`

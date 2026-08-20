@@ -1818,14 +1818,17 @@
         }
         const data = await res.json();
 
-        if (data.success && (data.isAdmin || data.token)) {
+        if (data.success && data.isAdmin) {
           localStorage.setItem('adminToken', data.token);
           token = data.token;
-          setAdminProfile(data.user || { name: 'Admin', email: email });
+          setAdminProfile(data.user);
           showDashboard();
         } else {
-          document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Account is not authorized as Admin.';
+          document.getElementById('accessDeniedText').innerText = (data.message || 'Access Denied: Account is not authorized as Admin.') + ' Redirecting to home page...';
           document.getElementById('accessDeniedAlert').classList.remove('d-none');
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 2000);
         }
       } catch (err) {
         alert('Server login error: ' + err.message);
@@ -1847,14 +1850,17 @@
         });
         const data = await res.json();
 
-        if (data.success && (data.isAdmin || data.token)) {
+        if (data.success && data.isAdmin) {
           localStorage.setItem('adminToken', data.token);
           token = data.token;
-          setAdminProfile(data.user || { name: 'Admin User' });
+          setAdminProfile(data.user);
           showDashboard();
         } else {
-          document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Google Account is not an authorized Admin.';
+          document.getElementById('accessDeniedText').innerText = (data.message || 'Access Denied: Google Account is not an authorized Admin.') + ' Redirecting to home page...';
           document.getElementById('accessDeniedAlert').classList.remove('d-none');
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 2000);
         }
       } catch (err) {
         alert('Google Sign-In Error: ' + err.message);

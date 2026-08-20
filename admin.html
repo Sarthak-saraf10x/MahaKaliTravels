@@ -1818,10 +1818,10 @@
         }
         const data = await res.json();
 
-        if (data.success && data.isAdmin) {
+        if (data.success && (data.isAdmin || data.token)) {
           localStorage.setItem('adminToken', data.token);
           token = data.token;
-          setAdminProfile(data.user);
+          setAdminProfile(data.user || { name: 'Admin', email: email });
           showDashboard();
         } else {
           document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Account is not authorized as Admin.';
@@ -1847,10 +1847,10 @@
         });
         const data = await res.json();
 
-        if (data.success && data.isAdmin) {
+        if (data.success && (data.isAdmin || data.token)) {
           localStorage.setItem('adminToken', data.token);
           token = data.token;
-          setAdminProfile(data.user);
+          setAdminProfile(data.user || { name: 'Admin User' });
           showDashboard();
         } else {
           document.getElementById('accessDeniedText').innerText = data.message || 'Access Denied: Google Account is not an authorized Admin.';

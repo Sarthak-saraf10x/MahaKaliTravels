@@ -17,6 +17,8 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Chart.js for Traffic Analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Cropper.js CSS for Image Frame Adjustment -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 
   <style>
     .analytics-hover-card {
@@ -787,6 +789,35 @@
         align-items: flex-start;
       }
     }
+
+    /* Image Frame Adjustment & Cropper Studio Styling */
+    .cropper-view-box {
+      outline: 2px solid #FF8A00 !important;
+      outline-color: #FF8A00 !important;
+    }
+    .cropper-line, .cropper-point {
+      background-color: #FF8A00 !important;
+    }
+    .cropper-bg {
+      background-image: repeating-linear-gradient(45deg, #18181b 25%, transparent 25%, transparent 75%, #18181b 75%, #18181b), repeating-linear-gradient(45deg, #18181b 25%, #09090b 25%, #09090b 75%, #18181b 75%, #18181b) !important;
+    }
+    .cropper-container-wrapper {
+      background: #09090b !important;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #websitePreviewCard {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 138, 0, 0.4) !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 138, 0, 0.2) !important;
+    }
+    .btn-ratio.active {
+      background-color: #FF8A00 !important;
+      color: #000 !important;
+      border-color: #FF8A00 !important;
+      font-weight: 700;
+    }
   </style>
 </head>
 
@@ -1347,7 +1378,12 @@
               </div>
               <div class="col-md-12">
                 <label class="form-label small">Package Image File / URL</label>
-                <input type="file" id="pkgImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
+                <div class="input-group">
+                  <input type="file" id="pkgImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*" onchange="handleImageFileSelected('package', this)">
+                  <button type="button" class="btn btn-outline-warning" onclick="triggerFrameAdjuster('package')" id="btnAdjustPkgFrame" title="Adjust Image Frame">
+                    <i class="fa-solid fa-crop-simple me-1"></i> Frame Adjust
+                  </button>
+                </div>
                 
                 <div class="p-3 rounded bg-dark border border-secondary mt-2">
                   <p class="small text-light mb-1">
@@ -1361,7 +1397,30 @@
                   </a>
                 </div>
 
-                <input type="text" id="pkgImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
+                <div class="input-group mt-2">
+                  <input type="text" id="pkgImageUrl" class="form-control bg-dark text-white border-secondary" placeholder="Or enter Image URL" oninput="handleImageUrlInput('package', this.value)">
+                  <button type="button" class="btn btn-outline-secondary" onclick="triggerFrameAdjusterFromUrl('package')" id="btnAdjustPkgUrl" title="Adjust Frame from URL">
+                    <i class="fa-solid fa-crop-simple me-1"></i> Adjust Frame
+                  </button>
+                </div>
+
+                <!-- Adjusted Frame Status Banner & Thumbnail Preview -->
+                <div id="packageFramePreviewWrap" class="mt-2 p-2 rounded bg-black border border-warning d-none">
+                  <div class="d-flex align-items-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <img id="packageFrameThumb" src="" class="rounded object-fit-cover" style="width: 60px; height: 38px; border: 1px solid #FF8A00;">
+                      <div>
+                        <span class="badge bg-success-subtle text-success border border-success small" style="font-size: 0.72rem;">
+                          <i class="fa-solid fa-circle-check me-1"></i> Frame Adjusted (16:10 Website Fit)
+                        </span>
+                        <small class="d-block text-muted" style="font-size: 0.68rem;">Ready for website upload</small>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-warning" onclick="triggerFrameAdjuster('package')" style="font-size: 0.75rem;">
+                      <i class="fa-solid fa-sliders me-1"></i> Re-adjust Frame
+                    </button>
+                  </div>
+                </div>
               </div>
               <div class="col-12">
                 <label class="form-label small">Description *</label>
@@ -1407,9 +1466,38 @@
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label small">Select Image Files (Multiple Supported)</label>
-              <input type="file" id="galFiles" class="form-control bg-dark text-white border-secondary" multiple>
-              <input type="text" id="galUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
+              <label class="form-label small">Select Image File / URL</label>
+              <div class="input-group">
+                <input type="file" id="galFiles" class="form-control bg-dark text-white border-secondary" accept="image/*" multiple onchange="handleImageFileSelected('gallery', this)">
+                <button type="button" class="btn btn-outline-warning" onclick="triggerFrameAdjuster('gallery')" id="btnAdjustGalFrame" title="Adjust Image Frame">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Frame Adjust
+                </button>
+              </div>
+
+              <div class="input-group mt-2">
+                <input type="text" id="galUrl" class="form-control bg-dark text-white border-secondary" placeholder="Or enter Image URL" oninput="handleImageUrlInput('gallery', this.value)">
+                <button type="button" class="btn btn-outline-secondary" onclick="triggerFrameAdjusterFromUrl('gallery')" id="btnAdjustGalUrl" title="Adjust Frame from URL">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Adjust Frame
+                </button>
+              </div>
+
+              <!-- Adjusted Frame Status Banner & Thumbnail Preview -->
+              <div id="galleryFramePreviewWrap" class="mt-2 p-2 rounded bg-black border border-warning d-none">
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <img id="galleryFrameThumb" src="" class="rounded object-fit-cover" style="width: 60px; height: 38px; border: 1px solid #FF8A00;">
+                    <div>
+                      <span class="badge bg-success-subtle text-success border border-success small" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-circle-check me-1"></i> Frame Adjusted (Gallery Website Fit)
+                      </span>
+                      <small class="d-block text-muted" style="font-size: 0.68rem;">Ready for gallery upload</small>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-warning" onclick="triggerFrameAdjuster('gallery')" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-sliders me-1"></i> Re-adjust Frame
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer border-secondary">
@@ -1466,8 +1554,13 @@
             </div>
             <div class="mb-3">
               <label class="form-label small">Bus Image File / URL</label>
-              <input type="file" id="tourImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
-              
+              <div class="input-group">
+                <input type="file" id="tourImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*" onchange="handleImageFileSelected('tour', this)">
+                <button type="button" class="btn btn-outline-warning" onclick="triggerFrameAdjuster('tour')" id="btnAdjustTourFrame" title="Adjust Image Frame">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Frame Adjust
+                </button>
+              </div>
+
               <div class="p-3 rounded bg-dark border border-secondary mt-2">
                 <p class="small text-light mb-1">
                   <i class="fa-solid fa-circle-info text-warning me-1"></i> For better quality, add images with size: <strong>800 × 500 px</strong> (Aspect Ratio 16:10 / 16:9, max 2MB).
@@ -1480,7 +1573,30 @@
                 </a>
               </div>
 
-              <input type="text" id="tourImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
+              <div class="input-group mt-2">
+                <input type="text" id="tourImageUrl" class="form-control bg-dark text-white border-secondary" placeholder="Or enter Image URL" oninput="handleImageUrlInput('tour', this.value)">
+                <button type="button" class="btn btn-outline-secondary" onclick="triggerFrameAdjusterFromUrl('tour')" id="btnAdjustTourUrl" title="Adjust Frame from URL">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Adjust Frame
+                </button>
+              </div>
+
+              <!-- Adjusted Frame Status Banner & Thumbnail Preview -->
+              <div id="tourFramePreviewWrap" class="mt-2 p-2 rounded bg-black border border-warning d-none">
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <img id="tourFrameThumb" src="" class="rounded object-fit-cover" style="width: 60px; height: 38px; border: 1px solid #FF8A00;">
+                    <div>
+                      <span class="badge bg-success-subtle text-success border border-success small" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-circle-check me-1"></i> Frame Adjusted (16:10 Bus Card Fit)
+                      </span>
+                      <small class="d-block text-muted" style="font-size: 0.68rem;">Ready for route bus upload</small>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-warning" onclick="triggerFrameAdjuster('tour')" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-sliders me-1"></i> Re-adjust Frame
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer border-secondary">
@@ -1583,7 +1699,13 @@
             <!-- Vehicle Photo -->
             <div class="mb-3">
               <label class="form-label small">Vehicle Photo *</label>
-              <input type="file" id="vehicleImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*">
+              <div class="input-group">
+                <input type="file" id="vehicleImageFile" class="form-control bg-dark text-white border-secondary" accept="image/*" onchange="handleImageFileSelected('vehicle', this)">
+                <button type="button" class="btn btn-outline-warning" onclick="triggerFrameAdjuster('vehicle')" id="btnAdjustVehicleFrame" title="Adjust Image Frame">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Frame Adjust
+                </button>
+              </div>
+
               <div class="p-3 rounded bg-dark border border-secondary mt-2">
                 <p class="small text-light mb-1">
                   <i class="fa-solid fa-circle-info text-warning me-1"></i> For best quality, use <strong>800 × 500 px</strong> (16:10 ratio, max 2MB).
@@ -1593,7 +1715,31 @@
                   <i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Generate / Resize with ChatGPT
                 </a>
               </div>
-              <input type="text" id="vehicleImageUrl" class="form-control bg-dark text-white border-secondary mt-2" placeholder="Or enter Image URL">
+
+              <div class="input-group mt-2">
+                <input type="text" id="vehicleImageUrl" class="form-control bg-dark text-white border-secondary" placeholder="Or enter Image URL" oninput="handleImageUrlInput('vehicle', this.value)">
+                <button type="button" class="btn btn-outline-secondary" onclick="triggerFrameAdjusterFromUrl('vehicle')" id="btnAdjustVehicleUrl" title="Adjust Frame from URL">
+                  <i class="fa-solid fa-crop-simple me-1"></i> Adjust Frame
+                </button>
+              </div>
+
+              <!-- Adjusted Frame Status Banner & Thumbnail Preview -->
+              <div id="vehicleFramePreviewWrap" class="mt-2 p-2 rounded bg-black border border-warning d-none">
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <img id="vehicleFrameThumb" src="" class="rounded object-fit-cover" style="width: 60px; height: 38px; border: 1px solid #FF8A00;">
+                    <div>
+                      <span class="badge bg-success-subtle text-success border border-success small" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-circle-check me-1"></i> Frame Adjusted (16:10 Fleet Fit)
+                      </span>
+                      <small class="d-block text-muted" style="font-size: 0.68rem;">Ready for vehicle upload</small>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-warning" onclick="triggerFrameAdjuster('vehicle')" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-sliders me-1"></i> Re-adjust Frame
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer border-secondary">
@@ -1640,6 +1786,104 @@
     </div>
   </div>
 
+  <!-- ==================== IMAGE FRAME ADJUSTMENT & PREVIEW STUDIO MODAL ==================== -->
+  <div class="modal fade" id="frameAdjustModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+        <div class="modal-header border-secondary py-3 px-4 d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="modal-title fw-bold text-warning mb-1" id="frameAdjustModalTitle">
+              <i class="fa-solid fa-crop-simple me-2"></i>Image Frame Adjustment &amp; Website Preview
+            </h5>
+            <small class="text-muted d-block">Position and adjust the frame to see exactly how your image will look on the live website.</small>
+          </div>
+          <button type="button" class="btn-close btn-close-white" onclick="closeFrameAdjusterModal()" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-3 p-md-4 bg-black">
+          <div class="row g-4">
+            <!-- Left Side: Interactive Cropper Container -->
+            <div class="col-lg-7 col-xl-8">
+              <div class="cropper-container-wrapper p-2 p-md-3 rounded-3 border border-secondary bg-dark text-center" style="min-height: 380px; max-height: 520px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <img id="cropperImageTarget" src="" alt="Frame Crop Target" style="max-width: 100%; max-height: 480px; display: block;">
+              </div>
+
+              <!-- Tool Controls -->
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3 p-3 rounded-3 bg-dark border border-secondary">
+                <!-- Aspect Ratio Selector -->
+                <div class="btn-group btn-group-sm flex-wrap" role="group" id="aspectRatioGroup">
+                  <button type="button" class="btn btn-outline-warning active btn-ratio" data-ratio="1.6" onclick="setCropperRatio(1.6, this)" title="16:10 Website Card Fit">16:10 (Card Standard)</button>
+                  <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="1.3333" onclick="setCropperRatio(1.3333, this)" title="4:3 Classic Photo">4:3 (Classic)</button>
+                  <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="1" onclick="setCropperRatio(1, this)" title="1:1 Square">1:1 (Square)</button>
+                  <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="NaN" onclick="setCropperRatio(NaN, this)" title="Free Aspect Ratio">Free Crop</button>
+                </div>
+
+                <!-- Transform Controls -->
+                <div class="d-flex align-items-center gap-1 gap-sm-2 flex-wrap">
+                  <button type="button" class="btn btn-sm btn-outline-light" onclick="rotateCropper(-90)" title="Rotate Left 90°"><i class="fa-solid fa-rotate-left"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-light" onclick="rotateCropper(90)" title="Rotate Right 90°"><i class="fa-solid fa-rotate-right"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-light" onclick="zoomCropper(0.1)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-light" onclick="zoomCropper(-0.1)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-light" onclick="resetCropper()" title="Reset Frame"><i class="fa-solid fa-arrows-rotate me-1"></i>Reset</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side: Real-Time Live Website Card Preview -->
+            <div class="col-lg-5 col-xl-4 d-flex flex-column">
+              <div class="p-3 rounded-3 bg-dark border border-warning h-100 d-flex flex-column">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <h6 class="fw-bold text-warning mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-laptop text-warning"></i> Website Card Preview
+                  </h6>
+                  <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">REAL-TIME</span>
+                </div>
+                <p class="small text-muted mb-3" style="font-size: 0.78rem;">
+                  This reference box displays how visitors will view your image on live website cards.
+                </p>
+
+                <!-- Live Card Container -->
+                <div class="website-preview-card-wrap my-auto text-center py-2">
+                  <div id="websitePreviewCard" class="card bg-dark text-white border-secondary overflow-hidden mx-auto shadow-lg" style="max-width: 320px; border-radius: 16px;">
+                    <div class="position-relative overflow-hidden" style="height: 180px; background: #000;">
+                      <img id="livePreviewImg" src="" class="w-100 h-100 object-fit-cover" alt="Live Preview">
+                      <span id="livePreviewBadge" class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark fw-bold" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 10px;">FEATURED</span>
+                      <span id="livePreviewDuration" class="position-absolute bottom-0 end-0 m-2 badge bg-black bg-opacity-75 text-white fw-normal" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 10px;">3 Days / 2 Nights</span>
+                    </div>
+                    <div class="card-body text-start p-3">
+                      <span id="livePreviewSub" class="small text-warning fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">DESTINATION</span>
+                      <h6 id="livePreviewTitle" class="fw-bold text-white mb-2 text-truncate" style="font-size: 0.92rem;">Sample Item Title</h6>
+                      <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary">
+                        <span class="small text-muted" style="font-size: 0.72rem;">Live Website View</span>
+                        <span id="livePreviewPrice" class="fw-bold text-warning" style="font-size: 0.88rem;">Best Rate</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Helper Hint -->
+                <div class="mt-3 p-2 rounded bg-black border border-secondary text-center">
+                  <small class="text-muted" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-circle-check text-success me-1"></i> Drag or scale the box on the left to adjust framing.
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-secondary px-4 py-3 d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-secondary" onclick="closeFrameAdjusterModal()">Cancel</button>
+          <button type="button" class="btn btn-gold px-4 fw-bold" onclick="applyFrameAdjustment()">
+            <i class="fa-solid fa-check me-2"></i>Apply &amp; Use Frame
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cropper.js JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <!-- Bootstrap 5 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -1651,7 +1895,7 @@
     let token = localStorage.getItem('adminToken');
 
     // Bootstrap Modals
-    let packageModal, galleryModal, tourModal, vehicleModal, detailModal, imageLightboxModal;
+    let packageModal, galleryModal, tourModal, vehicleModal, detailModal, imageLightboxModal, frameAdjustModal;
 
     document.addEventListener('DOMContentLoaded', () => {
       packageModal = new bootstrap.Modal(document.getElementById('packageModal'));
@@ -1660,6 +1904,7 @@
       vehicleModal = new bootstrap.Modal(document.getElementById('vehicleModal'));
       detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
       imageLightboxModal = new bootstrap.Modal(document.getElementById('imageLightboxModal'));
+      frameAdjustModal = new bootstrap.Modal(document.getElementById('frameAdjustModal'));
 
       if (token) {
         verifySession();
@@ -1697,6 +1942,294 @@
       if (imageLightboxModal) {
         imageLightboxModal.show();
       }
+    }
+
+    // ==========================================================================
+    // IMAGE FRAME ADJUSTMENT & CROPPER STUDIO LOGIC
+    // ==========================================================================
+    let currentCropperSection = null; // 'package', 'vehicle', 'gallery', 'tour'
+    let cropperInstance = null;
+    let parentModalToReopen = null;
+
+    let adjustedBlobs = {
+      package: null,
+      vehicle: null,
+      gallery: null,
+      tour: null
+    };
+
+    let adjustedDataUrls = {
+      package: null,
+      vehicle: null,
+      gallery: null,
+      tour: null
+    };
+
+    function getParentModalForSection(section) {
+      if (section === 'package') return packageModal;
+      if (section === 'vehicle') return vehicleModal;
+      if (section === 'gallery') return galleryModal;
+      if (section === 'tour') return tourModal;
+      return null;
+    }
+
+    function getSectionFileInputId(section) {
+      if (section === 'package') return 'pkgImageFile';
+      if (section === 'vehicle') return 'vehicleImageFile';
+      if (section === 'gallery') return 'galFiles';
+      if (section === 'tour') return 'tourImageFile';
+      return '';
+    }
+
+    function getSectionUrlInputId(section) {
+      if (section === 'package') return 'pkgImageUrl';
+      if (section === 'vehicle') return 'vehicleImageUrl';
+      if (section === 'gallery') return 'galUrl';
+      if (section === 'tour') return 'tourImageUrl';
+      return '';
+    }
+
+    function handleImageFileSelected(section, inputEl) {
+      if (inputEl.files && inputEl.files[0]) {
+        const file = inputEl.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          openFrameAdjusterModal(section, e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleImageUrlInput(section, val) {
+      if (!val) {
+        resetFrameAdjusterState(section);
+      }
+    }
+
+    function triggerFrameAdjusterFromUrl(section) {
+      const urlInputId = getSectionUrlInputId(section);
+      const url = document.getElementById(urlInputId)?.value;
+      if (!url) {
+        alert('Please enter an Image URL first to adjust its frame.');
+        return;
+      }
+      openFrameAdjusterModal(section, url);
+    }
+
+    function triggerFrameAdjuster(section) {
+      if (adjustedDataUrls[section]) {
+        openFrameAdjusterModal(section, adjustedDataUrls[section]);
+        return;
+      }
+      const fileInput = document.getElementById(getSectionFileInputId(section));
+      const urlInput = document.getElementById(getSectionUrlInputId(section));
+
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        handleImageFileSelected(section, fileInput);
+      } else if (urlInput && urlInput.value) {
+        openFrameAdjusterModal(section, urlInput.value);
+      } else {
+        alert('Please select an image file or enter an image URL first.');
+      }
+    }
+
+    function resetFrameAdjusterState(section) {
+      adjustedBlobs[section] = null;
+      adjustedDataUrls[section] = null;
+      const wrap = document.getElementById(`${section}FramePreviewWrap`);
+      if (wrap) wrap.classList.add('d-none');
+    }
+
+    function updateLivePreviewMetadata(section) {
+      const cardTitle = document.getElementById('livePreviewTitle');
+      const cardSub = document.getElementById('livePreviewSub');
+      const cardBadge = document.getElementById('livePreviewBadge');
+      const cardDuration = document.getElementById('livePreviewDuration');
+      const cardPrice = document.getElementById('livePreviewPrice');
+
+      if (section === 'package') {
+        const name = document.getElementById('pkgName')?.value || 'Mahabaleshwar Tour';
+        const dest = document.getElementById('pkgDestination')?.value || 'Hill Station';
+        const duration = document.getElementById('pkgDuration')?.value || '3 Days / 2 Nights';
+        const cat = document.getElementById('pkgCategory')?.value || 'PACKAGE';
+
+        if (cardTitle) cardTitle.innerText = name;
+        if (cardSub) cardSub.innerText = dest;
+        if (cardBadge) cardBadge.innerText = cat.toUpperCase();
+        if (cardDuration) {
+          cardDuration.innerText = duration;
+          cardDuration.classList.remove('d-none');
+        }
+        if (cardPrice) cardPrice.innerText = 'Package Rate';
+      } else if (section === 'vehicle') {
+        const name = document.getElementById('vehicleName')?.value || 'Toyota Innova Crysta';
+        const type = document.getElementById('vehicleType')?.value || 'SUV / Cab';
+        const capacity = document.getElementById('vehicleCapacity')?.value || '7';
+        const price = document.getElementById('vehiclePricePerKm')?.value || '18';
+
+        if (cardTitle) cardTitle.innerText = name;
+        if (cardSub) cardSub.innerText = `${type} • ${capacity} Seater`;
+        if (cardBadge) cardBadge.innerText = document.getElementById('vehicleAC')?.checked ? 'AC FLEET' : 'NON-AC FLEET';
+        if (cardDuration) cardDuration.classList.add('d-none');
+        if (cardPrice) cardPrice.innerText = price ? formatPricePerKm(price) : 'Rate/KM';
+      } else if (section === 'gallery') {
+        const title = document.getElementById('galTitle')?.value || 'Travel Memories';
+        const cat = document.getElementById('galCategory')?.value || 'Gallery Photo';
+
+        if (cardTitle) cardTitle.innerText = title;
+        if (cardSub) cardSub.innerText = cat;
+        if (cardBadge) cardBadge.innerText = 'GALLERY MASONRY';
+        if (cardDuration) cardDuration.classList.add('d-none');
+        if (cardPrice) cardPrice.innerText = 'Live View';
+      } else if (section === 'tour') {
+        const source = document.getElementById('tourSource')?.value || 'Nagpur';
+        const dest = document.getElementById('tourDestination')?.value || 'Pune';
+        const busType = document.getElementById('tourBusType')?.value || 'AC Sleeper (2+1)';
+
+        if (cardTitle) cardTitle.innerText = `${source} ➔ ${dest}`;
+        if (cardSub) cardSub.innerText = busType;
+        if (cardBadge) cardBadge.innerText = 'DAILY BUS';
+        if (cardDuration) cardDuration.classList.add('d-none');
+        if (cardPrice) cardPrice.innerText = 'Daily Service';
+      }
+    }
+
+    function openFrameAdjusterModal(section, imageSrc) {
+      currentCropperSection = section;
+      parentModalToReopen = getParentModalForSection(section);
+
+      const cropperImg = document.getElementById('cropperImageTarget');
+      let defaultRatio = 1.6; // 16:10 standard for website cards
+      if (section === 'gallery') {
+        defaultRatio = 1.3333; // 4:3 default for gallery masonry
+      }
+
+      updateLivePreviewMetadata(section);
+
+      cropperImg.src = imageSrc;
+
+      if (parentModalToReopen) {
+        parentModalToReopen.hide();
+      }
+
+      if (frameAdjustModal) {
+        frameAdjustModal.show();
+      }
+
+      setTimeout(() => {
+        if (cropperInstance) {
+          cropperInstance.destroy();
+        }
+
+        cropperInstance = new Cropper(cropperImg, {
+          aspectRatio: defaultRatio,
+          viewMode: 1,
+          autoCropArea: 0.92,
+          responsive: true,
+          restore: false,
+          background: false,
+          checkCrossOrigin: false,
+          crop(event) {
+            updateRealtimeWebsitePreview();
+          }
+        });
+
+        updateRatioButtonHighlight(defaultRatio);
+      }, 350);
+    }
+
+    function updateRealtimeWebsitePreview() {
+      if (!cropperInstance) return;
+      try {
+        const canvas = cropperInstance.getCroppedCanvas({
+          width: 600,
+          height: 375,
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: 'high'
+        });
+        if (canvas) {
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const previewImg = document.getElementById('livePreviewImg');
+          if (previewImg) previewImg.src = dataUrl;
+        }
+      } catch (e) {
+        console.log("Realtime preview update warning:", e);
+      }
+    }
+
+    function setCropperRatio(ratio, btn) {
+      if (!cropperInstance) return;
+      cropperInstance.setAspectRatio(ratio);
+      updateRatioButtonHighlight(ratio);
+    }
+
+    function updateRatioButtonHighlight(ratio) {
+      document.querySelectorAll('#aspectRatioGroup .btn-ratio').forEach(b => {
+        const r = parseFloat(b.getAttribute('data-ratio'));
+        if ((isNaN(ratio) && isNaN(r)) || (Math.abs(r - ratio) < 0.05)) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+    }
+
+    function rotateCropper(deg) {
+      if (cropperInstance) cropperInstance.rotate(deg);
+    }
+
+    function zoomCropper(delta) {
+      if (cropperInstance) cropperInstance.zoom(delta);
+    }
+
+    function resetCropper() {
+      if (cropperInstance) cropperInstance.reset();
+    }
+
+    function closeFrameAdjusterModal() {
+      if (frameAdjustModal) {
+        frameAdjustModal.hide();
+      }
+      if (parentModalToReopen) {
+        parentModalToReopen.show();
+      }
+    }
+
+    function applyFrameAdjustment() {
+      if (!cropperInstance) return;
+
+      const canvas = cropperInstance.getCroppedCanvas({
+        width: 1200,
+        height: 750,
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high'
+      });
+
+      if (!canvas) {
+        alert("Could not process image frame. If using an external URL, CORS restrictions might apply. Please try uploading the image file directly.");
+        return;
+      }
+
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        const section = currentCropperSection;
+
+        adjustedBlobs[section] = blob;
+        adjustedDataUrls[section] = dataUrl;
+
+        const thumb = document.getElementById(`${section}FrameThumb`);
+        const previewWrap = document.getElementById(`${section}FramePreviewWrap`);
+        if (thumb) thumb.src = dataUrl;
+        if (previewWrap) previewWrap.classList.remove('d-none');
+
+        if (frameAdjustModal) {
+          frameAdjustModal.hide();
+        }
+        if (parentModalToReopen) {
+          parentModalToReopen.show();
+        }
+      }, 'image/jpeg', 0.92);
     }
 
     // Handle Tab Switching
@@ -2215,6 +2748,7 @@
     }
 
     function openPackageModal(id = null) {
+      resetFrameAdjusterState('package');
       document.getElementById('pkgId').value = id || '';
       document.getElementById('pkgModalTitle').innerText = id ? 'Edit Tour Package' : 'Add Tour Package';
       if (!id) document.getElementById('packageForm').reset();
@@ -2222,6 +2756,7 @@
     }
 
     async function editPackage(id) {
+      resetFrameAdjusterState('package');
       try {
         const res = await fetch(`${API_BASE}/packages/${id}`);
         const data = await res.json();
@@ -2258,7 +2793,11 @@
       formData.append('highlights', document.getElementById('pkgHighlights').value);
 
       const fileInput = document.getElementById('pkgImageFile');
-      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (adjustedBlobs['package']) {
+        formData.append('image', adjustedBlobs['package'], 'cropped-package.jpg');
+      } else if (fileInput.files[0]) {
+        formData.append('image', fileInput.files[0]);
+      }
       if (document.getElementById('pkgImageUrl').value) formData.append('imageUrl', document.getElementById('pkgImageUrl').value);
 
       const method = id ? 'PUT' : 'POST';
@@ -2272,6 +2811,7 @@
         });
         const data = await res.json();
         if (data.success) {
+          resetFrameAdjusterState('package');
           packageModal.hide();
           loadPackages();
           loadOverviewData();
@@ -2331,6 +2871,7 @@
     }
 
     function openGalleryModal() {
+      resetFrameAdjusterState('gallery');
       document.getElementById('galleryForm').reset();
       galleryModal.show();
     }
@@ -2344,9 +2885,13 @@
       formData.append('title', document.getElementById('galTitle').value);
       formData.append('category', document.getElementById('galCategory').value);
 
-      const files = document.getElementById('galFiles').files;
-      for (let i = 0; i < files.length; i++) {
-        formData.append('images', files[i]);
+      if (adjustedBlobs['gallery']) {
+        formData.append('images', adjustedBlobs['gallery'], 'cropped-gallery.jpg');
+      } else {
+        const files = document.getElementById('galFiles').files;
+        for (let i = 0; i < files.length; i++) {
+          formData.append('images', files[i]);
+        }
       }
       if (document.getElementById('galUrl').value) formData.append('url', document.getElementById('galUrl').value);
 
@@ -2358,6 +2903,7 @@
         });
         const data = await res.json();
         if (data.success) {
+          resetFrameAdjusterState('gallery');
           galleryModal.hide();
           loadGallery();
           loadOverviewData();
@@ -2434,6 +2980,7 @@
     }
 
     function openTourModal(id = null) {
+      resetFrameAdjusterState('tour');
       document.getElementById('tourId').value = id || '';
       document.getElementById('tourModalTitle').innerText = id ? 'Edit Route Bus Service' : 'Add Route Bus Service';
 
@@ -2457,6 +3004,7 @@
     }
 
     async function editTour(id) {
+      resetFrameAdjusterState('tour');
       try {
         let b = null;
         try {
@@ -2502,7 +3050,11 @@
       formData.append('whatsappNumber', document.getElementById('tourWhatsApp').value);
 
       const fileInput = document.getElementById('tourImageFile');
-      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (adjustedBlobs['tour']) {
+        formData.append('image', adjustedBlobs['tour'], 'cropped-bus-route.jpg');
+      } else if (fileInput.files[0]) {
+        formData.append('image', fileInput.files[0]);
+      }
       if (document.getElementById('tourImageUrl').value) formData.append('imageUrl', document.getElementById('tourImageUrl').value);
 
       const method = id ? 'PUT' : 'POST';
@@ -2516,6 +3068,7 @@
         });
         const data = await res.json();
         if (data.success) {
+          resetFrameAdjusterState('tour');
           tourModal.hide();
           loadTours();
           loadOverviewData();
@@ -2602,6 +3155,7 @@
     }
 
     function openVehicleModal(id = null) {
+      resetFrameAdjusterState('vehicle');
       document.getElementById('vehicleId').value = id || '';
       document.getElementById('vehicleModalTitle').innerText = id ? 'Edit Vehicle' : 'Add Vehicle to Fleet';
       document.querySelector('#vehicleModal .modal-footer .btn-gold').innerText = id ? 'Save Changes' : 'Add to Fleet';
@@ -2614,6 +3168,7 @@
     }
 
     async function editVehicle(id) {
+      resetFrameAdjusterState('vehicle');
       try {
         const res = await fetch(`${API_BASE}/vehicles/${id}`);
         const data = await res.json();
@@ -2660,7 +3215,11 @@
       formData.append('ac', document.getElementById('vehicleAC').checked ? 'true' : 'false');
 
       const fileInput = document.getElementById('vehicleImageFile');
-      if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+      if (adjustedBlobs['vehicle']) {
+        formData.append('image', adjustedBlobs['vehicle'], 'cropped-vehicle.jpg');
+      } else if (fileInput.files[0]) {
+        formData.append('image', fileInput.files[0]);
+      }
       if (document.getElementById('vehicleImageUrl').value) formData.append('imageUrl', document.getElementById('vehicleImageUrl').value);
 
       const method = id ? 'PUT' : 'POST';
@@ -2674,6 +3233,7 @@
         });
         const data = await res.json();
         if (data.success) {
+          resetFrameAdjusterState('vehicle');
           vehicleModal.hide();
           loadVehicles();
           loadOverviewData();

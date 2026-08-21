@@ -1812,7 +1812,8 @@
               <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3 p-3 rounded-3 bg-dark border border-secondary">
                 <!-- Aspect Ratio Selector -->
                 <div class="btn-group btn-group-sm flex-wrap" role="group" id="aspectRatioGroup">
-                  <button type="button" class="btn btn-outline-warning active btn-ratio" data-ratio="1.6" onclick="setCropperRatio(1.6, this)" title="16:10 Website Card Fit">16:10 (Card Standard)</button>
+                  <button type="button" class="btn btn-outline-warning active btn-ratio" data-ratio="2" onclick="setCropperRatio(2, this)" title="2:1 Banner Fit (800x400)">2:1 (800x400)</button>
+                  <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="1.6" onclick="setCropperRatio(1.6, this)" title="16:10 Website Card Fit">16:10 (Card)</button>
                   <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="1.3333" onclick="setCropperRatio(1.3333, this)" title="4:3 Classic Photo">4:3 (Classic)</button>
                   <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="1" onclick="setCropperRatio(1, this)" title="1:1 Square">1:1 (Square)</button>
                   <button type="button" class="btn btn-outline-warning btn-ratio" data-ratio="NaN" onclick="setCropperRatio(NaN, this)" title="Free Aspect Ratio">Free Crop</button>
@@ -2123,9 +2124,9 @@
       const cropperImg = document.getElementById('cropperImageTarget');
       const previewImg = document.getElementById('livePreviewImg');
 
-      let defaultRatio = 1.6; // 16:10 standard for website cards
+      let defaultRatio = 2; // 2:1 (800x400 landscape ratio)
       if (section === 'gallery') {
-        defaultRatio = 1.3333; // 4:3 default for gallery masonry
+        defaultRatio = 1.3333; // 4:3 default for gallery
       }
 
       updateLivePreviewMetadata(section);
@@ -3059,7 +3060,22 @@
     }
 
     function openChatGPTWithPrompt(e) {
-      const promptText = "Please crop or resize this image to exactly 800x500 pixels (16:10 aspect ratio). Do NOT alter, modify, or regenerate any details in the image—only crop/resize it to 800x500 pixels while keeping file size under 2MB.";
+      const promptText = `Convert the uploaded image to exactly 800 × 400 pixels (2:1 landscape ratio).
+
+Important instructions:
+
+• Keep the same design, layout, colors, graphics, text, logos, illustrations, and information from the original image.
+• Do not add, remove, rewrite, or modify any text or information.
+• Do not redesign the poster.
+• Re-arrange or adapt the existing composition naturally so it fits the 800 × 400 landscape frame.
+• Do not crop out any important content.
+• Maintain the original visual style and quality.
+• Make sure the image looks complete and professionally balanced at the new ratio.
+• The final output must be exactly 800 pixels wide × 400 pixels high.
+• Do not output 801×400, 800×401, 799×400, or any other dimensions.
+• Output only the final image.
+
+Goal: Convert the uploaded image into an exact 800 × 400 pixel landscape image, while preserving all original information and design.`;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(promptText);
       }

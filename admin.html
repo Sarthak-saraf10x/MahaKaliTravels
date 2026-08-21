@@ -1991,6 +1991,9 @@
 
     function handleImageFileSelected(section, inputEl) {
       if (inputEl.files && inputEl.files[0]) {
+        // Reset old cropped blobs when a new file is picked
+        adjustedBlobs[section] = null;
+        adjustedDataUrls[section] = null;
         const file = inputEl.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -2017,20 +2020,28 @@
     }
 
     function triggerFrameAdjuster(section) {
+      const fileInput = document.getElementById(getSectionFileInputId(section));
+      const urlInput = document.getElementById(getSectionUrlInputId(section));
+
+      // 1. If user selected a new file in input, use that file
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        handleImageFileSelected(section, fileInput);
+        return;
+      }
+
+      // 2. If user already adjusted a frame for this item in current modal session, use adjusted data URL
       if (adjustedDataUrls[section]) {
         openFrameAdjusterModal(section, adjustedDataUrls[section]);
         return;
       }
-      const fileInput = document.getElementById(getSectionFileInputId(section));
-      const urlInput = document.getElementById(getSectionUrlInputId(section));
 
-      if (fileInput && fileInput.files && fileInput.files[0]) {
-        handleImageFileSelected(section, fileInput);
-      } else if (urlInput && urlInput.value) {
+      // 3. Otherwise, use existing URL input value (e.g. current image of item being edited)
+      if (urlInput && urlInput.value) {
         openFrameAdjusterModal(section, urlInput.value);
-      } else {
-        alert('Please select an image file or enter an image URL first.');
+        return;
       }
+
+      alert('Please select an image file or enter an image URL first.');
     }
 
     function resetFrameAdjusterState(section) {
@@ -2038,6 +2049,17 @@
       adjustedDataUrls[section] = null;
       const wrap = document.getElementById(`${section}FramePreviewWrap`);
       if (wrap) wrap.classList.add('d-none');
+      const thumb = document.getElementById(`${section}FrameThumb`);
+      if (thumb) thumb.src = '';
+    }
+
+    function showExistingImageFramePreview(section, imgUrl) {
+      const wrap = document.getElementById(`${section}FramePreviewWrap`);
+      const thumb = document.getElementById(`${section}FrameThumb`);
+      const badge = wrap ? wrap.querySelector('.badge') : null;
+      if (thumb) thumb.src = imgUrl;
+      if (badge) badge.innerText = 'Current Saved Image';
+      if (wrap) wrap.classList.remove('d-none');
     }
 
     function updateLivePreviewMetadata(section) {
@@ -2099,6 +2121,8 @@
       parentModalToReopen = getParentModalForSection(section);
 
       const cropperImg = document.getElementById('cropperImageTarget');
+      const previewImg = document.getElementById('livePreviewImg');
+
       let defaultRatio = 1.6; // 16:10 standard for website cards
       if (section === 'gallery') {
         defaultRatio = 1.3333; // 4:3 default for gallery masonry
@@ -2106,7 +2130,12 @@
 
       updateLivePreviewMetadata(section);
 
-      cropperImg.src = imageSrc;
+      // Instantly populate live preview & target image to prevent previous image lingering
+      if (previewImg) previewImg.src = imageSrc;
+      if (cropperImg) {
+        cropperImg.crossOrigin = 'anonymous';
+        cropperImg.src = imageSrc;
+      }
 
       if (parentModalToReopen) {
         parentModalToReopen.hide();
@@ -2119,6 +2148,7 @@
       setTimeout(() => {
         if (cropperInstance) {
           cropperInstance.destroy();
+          cropperInstance = null;
         }
 
         cropperInstance = new Cropper(cropperImg, {
@@ -2128,18 +2158,22 @@
           responsive: true,
           restore: false,
           background: false,
-          checkCrossOrigin: false,
+          checkCrossOrigin: true,
+          ready() {
+            updateRealtimeWebsitePreview();
+          },
           crop(event) {
             updateRealtimeWebsitePreview();
           }
         });
 
         updateRatioButtonHighlight(defaultRatio);
-      }, 350);
+      }, 300);
     }
 
     function updateRealtimeWebsitePreview() {
       if (!cropperInstance) return;
+      const previewImg = document.getElementById('livePreviewImg');
       try {
         const canvas = cropperInstance.getCroppedCanvas({
           width: 600,
@@ -2149,11 +2183,14 @@
         });
         if (canvas) {
           const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-          const previewImg = document.getElementById('livePreviewImg');
           if (previewImg) previewImg.src = dataUrl;
         }
       } catch (e) {
-        console.log("Realtime preview update warning:", e);
+        console.log("Realtime preview update warning (CORS or canvas export):", e);
+        const cropperImg = document.getElementById('cropperImageTarget');
+        if (previewImg && cropperImg && cropperImg.src) {
+          previewImg.src = cropperImg.src;
+        }
       }
     }
 
@@ -2198,16 +2235,28 @@
     function applyFrameAdjustment() {
       if (!cropperInstance) return;
 
-      const canvas = cropperInstance.getCroppedCanvas({
-        width: 1200,
-        height: 750,
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high'
-      });
+      let canvas = null;
+      try {
+        canvas = cropperInstance.getCroppedCanvas({
+          width: 1200,
+          height: 750,
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: 'high'
+        });
+      } catch (e) {
+        console.warn("Canvas crop export restricted by CORS:", e);
+      }
 
       if (!canvas) {
-        alert("Could not process image frame. If using an external URL, CORS restrictions might apply. Please try uploading the image file directly.");
-        return;
+        const urlInput = document.getElementById(getSectionUrlInputId(currentCropperSection));
+        if (urlInput && urlInput.value) {
+          alert("Notice: This remote image URL has CORS restrictions preventing client-side cropping. The original image URL will be saved directly.");
+          closeFrameAdjusterModal();
+          return;
+        } else {
+          alert("Could not process image frame. Please try uploading the image file directly.");
+          return;
+        }
       }
 
       canvas.toBlob(blob => {
@@ -2220,15 +2269,12 @@
 
         const thumb = document.getElementById(`${section}FrameThumb`);
         const previewWrap = document.getElementById(`${section}FramePreviewWrap`);
+        const badge = previewWrap ? previewWrap.querySelector('.badge') : null;
         if (thumb) thumb.src = dataUrl;
+        if (badge) badge.innerText = 'Frame Adjusted & Ready';
         if (previewWrap) previewWrap.classList.remove('d-none');
 
-        if (frameAdjustModal) {
-          frameAdjustModal.hide();
-        }
-        if (parentModalToReopen) {
-          parentModalToReopen.show();
-        }
+        closeFrameAdjusterModal();
       }, 'image/jpeg', 0.92);
     }
 
@@ -2751,12 +2797,19 @@
       resetFrameAdjusterState('package');
       document.getElementById('pkgId').value = id || '';
       document.getElementById('pkgModalTitle').innerText = id ? 'Edit Tour Package' : 'Add Tour Package';
-      if (!id) document.getElementById('packageForm').reset();
+      const fileInput = document.getElementById('pkgImageFile');
+      if (fileInput) fileInput.value = '';
+      if (!id) {
+        document.getElementById('packageForm').reset();
+        if (document.getElementById('pkgImageUrl')) document.getElementById('pkgImageUrl').value = '';
+      }
       packageModal.show();
     }
 
     async function editPackage(id) {
       resetFrameAdjusterState('package');
+      const fileInput = document.getElementById('pkgImageFile');
+      if (fileInput) fileInput.value = '';
       try {
         const res = await fetch(`${API_BASE}/packages/${id}`);
         const data = await res.json();
@@ -2771,6 +2824,9 @@
           if (document.getElementById('pkgHighlights')) document.getElementById('pkgHighlights').value = Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : (pkg.highlights || '');
           if (document.getElementById('pkgImageUrl')) document.getElementById('pkgImageUrl').value = pkg.image || '';
           document.getElementById('pkgModalTitle').innerText = 'Edit Tour Package';
+          if (pkg.image) {
+            showExistingImageFramePreview('package', pkg.image);
+          }
           packageModal.show();
         }
       } catch (err) {
@@ -2873,6 +2929,9 @@
     function openGalleryModal() {
       resetFrameAdjusterState('gallery');
       document.getElementById('galleryForm').reset();
+      const fileInput = document.getElementById('galFiles');
+      if (fileInput) fileInput.value = '';
+      if (document.getElementById('galUrl')) document.getElementById('galUrl').value = '';
       galleryModal.show();
     }
 
@@ -2983,6 +3042,8 @@
       resetFrameAdjusterState('tour');
       document.getElementById('tourId').value = id || '';
       document.getElementById('tourModalTitle').innerText = id ? 'Edit Route Bus Service' : 'Add Route Bus Service';
+      const fileInput = document.getElementById('tourImageFile');
+      if (fileInput) fileInput.value = '';
 
       if (!id) {
         document.getElementById('tourForm').reset();
@@ -2992,6 +3053,7 @@
         document.getElementById('tourSeats').value = '30';
         document.getElementById('tourFrequency').value = 'Daily Service';
         document.getElementById('tourWhatsApp').value = '917517685951';
+        if (document.getElementById('tourImageUrl')) document.getElementById('tourImageUrl').value = '';
       }
       tourModal.show();
     }
@@ -3005,6 +3067,8 @@
 
     async function editTour(id) {
       resetFrameAdjusterState('tour');
+      const fileInput = document.getElementById('tourImageFile');
+      if (fileInput) fileInput.value = '';
       try {
         let b = null;
         try {
@@ -3028,6 +3092,9 @@
           document.getElementById('tourWhatsApp').value = b.whatsappNumber || '917517685951';
           document.getElementById('tourImageUrl').value = b.image || '';
           document.getElementById('tourModalTitle').innerText = 'Edit Route Bus Service';
+          if (b.image) {
+            showExistingImageFramePreview('tour', b.image);
+          }
           tourModal.show();
         }
       } catch (err) {
@@ -3159,16 +3226,21 @@
       document.getElementById('vehicleId').value = id || '';
       document.getElementById('vehicleModalTitle').innerText = id ? 'Edit Vehicle' : 'Add Vehicle to Fleet';
       document.querySelector('#vehicleModal .modal-footer .btn-gold').innerText = id ? 'Save Changes' : 'Add to Fleet';
+      const fileInput = document.getElementById('vehicleImageFile');
+      if (fileInput) fileInput.value = '';
       if (!id) {
         document.getElementById('vehicleForm').reset();
         document.getElementById('vehicleAC').checked = true;
         document.getElementById('vehicleWhatsApp').value = '917517685951';
+        if (document.getElementById('vehicleImageUrl')) document.getElementById('vehicleImageUrl').value = '';
       }
       vehicleModal.show();
     }
 
     async function editVehicle(id) {
       resetFrameAdjusterState('vehicle');
+      const fileInput = document.getElementById('vehicleImageFile');
+      if (fileInput) fileInput.value = '';
       try {
         const res = await fetch(`${API_BASE}/vehicles/${id}`);
         const data = await res.json();
@@ -3188,6 +3260,9 @@
           document.getElementById('vehicleImageUrl').value = v.image || '';
           document.getElementById('vehicleModalTitle').innerText = 'Edit Vehicle';
           document.querySelector('#vehicleModal .modal-footer .btn-gold').innerText = 'Save Changes';
+          if (v.image) {
+            showExistingImageFramePreview('vehicle', v.image);
+          }
           vehicleModal.show();
         }
       } catch (err) {

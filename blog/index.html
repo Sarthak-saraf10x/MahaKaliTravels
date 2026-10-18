@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Title (≤60 chars) -->
+  <title>Travel Guides &amp; Tips | Mahakali Travels Blog</title>
+
+  <!-- SEO Meta Description (≤160 chars) -->
+  <meta name="description" content="Maharashtra travel guides, destination tips, itineraries and tour advice from the experts at Mahakali Travels, Nagpur.">
+
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Mahakali Travels">
+
+  <!-- Canonical — REPLACE yourdomain.com with your real domain -->
+  <link rel="canonical" href="https://yourdomain.com/blog/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Travel Guides &amp; Tips | Mahakali Travels Blog">
+  <meta property="og:description" content="Maharashtra travel guides, destination tips, itineraries and tour advice from Mahakali Travels.">
+  <meta property="og:url"         content="https://yourdomain.com/blog/">
+  <meta property="og:site_name"   content="Mahakali Travels">
+  <!-- REPLACE with real blog listing OG image -->
+  <meta property="og:image"       content="https://yourdomain.com/images/blog/blog-listing-og.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Travel Guides &amp; Tips | Mahakali Travels Blog">
+  <meta name="twitter:description" content="Maharashtra travel guides and destination tips from Mahakali Travels.">
+  <meta name="twitter:image"       content="https://yourdomain.com/images/blog/blog-listing-og.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://img.icons8.com/color/96/compass.png" type="image/png">
+
+  <!-- Fonts (same as main site) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+
+  <!-- Site CSS first, blog overrides second -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/blog.css">
+
+  <!-- JSON-LD: CollectionPage schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Travel Guides &amp; Tips — Mahakali Travels Blog",
+    "description": "Maharashtra travel guides, destination tips, itineraries and tour advice from Mahakali Travels.",
+    "url": "https://yourdomain.com/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Mahakali Travels",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://yourdomain.com/images/CompassLogo.webp"
+      }
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://yourdomain.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://yourdomain.com/blog/" }
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Preloader (reused) -->
+  <div id="preloader">
+    <div class="loader-content">
+      <div class="loader-logo-wrap-img">
+        <img src="../images/CompassLogo.webp" alt="Mahakali Travels Logo" class="loader-logo-img">
+      </div>
+      <div class="loader-text">MAHAKALI TRAVELS</div>
+      <div class="loader-subtext">Exploring Maharashtra</div>
+      <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Header & Navigation (reused from main site)
+       ========================================== -->
+  <header class="header-area" aria-label="Site Header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Primary Navigation">
+        <a class="navbar-brand" href="../index.html" aria-label="Mahakali Travels Home">
+          <img src="../images/CompassLogo.webp" alt="Mahakali Travels Logo" class="brand-logo-img">
+        </a>
+        <button class="mobile-nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNav">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#corporate">Corporate</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#bus-routes">Bus Routes</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#cab-services">Our Fleet</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#packages">Packages</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#categories">Categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#gallery">Gallery</a></li>
+            <!-- Blog nav link (NEW — active here) -->
+            <li class="nav-item"><a class="nav-link active" href="../blog/index.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+              <a href="../index.html#packages" class="btn-custom btn-primary-custom text-white">
+                Book Now <i class="fa-solid fa-paper-plane ms-1"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       Blog Listing Header
+       ========================================== -->
+  <main id="main-content">
+
+    <div class="blog-listing-header" style="padding-top:130px;">
+      <div class="container">
+        <!-- Breadcrumb -->
+        <ul class="breadcrumb-blog" aria-label="Breadcrumb">
+          <li><a href="../index.html">Home</a></li>
+          <li aria-current="page">Blog</li>
+        </ul>
+
+        <!-- ONE H1 PER PAGE -->
+        <h1 class="blog-listing-title">Travel Guides &amp; Tips</h1>
+        <p class="blog-listing-sub">
+          Expert travel insights, destination guides, itineraries and trip-planning advice for Maharashtra and beyond — brought to you by the Mahakali Travels team.
+        </p>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         Blog Cards Grid
+         ========================================== -->
+    <section class="blog-cards-section" aria-labelledby="blog-grid-heading">
+      <div class="container">
+        <h2 id="blog-grid-heading" class="visually-hidden">Blog Articles</h2>
+
+        <div class="blog-cards-grid">
+
+          <!-- *** POST 1: Maharashtra Tourist Places (live) *** -->
+          <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="blog-card-img-wrap">
+              <!--
+                ADD CONTENT HERE: Replace the placeholder div with:
+                <img src="../images/blog/maharashtra-tourist-places.jpg"
+                     alt="[DESCRIPTIVE ALT TEXT]"
+                     width="400" height="220" loading="lazy">
+              -->
+              <div class="blog-card-img-placeholder">
+                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                <span>ADD IMAGE HERE<br><small>400×220 px</small></span>
+              </div>
+              <span class="blog-card-badge">Travel Guide</span>
+            </div>
+            <div class="blog-card-body">
+              <p class="blog-card-date">
+                <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                <time datetime="2026-10-18">October 18, 2026</time>
+              </p>
+              <h3>Top Tourist Places in Maharashtra: Distance &amp; Best Time to Visit</h3>
+              <p>
+                <!-- ADD CONTENT HERE: 1–2 sentence excerpt about the Maharashtra tourist places post -->
+                [ADD EXCERPT HERE — e.g., "Discover the best tourist places in Maharashtra with detailed distances from Nagpur, best seasons to visit, and category-wise packages from adventure to honeymoon."]
+              </p>
+              <a href="../blog/tourist-places-in-maharashtra.html" class="blog-card-link" aria-label="Read full article: Top Tourist Places in Maharashtra">
+                Read More <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- *** POST 2: Coming Soon Template *** -->
+          <article class="blog-card blog-card-coming-soon" data-aos="fade-up" data-aos-delay="200">
+            <div class="blog-card-img-wrap">
+              <div class="blog-card-img-placeholder">
+                <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                <span>Coming Soon</span>
+              </div>
+              <span class="blog-card-badge">Coming Soon</span>
+            </div>
+            <div class="blog-card-body">
+              <p class="blog-card-date">
+                <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Coming Soon
+              </p>
+              <!-- ADD CONTENT HERE: Replace with real post title and excerpt when ready -->
+              <h3>[ADD POST TITLE 2 HERE — e.g., "Mahabaleshwar Complete Travel Guide 2026"]</h3>
+              <p>[ADD EXCERPT HERE — 1–2 sentence teaser for the upcoming article.]</p>
+              <a href="#" class="blog-card-link" aria-label="Coming soon — post 2" aria-disabled="true" tabindex="-1"
+                 style="pointer-events:none; opacity:.6;">
+                Coming Soon <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- *** POST 3: Coming Soon Template *** -->
+          <article class="blog-card blog-card-coming-soon" data-aos="fade-up" data-aos-delay="300">
+            <div class="blog-card-img-wrap">
+              <div class="blog-card-img-placeholder">
+                <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                <span>Coming Soon</span>
+              </div>
+              <span class="blog-card-badge">Coming Soon</span>
+            </div>
+            <div class="blog-card-body">
+              <p class="blog-card-date">
+                <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Coming Soon
+              </p>
+              <!-- ADD CONTENT HERE: Replace with real post title and excerpt when ready -->
+              <h3>[ADD POST TITLE 3 HERE — e.g., "Kolad River Rafting: Complete Guide for First-Timers"]</h3>
+              <p>[ADD EXCERPT HERE — 1–2 sentence teaser for the upcoming article.]</p>
+              <a href="#" class="blog-card-link" aria-label="Coming soon — post 3" aria-disabled="true" tabindex="-1"
+                 style="pointer-events:none; opacity:.6;">
+                Coming Soon <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+        </div><!-- /.blog-cards-grid -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="floating-widget whatsapp-float" title="Chat on WhatsApp" role="button" aria-label="Open WhatsApp chat">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <span class="whatsapp-badge"></span>
+  </div>
+
+  <!-- Back to Top -->
+  <div class="floating-widget back-to-top" title="Back to Top" role="button" aria-label="Scroll to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </div>
+
+  <!-- ==========================================
+       Footer (reused from main site)
+       ========================================== -->
+  <footer class="footer-area" aria-label="Site Footer">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Col 1: Brand -->
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-brand">
+            <div class="navbar-brand">
+              <img src="../images/CompassLogo.webp" alt="Mahakali Tours &amp; Travels Logo" class="brand-logo-img">
+            </div>
+            <p>Your trusted Maharashtra travel companion since 2014. Specializing in customized hill station tours, coastal beach getaways, fort treks &amp; corporate weekend retreats.</p>
+            <div class="social-links">
+              <a href="https://www.facebook.com/share/r/1BEK8BDGc4/?mibextid=wwXIfr" class="social-btn" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/mahakali_travels.9037?utm_source=qr" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+              <a href="https://wa.me/917517685951" class="social-btn" title="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- Col 2: Quick Links -->
+        <div class="col-lg-3 col-md-6">
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html"><i class="fa-solid fa-angle-right"></i> Home</a></li>
+            <li><a href="../about.html"><i class="fa-solid fa-angle-right"></i> About Us</a></li>
+            <li><a href="../index.html#corporate"><i class="fa-solid fa-angle-right"></i> Corporate</a></li>
+            <li><a href="../index.html#packages"><i class="fa-solid fa-angle-right"></i> Tour Packages</a></li>
+            <li><a href="../index.html#bus-routes"><i class="fa-solid fa-angle-right"></i> Bus Routes</a></li>
+            <li><a href="../index.html#cab-services"><i class="fa-solid fa-angle-right"></i> Our Fleet</a></li>
+            <li><a href="../index.html#gallery"><i class="fa-solid fa-angle-right"></i> Photo Gallery</a></li>
+            <!-- Blog link (NEW) -->
+            <li><a href="../blog/index.html"><i class="fa-solid fa-angle-right"></i> Blog</a></li>
+            <li><a href="../index.html#contact"><i class="fa-solid fa-angle-right"></i> Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3: Contact -->
+        <div class="col-lg-4 col-md-6">
+          <h4 class="footer-title">Head Office</h4>
+          <p class="small text-light mb-2"><i class="fa-solid fa-location-dot me-2 text-orange"></i> 37, Ramkrishna nagar, Umred road, dighori, Nagpur - 440034</p>
+          <p class="small text-light mb-2"><i class="fa-solid fa-phone me-2 text-orange"></i> <a href="tel:+917517685951" class="text-light text-decoration-none">+91 75176 85951</a> / <a href="tel:+919689401507" class="text-light text-decoration-none">+91 96894 01507</a></p>
+          <p class="small text-light mb-2"><i class="fa-solid fa-envelope me-2 text-orange"></i> <a href="mailto:mahakalitravels9037@gmail.com" class="text-light text-decoration-none">mahakalitravels9037@gmail.com</a></p>
+          <div class="mt-3"><span class="badge bg-warning text-dark p-2"><i class="fa-solid fa-shield-halved me-1"></i> Trusted Travel Partner</span></div>
+        </div>
+      </div>
+      <!-- Footer Bottom -->
+      <div class="footer-bottom text-center">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-md-start mb-2 mb-md-0">
+            &copy; 2026 Mahakali Tours &amp; Travels. All Rights Reserved.
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="../privacy.html" class="text-light me-3">Privacy Policy</a>
+            <a href="../terms.html" class="text-light me-3">Terms &amp; Conditions</a>
+            <a href="../blog/index.html" class="text-light">Blog</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts (same as main site) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="../js/main.js"></script>
+  <script>AOS.init({ duration: 700, once: true });</script>
+
+</body>
+</html>

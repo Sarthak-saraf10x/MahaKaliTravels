@@ -1,0 +1,16 @@
+# ============================================================
+# robots.txt — Mahakali Travels
+# REPLACE https://yourdomain.com with your real domain.
+# ============================================================
+
+User-agent: *
+Allow: /
+
+# Block admin page from crawlers
+Disallow: /admin.html
+
+# Optional: block any future admin directory
+Disallow: /admin/
+
+# Sitemap location — REPLACE with your real domain
+Sitemap: https://yourdomain.com/sitemap.xml

@@ -1,6 +1,6 @@
 # ============================================================
 # robots.txt — Mahakali Travels
-# REPLACE https://yourdomain.com with your real domain.
+# REPLACE https://mahakalitravels.onrender.com with your real domain.
 # ============================================================
 
 User-agent: *
@@ -13,4 +13,4 @@ Disallow: /admin.html
 Disallow: /admin/
 
 # Sitemap location — REPLACE with your real domain
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://mahakalitravels.onrender.com/sitemap.xml

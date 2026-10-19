@@ -9,16 +9,16 @@
    0. CSS Variables (mirrors styles.css :root — safe duplicate for isolation)
    -------------------------------------------------------------------------- */
 :root {
-  --blog-max-width:    860px;
-  --blog-toc-width:   300px;
-  --blog-radius:      var(--radius-card, 22px);
-  --blog-shadow:      var(--shadow-md, 0 10px 30px rgba(62,42,31,.08));
-  --blog-orange:      var(--color-orange, #FF8A00);
-  --blog-brown:       var(--color-dark-brown, #3E2A1F);
-  --blog-beige:       var(--color-beige, #F8F4EC);
-  --blog-beige-alt:   var(--color-beige-alt, #F2ECDF);
-  --blog-text:        var(--color-text-main, #2D221C);
-  --blog-muted:       var(--color-text-muted, #6B5C54);
+  --blog-max-width: 860px;
+  --blog-toc-width: 300px;
+  --blog-radius: var(--radius-card, 22px);
+  --blog-shadow: var(--shadow-md, 0 10px 30px rgba(62, 42, 31, .08));
+  --blog-orange: var(--color-orange, #FF8A00);
+  --blog-brown: var(--color-dark-brown, #3E2A1F);
+  --blog-beige: var(--color-beige, #F8F4EC);
+  --blog-beige-alt: var(--color-beige-alt, #F2ECDF);
+  --blog-text: var(--color-text-main, #2D221C);
+  --blog-muted: var(--color-text-muted, #6B5C54);
   --blog-line-height: 1.85;
 }
 
@@ -27,7 +27,8 @@
    -------------------------------------------------------------------------- */
 .blog-page-wrapper {
   background-color: var(--blog-beige);
-  padding-top: 110px; /* clear fixed header */
+  padding-top: 110px;
+  /* clear fixed header */
 }
 
 @media (max-width: 768px) {
@@ -42,7 +43,7 @@
 .blog-breadcrumb {
   background: var(--blog-beige-alt);
   padding: 14px 0;
-  border-bottom: 1px solid rgba(62,42,31,.07);
+  border-bottom: 1px solid rgba(62, 42, 31, .07);
   font-size: 0.85rem;
   font-family: var(--font-primary, 'Poppins', sans-serif);
 }
@@ -80,8 +81,9 @@
   font-weight: 600;
 }
 
-.blog-breadcrumb li + li::before {
-  content: '\203A'; /* › */
+.blog-breadcrumb li+li::before {
+  content: '\203A';
+  /* › */
   font-size: 1rem;
   color: var(--blog-muted);
 }
@@ -125,7 +127,7 @@
 .blog-post-category-badge {
   display: inline-block;
   padding: 4px 14px;
-  background: rgba(255,138,0,.12);
+  background: rgba(255, 138, 0, .12);
   color: var(--blog-orange);
   border-radius: 9999px;
   font-size: 0.78rem;
@@ -192,7 +194,7 @@
    -------------------------------------------------------------------------- */
 .blog-toc {
   background: var(--color-white, #fff);
-  border: 1px solid rgba(62,42,31,.08);
+  border: 1px solid rgba(62, 42, 31, .08);
   border-left: 4px solid var(--blog-orange);
   border-radius: var(--blog-radius);
   padding: 24px 28px;
@@ -270,7 +272,7 @@
   margin-top: 56px;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(255,138,0,.2);
+  border-bottom: 2px solid rgba(255, 138, 0, .2);
   line-height: 1.3;
   scroll-margin-top: 110px;
 }
@@ -318,7 +320,7 @@
 .blog-body a {
   color: var(--blog-orange);
   text-decoration: underline;
-  text-decoration-color: rgba(255,138,0,.4);
+  text-decoration-color: rgba(255, 138, 0, .4);
   transition: color .2s, text-decoration-color .2s;
 }
 
@@ -380,7 +382,7 @@
   margin: 0 0 28px;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(62,42,31,.09);
+  box-shadow: 0 8px 24px rgba(62, 42, 31, .09);
 }
 
 .blog-section-figure img {
@@ -416,7 +418,7 @@
   gap: 10px;
   border-radius: 16px;
   margin-bottom: 28px;
-  border: 2px dashed rgba(62,42,31,.15);
+  border: 2px dashed rgba(62, 42, 31, .15);
   color: var(--blog-muted);
 }
 
@@ -439,7 +441,7 @@
   -webkit-overflow-scrolling: touch;
   margin-bottom: 32px;
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(62,42,31,.06);
+  box-shadow: 0 4px 20px rgba(62, 42, 31, .06);
 }
 
 .blog-table-scroll table {
@@ -474,12 +476,12 @@
 }
 
 .blog-table-scroll tbody tr:hover {
-  background: rgba(255,138,0,.06);
+  background: rgba(255, 138, 0, .06);
 }
 
 .blog-table-scroll tbody td {
   padding: 12px 18px;
-  border-bottom: 1px solid rgba(62,42,31,.06);
+  border-bottom: 1px solid rgba(62, 42, 31, .06);
   color: var(--blog-text);
   line-height: 1.5;
 }
@@ -494,7 +496,7 @@
    -------------------------------------------------------------------------- */
 .dest-section-block {
   padding: 36px 0 12px;
-  border-bottom: 1px solid rgba(62,42,31,.08);
+  border-bottom: 1px solid rgba(62, 42, 31, .08);
   margin-bottom: 16px;
 }
 
@@ -520,26 +522,27 @@
   justify-content: center;
   gap: 8px;
   padding: 13px 26px;
-  background: linear-gradient(135deg, var(--blog-orange), #FF6C00);
-  color: #fff;
+  background: #ffffff;
+  color: #ffffff;
   border-radius: 9999px;
   font-weight: 600;
   font-size: 0.92rem;
-  border: none;
+  border: #670c0c;
   cursor: pointer;
   text-decoration: none;
-  transition: transform .25s cubic-bezier(.4,0,.2,1),
-              box-shadow .25s cubic-bezier(.4,0,.2,1);
+  transition: transform .25s cubic-bezier(.4, 0, .2, 1),
+    box-shadow .25s cubic-bezier(.4, 0, .2, 1);
   position: relative;
   overflow: hidden;
-  min-height: 48px; /* tap target */
+  min-height: 48px;
+  /* tap target */
 }
 
 .btn-blog-primary:hover,
 .btn-blog-primary:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(255,138,0,.38);
-  color: #fff;
+  box-shadow: 0 12px 28px rgba(67, 35, 3, 0.38);
+  color: #ffffff;
   outline: 3px solid var(--blog-orange);
   outline-offset: 3px;
 }
@@ -559,7 +562,7 @@
   font-size: 0.92rem;
   cursor: pointer;
   text-decoration: none;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
+  transition: all .25s cubic-bezier(.4, 0, .2, 1);
   min-height: 48px;
 }
 
@@ -568,7 +571,7 @@
   background: var(--blog-brown);
   color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(62,42,31,.2);
+  box-shadow: 0 10px 24px rgba(205, 138, 102, 0.2);
   outline: 3px solid var(--blog-brown);
   outline-offset: 3px;
 }
@@ -580,25 +583,25 @@
   justify-content: center;
   gap: 8px;
   padding: 11px 22px;
-  background: rgba(255,138,0,.1);
+  background: rgba(255, 138, 0, .1);
   color: var(--blog-orange);
-  border: 2px solid rgba(255,138,0,.35);
+  border: 2px solid rgba(255, 138, 0, .35);
   border-radius: 9999px;
   font-weight: 600;
   font-size: 0.88rem;
   cursor: pointer;
   text-decoration: none;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
+  transition: all .25s cubic-bezier(.4, 0, .2, 1);
   min-height: 48px;
 }
 
 .btn-blog-ext:hover,
 .btn-blog-ext:focus-visible {
-  background: var(--blog-orange);
+  background: rgb(58, 35, 12);
   color: #fff;
-  border-color: var(--blog-orange);
+  border-color: var(--blog-brown);
   transform: translateY(-3px);
-  outline: 3px solid var(--blog-orange);
+  outline: 3px solid var(--blog-brown);
   outline-offset: 3px;
 }
 
@@ -606,6 +609,7 @@
   .blog-btn-row {
     flex-direction: column;
   }
+
   .btn-blog-primary,
   .btn-blog-secondary,
   .btn-blog-ext {
@@ -629,14 +633,14 @@
   border-radius: 16px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(62,42,31,.07);
+  box-shadow: 0 4px 16px rgba(62, 42, 31, .07);
   border-top: 4px solid var(--blog-orange);
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
 .season-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(62,42,31,.12);
+  box-shadow: 0 10px 28px rgba(62, 42, 31, .12);
 }
 
 .season-card .season-icon {
@@ -715,8 +719,8 @@
   background: var(--color-white, #fff);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 3px 12px rgba(62,42,31,.06);
-  border: 1px solid rgba(62,42,31,.07);
+  box-shadow: 0 3px 12px rgba(62, 42, 31, .06);
+  border: 1px solid rgba(62, 42, 31, .07);
 }
 
 .blog-faq-item summary {
@@ -738,7 +742,8 @@
 }
 
 .blog-faq-item summary::after {
-  content: '\002B'; /* + */
+  content: '\002B';
+  /* + */
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--blog-orange);
@@ -747,7 +752,8 @@
 }
 
 .blog-faq-item[open] summary::after {
-  content: '\2212'; /* − */
+  content: '\2212';
+  /* − */
 }
 
 .blog-faq-item summary:hover {
@@ -755,8 +761,8 @@
 }
 
 .blog-faq-item[open] summary {
-  background: rgba(255,138,0,.06);
-  border-bottom: 1px solid rgba(255,138,0,.15);
+  background: rgba(255, 138, 0, .06);
+  border-bottom: 1px solid rgba(255, 138, 0, .15);
 }
 
 .blog-faq-answer {
@@ -786,7 +792,7 @@
   right: -60px;
   width: 200px;
   height: 200px;
-  background: rgba(255,138,0,.12);
+  background: rgba(255, 138, 0, .12);
   border-radius: 50%;
 }
 
@@ -797,7 +803,7 @@
   left: -40px;
   width: 150px;
   height: 150px;
-  background: rgba(255,138,0,.08);
+  background: rgba(255, 138, 0, .08);
   border-radius: 50%;
 }
 
@@ -815,7 +821,7 @@
 }
 
 .blog-cta-banner p {
-  color: rgba(255,255,255,.8);
+  color: rgba(255, 255, 255, .8);
   font-size: 0.97rem;
   margin-bottom: 28px;
   position: relative;
@@ -836,7 +842,7 @@
   align-items: center;
   gap: 8px;
   padding: 14px 30px;
-  background: var(--blog-orange);
+  background: #D9CEBC;
   color: #fff;
   border-radius: 9999px;
   font-weight: 700;
@@ -848,11 +854,11 @@
 
 .btn-cta-call:hover,
 .btn-cta-call:focus-visible {
-  background: #E57A00;
+  background: #ffffff;
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(255,138,0,.45);
+  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.45);
   color: #fff;
-  outline: 3px solid #fff;
+  outline: 3px solid #a9530c;
   outline-offset: 3px;
 }
 
@@ -861,7 +867,7 @@
   align-items: center;
   gap: 8px;
   padding: 14px 30px;
-  background: #25D366;
+  background: #076329;
   color: #fff;
   border-radius: 9999px;
   font-weight: 700;
@@ -873,9 +879,9 @@
 
 .btn-cta-whatsapp:hover,
 .btn-cta-whatsapp:focus-visible {
-  background: #1DA651;
+  background: #1fa552;
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(37,211,102,.45);
+  box-shadow: 0 12px 28px rgba(37, 211, 102, .45);
   color: #fff;
   outline: 3px solid #fff;
   outline-offset: 3px;
@@ -908,7 +914,7 @@
 .related-posts-section {
   margin-top: 56px;
   padding-top: 40px;
-  border-top: 2px solid rgba(62,42,31,.08);
+  border-top: 2px solid rgba(62, 42, 31, .08);
 }
 
 .related-posts-section h2 {
@@ -931,14 +937,14 @@
   background: var(--color-white, #fff);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(62,42,31,.07);
-  border: 1px solid rgba(62,42,31,.06);
+  box-shadow: 0 6px 20px rgba(62, 42, 31, .07);
+  border: 1px solid rgba(62, 42, 31, .06);
   transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .related-post-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(62,42,31,.13);
+  box-shadow: 0 16px 36px rgba(62, 42, 31, .13);
 }
 
 .related-post-card .rp-img-wrap {
@@ -1036,7 +1042,7 @@
   right: -80px;
   width: 350px;
   height: 350px;
-  background: rgba(255,138,0,.08);
+  background: rgba(255, 138, 0, .08);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -1046,7 +1052,7 @@
   justify-content: center;
   gap: 8px;
   font-size: 0.84rem;
-  color: rgba(255,255,255,.7);
+  color: rgba(255, 255, 255, .7);
   margin-bottom: 16px;
   list-style: none;
   padding: 0;
@@ -1058,9 +1064,9 @@
   font-weight: 500;
 }
 
-.blog-listing-header .breadcrumb-blog li + li::before {
+.blog-listing-header .breadcrumb-blog li+li::before {
   content: ' › ';
-  color: rgba(255,255,255,.4);
+  color: rgba(255, 255, 255, .4);
 }
 
 .blog-listing-title {
@@ -1072,7 +1078,7 @@
 
 .blog-listing-sub {
   font-size: 1.05rem;
-  color: rgba(255,255,255,.75);
+  color: rgba(255, 255, 255, .75);
   max-width: 520px;
   margin: 0 auto;
   line-height: 1.6;
@@ -1106,8 +1112,8 @@
   background: var(--color-white, #fff);
   border-radius: var(--blog-radius);
   overflow: hidden;
-  box-shadow: 0 8px 28px rgba(62,42,31,.07);
-  border: 1px solid rgba(62,42,31,.06);
+  box-shadow: 0 8px 28px rgba(62, 42, 31, .07);
+  border: 1px solid rgba(62, 42, 31, .06);
   display: flex;
   flex-direction: column;
   transition: transform .35s ease, box-shadow .35s ease;
@@ -1115,7 +1121,7 @@
 
 .blog-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 48px rgba(62,42,31,.14);
+  box-shadow: 0 20px 48px rgba(62, 42, 31, .14);
 }
 
 .blog-card-img-wrap {
@@ -1231,7 +1237,7 @@
 .blog-card-link:focus-visible {
   background: linear-gradient(135deg, #E57A00, #CC5C00);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255,138,0,.35);
+  box-shadow: 0 8px 20px rgba(255, 138, 0, .35);
   color: #fff;
   outline: 3px solid var(--blog-orange);
   outline-offset: 3px;
@@ -1243,7 +1249,7 @@
 
 .blog-card-coming-soon .blog-card-link:hover {
   background: linear-gradient(135deg, #594031, var(--blog-brown));
-  box-shadow: 0 8px 20px rgba(62,42,31,.25);
+  box-shadow: 0 8px 20px rgba(62, 42, 31, .25);
   outline-color: var(--blog-brown);
 }
 
@@ -1258,7 +1264,7 @@
   font-style: italic;
   color: var(--blog-muted);
   font-size: 0.9rem;
-  border: 1.5px dashed rgba(62,42,31,.18);
+  border: 1.5px dashed rgba(62, 42, 31, .18);
   margin-bottom: 1.2em;
   line-height: 1.6;
 }
@@ -1267,4 +1273,304 @@
 :focus-visible {
   outline: 3px solid var(--blog-orange);
   outline-offset: 3px;
+}
+
+/* ==========================================================================
+   19. MOBILE RESPONSIVE FIXES — comprehensive patch for small screens
+   ========================================================================== */
+
+/* ---- General: fix img-placeholder margin on small screens ---- */
+@media (max-width: 575px) {
+  .img-placeholder {
+    height: 200px !important;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .blog-section-figure img {
+    height: 200px;
+  }
+}
+
+/* ---- Article layout horizontal overflow ---- */
+@media (max-width: 575px) {
+  .blog-article-wrap {
+    padding: 28px 12px 56px;
+  }
+
+  /* Prevent any element overflowing the viewport */
+  .blog-body,
+  .blog-article-wrap {
+    overflow-x: hidden;
+  }
+}
+
+/* ---- Post title ---- */
+@media (max-width: 390px) {
+  .blog-post-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* ---- Post meta: stack on tiny screens ---- */
+@media (max-width: 480px) {
+  .blog-post-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* ---- TOC: tighter on mobile ---- */
+@media (max-width: 575px) {
+  .blog-toc {
+    padding: 18px 16px;
+  }
+
+  .blog-toc ol li {
+    padding-left: 22px;
+  }
+}
+
+/* ---- H2 section heading: section-num badge wrapping fix ---- */
+@media (max-width: 575px) {
+  .blog-body h2 {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+
+  .blog-body h2 .section-num {
+    flex-shrink: 0;
+    margin-right: 0;
+    margin-top: 2px;
+  }
+}
+
+/* ---- H3 heading ---- */
+@media (max-width: 575px) {
+  .blog-body h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ---- Quick-Facts Box: stack vertically on narrow phones ---- */
+@media (max-width: 480px) {
+  .quick-facts-box {
+    flex-direction: column;
+    padding: 16px 18px;
+    gap: 14px;
+  }
+
+  .quick-facts-box .fact-item {
+    flex: none;
+    width: 100%;
+  }
+}
+
+/* ---- Comparison Table: ensure scroll handle is visible ---- */
+@media (max-width: 575px) {
+  .blog-table-scroll {
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .blog-table-scroll table {
+    font-size: 0.83rem;
+  }
+
+  .blog-table-scroll thead th,
+  .blog-table-scroll tbody td {
+    padding: 10px 12px;
+  }
+}
+
+/* ---- Destination section block: tighter padding ---- */
+@media (max-width: 575px) {
+  .dest-section-block {
+    padding: 24px 0 8px;
+  }
+}
+
+/* ---- Button row: already column on 480px, ensure text fits ---- */
+@media (max-width: 575px) {
+
+  .btn-blog-primary,
+  .btn-blog-secondary,
+  .btn-blog-ext {
+    font-size: 0.85rem;
+    padding: 11px 18px;
+  }
+}
+
+/* ---- btn-blog-secondary: fix white text on white bg in dark area ---- */
+.btn-blog-secondary {
+  /* Ensure contrast on any background */
+  color: var(--blog-brown);
+}
+
+/* In dark backgrounds (CTA banner, quick-facts) the secondary btn must still be readable */
+.blog-cta-banner .btn-blog-secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .7);
+}
+
+.blog-cta-banner .btn-blog-secondary:hover {
+  background: #fff;
+  color: var(--blog-brown);
+}
+
+/* ---- Season guide: 2-column on small phones, 1-col on tiny ---- */
+@media (max-width: 480px) {
+  .season-guide {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 340px) {
+  .season-guide {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Travel tips box ---- */
+@media (max-width: 575px) {
+  .travel-tips-box {
+    padding: 20px 18px;
+  }
+}
+
+/* ---- FAQ summary: prevent clipping on narrow screens ---- */
+@media (max-width: 480px) {
+  .blog-faq-item summary {
+    font-size: 0.88rem;
+    padding: 14px 16px;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .blog-faq-item summary::after {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    padding-top: 2px;
+  }
+
+  .blog-faq-answer {
+    padding: 14px 16px 18px;
+  }
+}
+
+/* ---- CTA Banner: smaller text on tiny screens ---- */
+@media (max-width: 360px) {
+  .blog-cta-banner h2 {
+    font-size: 1.15rem;
+  }
+
+  .blog-cta-banner p {
+    font-size: 0.88rem;
+  }
+}
+
+/* ---- Related posts grid: 1 column on mobile ---- */
+@media (max-width: 575px) {
+  .related-posts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Blog listing header: fix padding-top with fixed navbar ---- */
+@media (max-width: 768px) {
+  .blog-listing-header {
+    padding-top: 100px !important;
+    padding-bottom: 40px;
+  }
+
+  .blog-listing-title {
+    font-size: 1.65rem;
+  }
+
+  .blog-listing-sub {
+    font-size: 0.93rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-listing-header {
+    padding-top: 90px !important;
+    padding-bottom: 32px;
+    text-align: left;
+  }
+
+  .blog-listing-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ---- Blog cards grid: ensure 1-col on very small phones ---- */
+@media (max-width: 400px) {
+  .blog-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-card-img-wrap {
+    height: 180px;
+  }
+}
+
+/* ---- Blog card body: comfortable padding ---- */
+@media (max-width: 480px) {
+  .blog-card-body {
+    padding: 16px 16px 20px;
+  }
+
+  .blog-card h3 {
+    font-size: 1rem;
+  }
+
+  .blog-card-link {
+    font-size: 0.83rem;
+    padding: 9px 18px;
+  }
+}
+
+/* ---- Breadcrumb: don't overflow ---- */
+@media (max-width: 480px) {
+  .blog-breadcrumb ol {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .blog-breadcrumb li {
+    font-size: 0.8rem;
+  }
+
+  .blog-breadcrumb li.active {
+    white-space: normal;
+  }
+}
+
+/* ---- Related post cards: fix image placeholder height ---- */
+@media (max-width: 575px) {
+  .related-post-card .rp-img-wrap {
+    height: 140px;
+  }
+}
+
+/* ---- Hero figure: no bottom gap double when placeholder used ---- */
+.blog-hero-figure .img-placeholder {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+/* ---- Blog page wrapper: correct top padding for blog subpages ---- */
+@media (max-width: 480px) {
+  .blog-page-wrapper {
+    padding-top: 70px;
+  }
 }

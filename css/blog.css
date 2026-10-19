@@ -31,9 +31,19 @@
   /* clear fixed header */
 }
 
+.hero-section + .blog-page-wrapper,
+.hero-section + main.blog-page-wrapper {
+  padding-top: 0 !important;
+}
+
 @media (max-width: 768px) {
   .blog-page-wrapper {
     padding-top: 80px;
+  }
+
+  .hero-section + .blog-page-wrapper,
+  .hero-section + main.blog-page-wrapper {
+    padding-top: 0 !important;
   }
 }
 

@@ -136,31 +136,50 @@
   </header>
 
   <!-- ==========================================
-       Blog Listing Header
+       Hero Banner (Exact Reused Hero Section)
+       ========================================== -->
+  <section id="home" class="hero-section">
+    <div class="hero-bg-wrapper">
+      <picture>
+        <source media="(max-width: 767px)" srcset="../images/heroPhone.png">
+        <img src="../images/heroDesktop.png" alt="Mahakali Travels Background" class="hero-bg-img">
+      </picture>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-3">
+      <div class="row">
+        <div class="col-lg-7 col-md-9 col-12">
+          <div class="hero-content">
+            <h1 class="hero-heading">Our <span class="text-orange-highlight">Blogs</span></h1>
+            <p class="hero-subheading">Delivering safe, comfortable, and reliable transportation and tour solutions across Maharashtra and India.</p>
+            <div class="hero-btns">
+              <a href="#blog-cards" class="btn-custom btn-primary-custom text-white">Explore Articles <i class="fa-solid fa-arrow-down ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       Main Content
        ========================================== -->
   <main id="main-content">
 
-    <div class="blog-listing-header" style="padding-top:130px;">
+    <!-- Breadcrumb -->
+    <nav class="blog-breadcrumb" aria-label="Breadcrumb">
       <div class="container">
-        <!-- Breadcrumb -->
-        <ul class="breadcrumb-blog" aria-label="Breadcrumb">
+        <ol>
           <li><a href="../index.html">Home</a></li>
-          <li aria-current="page">Blog</li>
-        </ul>
-
-        <!-- ONE H1 PER PAGE -->
-        <h1 class="blog-listing-title">Travel Guides &amp; Tips</h1>
-        <p class="blog-listing-sub">
-          Expert travel insights, destination guides, itineraries and trip-planning advice for Maharashtra and beyond —
-          brought to you by the Mahakali Travels team.
-        </p>
+          <li class="active" aria-current="page">Blog</li>
+        </ol>
       </div>
-    </div>
+    </nav>
 
     <!-- ==========================================
          Blog Cards Grid
          ========================================== -->
-    <section class="blog-cards-section" aria-labelledby="blog-grid-heading">
+    <section id="blog-cards" class="blog-cards-section" aria-labelledby="blog-grid-heading">
       <div class="container">
         <h2 id="blog-grid-heading" class="visually-hidden">Blog Articles</h2>
 
